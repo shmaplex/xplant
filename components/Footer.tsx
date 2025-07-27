@@ -25,126 +25,115 @@ export default function Footer() {
   const handleLogout = async () => {
     await supabase.auth.signOut();
     setIsLoggedIn(false);
-    window.location.href = "/"; // redirect to home after logout
+    window.location.href = "/";
   };
 
   return (
-    <footer className="bg-[#E2D9C4] text-[#2F2F2F] text-sm px-6 sm:px-10 py-12">
+    <footer className="bg-[#F7F2EC] text-[#1A1A1A] text-sm px-6 sm:px-10 py-12 border-t border-[#DAD7D2]">
       <div className="max-w-6xl mx-auto grid gap-8 sm:grid-cols-6 text-center sm:text-left">
         {/* Branding */}
         <div className="sm:col-span-1">
           <Image
-            src="/svg/dirtman-shop-blk.svg"
-            alt="Dirtman Worm & Root Supply Logo"
+            src="/svg/shmaplexplant-logo.svg"
+            alt="XPlant Logo"
             width={1057 / 6}
             height={580 / 6}
             className="sm:-ml-2 sm:-mt-2 mx-auto"
           />
-          <div className="flex justify-center sm:justify-start items-center space-x-1">
-            <p className="text-[10px] text-[#888]">supported by</p>
-            <Link
-              href="https://www.shmaplex.com"
-              target="_blank"
-              className="opacity-60 hover:opacity-100 transition-opacity duration-500 ease-in-out"
-            >
-              <Image
-                src="/svg/shmaplex-logo.svg"
-                alt="Shmaplex Logo"
-                width={100}
-                height={50}
-              />
-            </Link>
-          </div>
-          <p className="sm:max-w-full max-w-62 mx-auto text-xs text-[#555] mt-4">
-            Composting, worm wrangling, and soil storytelling from Korea to the
-            world.
+          <p className="sm:max-w-full max-w-62 mx-auto text-xs text-[#42594D] mt-4">
+            Organic plant futures. From Shmaplex labs to the world.
           </p>
         </div>
 
         {/* About */}
         <div>
-          <h5 className="text-[#5C5138] font-semibold uppercase text-xs mb-2">
+          <h5 className="text-[#42594D] font-semibold uppercase tracking-wide text-xs mb-2">
             About
           </h5>
           <ul className="space-y-1">
             <li>
-              <Link href="/about">Meet Dirtman</Link>
+              <Link href="/about" className="hover:text-[#B7EF48] transition">
+                About XPlant
+              </Link>
             </li>
-            <li className="hover:text-[#5C5138] transition-colors cursor-not-allowed opacity-40 disabled">
-              <Link href="/projects">Compost Projects</Link>
+            <li className="opacity-40 cursor-not-allowed">
+              <Link href="/projects">Research Projects</Link>
             </li>
-            <li className="hover:text-[#5C5138] transition-colors cursor-not-allowed opacity-40 disabled">
-              <Link href="/blog">Blog</Link>
+            <li className="opacity-40 cursor-not-allowed">
+              <Link href="/blog">Journal</Link>
             </li>
           </ul>
         </div>
 
         {/* Get Involved */}
         <div>
-          <h5 className="text-[#5C5138] font-semibold uppercase text-xs mb-2">
+          <h5 className="text-[#42594D] font-semibold uppercase tracking-wide text-xs mb-2">
             Get Involved
           </h5>
           <ul className="space-y-1">
             <li>
-              <a href="https://www.youtube.com/@DirtmanDiaries" target="_blank">
+              <a
+                href="https://www.youtube.com/@DirtmanDiaries"
+                target="_blank"
+                className="hover:text-[#B7EF48] transition"
+              >
                 Subscribe on YouTube
               </a>
             </li>
-            <li>
-              <span className="text-[#999] cursor-not-allowed">
-                Join Discord (Coming Soon)
-              </span>
+            <li className="text-[#999] cursor-not-allowed">
+              Join Discord (Coming Soon)
             </li>
             <li>
-              <Link href="/guide/worm-bin">Worm Bin Guide</Link>
-            </li>
-            <li>
-              <Link href="/guide/worm-feeding">Worm Feeding Guide</Link>
-            </li>
-            <li>
-              <Link href="/shop">Shop</Link>
+              <Link href="/shop" className="hover:text-[#B7EF48] transition">
+                Shop
+              </Link>
             </li>
           </ul>
         </div>
 
         {/* Learn */}
         <div>
-          <h5 className="text-[#5C5138] font-semibold uppercase text-xs mb-2">
+          <h5 className="text-[#42594D] font-semibold uppercase tracking-wide text-xs mb-2">
             Learn
           </h5>
           <ul className="space-y-1">
             <li>
-              <Link href="/faq">Worm Bin FAQ</Link>
+              <Link href="/faq" className="hover:text-[#B7EF48] transition">
+                Tissue Culture FAQ
+              </Link>
             </li>
-            <li>
-              <span className="text-[#999] cursor-not-allowed">Resources</span>
-            </li>
-            <li>
-              <span className="text-[#999] cursor-not-allowed">
-                Affiliate Gear
-              </span>
-            </li>
+            <li className="text-[#999] cursor-not-allowed">Resources</li>
           </ul>
         </div>
 
         {/* Fine Print */}
         <div>
-          <h5 className="text-[#5C5138] font-semibold uppercase text-xs mb-2">
+          <h5 className="text-[#42594D] font-semibold uppercase tracking-wide text-xs mb-2">
             Fine Print
           </h5>
           <ul className="space-y-1">
             <li>
-              <Link href="/legal/shipping-policy">Shipping Policy</Link>
+              <Link
+                href="/legal/shipping-policy"
+                className="hover:text-[#B7EF48] transition"
+              >
+                Shipping Policy
+              </Link>
             </li>
             <li>
-              <Link href="/legal/privacy">Privacy Policy</Link>
+              <Link
+                href="/legal/privacy"
+                className="hover:text-[#B7EF48] transition"
+              >
+                Privacy Policy
+              </Link>
             </li>
           </ul>
         </div>
 
         {/* Account */}
         <div>
-          <h5 className="text-[#5C5138] font-semibold uppercase text-xs mb-2">
+          <h5 className="text-[#42594D] font-semibold uppercase tracking-wide text-xs mb-2">
             Account
           </h5>
           <ul className="space-y-1">
@@ -152,14 +141,16 @@ export default function Footer() {
               <li>
                 <button
                   onClick={handleLogout}
-                  className="text-left w-full hover:text-[#5C5138] transition-colors"
+                  className="text-left w-full hover:text-[#B7EF48] transition"
                 >
                   Logout
                 </button>
               </li>
             ) : (
               <li>
-                <Link href="/login">Login</Link>
+                <Link href="/login" className="hover:text-[#B7EF48] transition">
+                  Login
+                </Link>
               </li>
             )}
           </ul>
@@ -167,19 +158,18 @@ export default function Footer() {
       </div>
 
       {/* Social Links */}
-      <div className="flex justify-center gap-4 mt-10 text-2xl text-[#2F2F2F]">
-        <Link href="https://www.youtube.com/@DirtmanDiaries" target="_blank">
-          <FaYoutube className="hover:text-[#5C5138] transition-colors cursor-pointer" />
-        </Link>
-        <FaInstagram className="hover:text-[#5C5138] transition-colors cursor-not-allowed opacity-40" />
-        <FaTiktok className="hover:text-[#5C5138] transition-colors cursor-not-allowed opacity-40" />
-        <FaDiscord className="hover:text-[#5C5138] transition-colors opacity-40 cursor-not-allowed" />
-        <FaTelegram className="hover:text-[#5C5138] transition-colors opacity-40 cursor-not-allowed" />
+      <div className="hidden flex justify-center gap-4 mt-10 text-2xl text-[#1A1A1A]">
+        <FaYoutube className="opacity-40 cursor-not-allowed" />
+        {/* <Link href="https://www.youtube.com/@DirtmanDiaries" target="_blank">
+          <FaYoutube className="hover:text-[#B7EF48] transition cursor-pointer" />
+        </Link> */}
+        <FaInstagram className="opacity-40 cursor-not-allowed" />
+        <FaTiktok className="opacity-40 cursor-not-allowed" />
+        <FaDiscord className="opacity-40 cursor-not-allowed" />
+        <FaTelegram className="opacity-40 cursor-not-allowed" />
       </div>
-      {/* Copyright */}
-      <div className="text-center mt-2 text-[#888] text-xs">
-        © {new Date().getFullYear()} Dirtman Worm &amp; Root Supply. All rights
-        decomposed.
+      <div className="text-center mt-2 text-[#42594D] text-xs">
+        © {new Date().getFullYear()} XPlant / Shmaplex
       </div>
     </footer>
   );

@@ -10,14 +10,18 @@ export interface NavGroup {
   links: NavLink[];
 }
 
+// Guides (these could be expanded to plant tissue culture guides later)
 export const guideLinks: NavLink[] = [
-  { href: "/guide/worm-bin", label: "Worm Bin Guide" },
-  { href: "/guide/worm-feeding", label: "Worm Feeding Guide" },
+  { href: "/guide/intro-to-tissue-culture", label: "Intro to Tissue Culture" },
+  { href: "/guide/tissue-culture-basics", label: "Tissue Culture Basics" },
+  { href: "/guide/organic-mediums", label: "Organic Mediums" },
+  { href: "/guide/propagation-kits", label: "Propagation Kits" },
 ];
 
+// Main navigation links
 export const mainLinks: NavLink[] = [
   { href: "/farm", label: "Future Farm" },
-  { href: "/schedule", label: "Schedule" },
+  { href: "/services", label: "Lab Services" },
   { href: "/shop", label: "Shop" },
   { href: "/faq", label: "FAQ" },
   { href: "/about", label: "About" },
@@ -28,5 +32,4 @@ export const navGroups: NavGroup[] = [
     label: "Guides",
     links: guideLinks,
   },
-  // you can add more groups here if needed in the future
 ];

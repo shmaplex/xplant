@@ -36,13 +36,13 @@ export default function Header() {
     <>
       <header className="w-full shadow-md relative flex flex-col">
         {/* Main header row */}
-        <div className="w-full py-4 px-6 sm:px-10 bg-[#E2D9C4] flex items-center justify-between">
+        <div className="w-full py-4 px-6 sm:px-10 bg-milk-bio flex items-center justify-between border-b border-spore-grey">
           <HeaderLogo />
 
           <div className="flex items-center gap-4">
             {/* Mobile Menu Button */}
             <button
-              className={`sm:hidden text-2xl text-[#5C5138] ${
+              className={`sm:hidden text-2xl text-moss-shadow ${
                 isShopPage && !navOpen ? "mr-48" : "mr-0"
               }`}
               aria-label={navOpen ? "Close menu" : "Open menu"}

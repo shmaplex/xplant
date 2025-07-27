@@ -1,4 +1,3 @@
-// app/farm/industrial/page.tsx
 "use client";
 
 import Header from "@/components/Header";
@@ -7,24 +6,31 @@ import Image from "next/image";
 import Link from "next/link";
 import { FiArrowRight } from "react-icons/fi";
 
-export default function IndustrialFarmPage() {
+export default function FutureFarmPage() {
   return (
     <div className="font-sans bg-[#F8F4EC] text-[#2F2F2F] min-h-screen flex flex-col">
       <Header />
       <main className="flex-1 px-6 sm:px-10 py-16 space-y-24">
         {/* Intro */}
         <section className="max-w-6xl mx-auto text-center space-y-6">
-          <h1 className="text-4xl sm:text-5xl font-extrabold">
-            We&rsquo;re Building Something Bigger
-          </h1>
+          <div className="flex flex-col space-y-2 items-center justify-center">
+            <img
+              src="/svg/shmaplexplant-logo.svg"
+              alt="Shmaplex Plant Logo"
+              width={500}
+              height={250}
+            />
+            <h1 className="text-4xl sm:text-5xl font-extrabold uppercase">
+              Future Farm
+            </h1>
+          </div>
           <p className="text-lg sm:text-xl text-[#4A4A4A] max-w-2xl mx-auto">
-            This isn&rsquo;t just a worm farm. It&rsquo;s a regenerative system
-            built from the ground up — with shade, rhythm, and microbial life as
-            its beating heart.
+            A next-generation propagation facility. Built for clean starts,
+            resilient plants, and a new era of regenerative agriculture.
           </p>
           <Image
-            src="/farm/industrial-1.png"
-            alt="Worm wedge system photo"
+            src="/farm/future-1.png"
+            alt="Modern plant tissue culture lab"
             width={900}
             height={500}
             className="rounded-xl shadow-md mx-auto w-full"
@@ -35,54 +41,74 @@ export default function IndustrialFarmPage() {
         <section className="max-w-5xl mx-auto space-y-10">
           <h2 className="text-2xl font-bold">The Vision</h2>
           <p className="text-lg text-[#3E3E3E] leading-relaxed">
-            We&rsquo;re manifesting a living, breathing system that transforms
-            food waste into fertile ground. What began in a single bin is
-            scaling — thoughtfully — into a wedge-based vermicomposting flow
-            built to serve not just gardens, but ecosystems.
+            ShmaplexPlant is building a clean, modern facility that combines
+            plant science, sustainability, and careful process design. Our goal:
+            to supply the world with healthy, genetically stable plant material
+            while creating systems that scale without compromise.
           </p>
           <p className="text-base text-[#4A4A4A]">
-            Shade is being stretched. Piles are forming. Food scraps are
-            arriving from trusted hands. Red wigglers, once introduced, will
-            guide the rhythm — feeding forward, transforming waste, leaving
-            castings in their wake. The wedge moves. The microbes multiply.
+            By focusing on juvenile plant cells and direct growth cycles, our
+            approach avoids unnecessary variation and accelerates the path from
+            lab to greenhouse.
           </p>
         </section>
 
-        {/* Building In Real Time */}
-        <section className="bg-[#ECE7DB] rounded-xl px-20 pt-12 pb-20 shadow-inner max-w-6xl mx-auto space-y-8">
-          <h2 className="text-2xl font-bold">Built by Rhythm</h2>
+        {/* Mother Block */}
+        <section className="bg-[#ECE7DB] rounded-xl px-8 sm:px-20 pt-12 pb-20 shadow-inner max-w-6xl mx-auto space-y-8">
+          <h2 className="text-2xl font-bold">Mother Block Precision</h2>
           <p className="text-base sm:text-lg leading-relaxed text-[#2F2F2F]">
-            This system runs on cycles — not clock time. Every 60&ndash;90cm
-            (2&ndash;3 feet) is a different phase: new food in the front,
-            castings curing in the rear. We add carefully, water intuitively,
-            and let the worms lead. Shade cloth drapes overhead. A breeze moves
-            through the mesh.
+            The heart of our system is the mother block, where clean source
+            plants are maintained indefinitely. Only the **apical meristem** is
+            taken, ensuring plants remain true-to-type and free of unwanted
+            mutations. This precision keeps each new generation as close as
+            possible to the plant&rsquo;s original form.
           </p>
           <ul className="list-disc list-inside text-[#444] space-y-2 pl-4">
-            <li>Greens and browns in equilibrium</li>
-            <li>Worms moving, multiplying, self-sustaining</li>
-            <li>Temperature and moisture monitored with care</li>
-            <li>Castings screened and sold fresh — always alive</li>
+            <li>Direct explant culture — no indirect multiplication</li>
+            <li>Strict cycle tracking (12 transfer limit)</li>
+            <li>Extended acclimation phase for plant stability</li>
           </ul>
         </section>
 
-        {/* Materials + Flow */}
+        {/* Production Rooms */}
         <section className="max-w-5xl mx-auto space-y-10">
-          <h2 className="text-2xl font-bold">The Flow</h2>
+          <h2 className="text-2xl font-bold">Production Flow</h2>
           <p className="text-base sm:text-lg text-[#444] leading-relaxed">
-            Food comes in — rejected produce, local scraps, spent greens, manure
-            from nearby stables. Nothing wasted. Everything intentional. What
-            doesn&rsquo;t go into a landfill, goes into life.
+            Once introduced into culture, plants are multiplied in clean,
+            climate-controlled rooms. Each cycle runs on a four-week schedule.
+            By the end of the 12th cycle, plants are ready to transition into
+            acclimation and greenhouse growth.
           </p>
           <Image
-            src="/farm/industrial-2.png"
-            alt="Industrial worm pile"
+            src="/farm/future-2.png"
+            alt="Plantlets growing in production rooms"
             width={900}
             height={500}
             className="rounded-xl shadow-sm bg-cover bg-center mx-auto w-full"
           />
           <p className="text-sm italic text-[#666] text-center">
-            Castings not bagged — but screened, sold, and spread while alive.
+            Clean materials, careful timing, and steady growth.
+          </p>
+        </section>
+
+        {/* Greenhouse */}
+        <section className="max-w-5xl mx-auto space-y-10">
+          <h2 className="text-2xl font-bold">Greenhouse Transition</h2>
+          <p className="text-base sm:text-lg text-[#444] leading-relaxed">
+            After a careful acclimation period, plants are moved to advanced
+            greenhouses with rolling benches and closed-loop water systems.
+            Here, lab precision meets natural sunlight, preparing young plants
+            for commercial production or conservation projects.
+          </p>
+          <Image
+            src="/farm/future-3.png"
+            alt="Modern greenhouse interior"
+            width={900}
+            height={500}
+            className="rounded-xl shadow-sm bg-cover bg-center mx-auto w-full"
+          />
+          <p className="text-sm italic text-[#666] text-center">
+            Smart greenhouses: sustainable, modular, and scalable.
           </p>
         </section>
       </main>
@@ -93,8 +119,8 @@ export default function IndustrialFarmPage() {
           {/* Image */}
           <div className="w-full lg:w-1/2 shadow-md rounded-xl overflow-hidden">
             <Image
-              src="/farm/industrial-3.png"
-              alt="Worm castings and soil"
+              src="/farm/future-4.png"
+              alt="Healthy propagated plants"
               width={900}
               height={500}
               className="w-full h-auto object-cover"
@@ -105,18 +131,20 @@ export default function IndustrialFarmPage() {
           <div className="w-full lg:w-1/2 space-y-6">
             <div className="text-center lg:text-left space-y-4">
               <h2 className="text-3xl sm:text-4xl font-extrabold text-[#2F2F2F]">
-                Toward Regeneration
+                Toward a New Standard
               </h2>
               <p className="text-base sm:text-lg text-[#3E3E3E] leading-relaxed">
-                This is our future: decentralized, regenerative infrastructure
-                grounded in microbes and momentum.
+                This future farm is designed for **scale and impact**. It
+                bridges science and soil, producing plants that are clean,
+                consistent, and ready for the challenges ahead.
               </p>
               <p className="text-base sm:text-lg text-[#3E3E3E] leading-relaxed">
-                A place where waste becomes wealth, and biology is the guide.
-                We&rsquo;re not just composting — we&rsquo;re regenerating.
+                Our model connects lab innovation with regenerative agriculture,
+                building a supply chain that prioritizes biodiversity,
+                resilience, and sustainability.
               </p>
               <p className="text-base sm:text-sm text-[#7C7C70] italic">
-                Built from shade, fed by rhythm, carried by life.
+                Clean starts. Strong finishes. Built for scale.
               </p>
             </div>
           </div>
@@ -128,14 +156,14 @@ export default function IndustrialFarmPage() {
         <div className="bg-[#deddd5] text-black px-6 sm:px-10 py-16 rounded-t-[2rem] text-center max-w-7xl mx-auto">
           <div className="max-w-6xl mx-auto space-y-6">
             <h2 className="text-2xl sm:text-3xl font-semibold">
-              Want to collaborate or contribute?
+              Interested in partnering?
             </h2>
             <p className="text-base sm:text-lg opacity-90">
-              We&rsquo;re building something beautiful — and bold. If
-              you&rsquo;d like to be a part of it, let&rsquo;s connect.
+              We&rsquo;re looking for collaborators, scientists, and investors
+              who believe in the next chapter of plant propagation.
             </p>
             <Link
-              href="mailto:dirtmandiaries@gmail.com"
+              href="mailto:hello@shmaplex.com"
               className="inline-block bg-white text-[#5C5138] px-6 py-3 rounded-md font-medium hover:bg-[#ECE7DB] transition-colors text-base sm:text-lg"
             >
               Get in touch{" "}
@@ -144,6 +172,7 @@ export default function IndustrialFarmPage() {
           </div>
         </div>
       </section>
+
       <Footer />
     </div>
   );

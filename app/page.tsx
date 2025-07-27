@@ -2,45 +2,59 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 import Hero from "@/components/Hero";
+import Vision from "@/components/Vision";
+import HowItWorks from "@/components/HowItWorks";
+import Impact from "@/components/Impact";
 import Stats from "@/components/Stats";
-import InsideBin from "@/components/InsideBin";
-import YouTubeEmbed from "@/components/YouTubeEmbed";
 import CommunityCallout from "@/components/CommunityCallout";
-import GearGrid from "@/components/GearGrid";
 import Testimonials from "@/components/Testimonials";
-// The latest video ID to show in the YouTube embed on the landing page
-import { fetchLatestVideoId } from "@/lib/fetch-latest-video";
 
 export default async function HomePage() {
-  const latestVideoId = (await fetchLatestVideoId()) || "zr-g5pm39jc";
-
   return (
-    <div className="w-full font-sans bg-[#F8F4EC] text-[#2F2F2F] min-h-screen flex flex-col">
+    <div className="w-full font-sans bg-milk-bio text-biochar-black min-h-screen flex flex-col">
       <Header />
-      <main className="flex-1 mx-auto flex flex-col items-center">
-        <div className="max-w-6xl px-6 space-y-12 pt-24">
-          <Hero />
-          <Stats />
-        </div>
-        <div className="w-full bg-[#ECE7DB] py-24 mt-24 bg-[url(/png/dirt.png)] bg-repeat bg-cover bg-center">
-          <div className="max-w-6xl mx-auto px-6 sm:px-10 py-12 bg-black/40 backdrop-blur-sm rounded-xl shadow-lg">
-            <InsideBin />
+      <main className="flex-1 flex flex-col items-center w-full">
+        {/* Hero – full bleed and very spacious */}
+        <section className="w-full bg-gradient-to-b from-milk-bio to-spore-grey/20">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 pt-32 pb-24 sm:pt-40 sm:pb-32 min-h-[60vh] flex flex-col justify-center">
+            <Hero />
           </div>
-        </div>
-        <div className="w-full bg-[#d6d0c4] mb-24 lg:py-0 p-8 lg:p-0">
-          <div className="">
-            <YouTubeEmbed videoId={latestVideoId} />
+        </section>
+
+        {/* Vision – contained */}
+        <section className="max-w-6xl mx-auto px-6 sm:px-10 py-20">
+          <div className="bg-spore-grey/30 rounded-2xl p-10">
+            <Vision />
           </div>
-        </div>
-        <div className="max-w-6xl w-full pb-24 px-6 sm:px-0">
-          <CommunityCallout />
-        </div>
-        {/* <GearGrid /> */}
-        <div className="relative w-screen bg-[#ECE7DB] py-32">
+        </section>
+
+        {/* How It Works – full bleed but lighter */}
+        <section className="w-full bg-psybeam-purple/5 py-24">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10">
+            <HowItWorks />
+          </div>
+        </section>
+
+        {/* Impact – contained */}
+        <section className="max-w-7xl mx-auto px-6 sm:px-10 py-20">
+          <div className="bg-milk-bio rounded-2xl p-10 shadow-sm">
+            <Impact />
+          </div>
+        </section>
+
+        {/* Community Callout – contained */}
+        <section className="max-w-6xl mx-auto px-6 sm:px-10 pb-24 mt-16">
+          <div className="border border-spore-grey/30 rounded-2xl p-10">
+            <CommunityCallout />
+          </div>
+        </section>
+
+        {/* Testimonials – full bleed */}
+        <section className="relative w-full bg-gradient-to-tr from-spore-grey via-moss-shadow/20 to-spore-grey py-32 mt-12">
           <div className="max-w-6xl mx-auto px-6 sm:px-10">
             <Testimonials />
           </div>
-        </div>
+        </section>
       </main>
       <Footer />
     </div>

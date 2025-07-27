@@ -1,5 +1,23 @@
 @import "tailwindcss";
 
+:root {
+  --future-lime: #b7ef48;
+  --moss-shadow: #42594d;
+  --milk-bio: #f7f2ec;
+  --spore-grey: #dad7d2;
+  --psybeam-purple: #d3a8f9;
+  --biochar-black: #1a1a1a;
+}
+
+@theme inline {
+  --color-future-lime: var(--future-lime);
+  --color-moss-shadow: var(--moss-shadow);
+  --color-milk-bio: var(--milk-bio);
+  --color-spore-grey: var(--spore-grey);
+  --color-psybeam-purple: var(--psybeam-purple);
+  --color-biochar-black: var(--biochar-black);
+}
+
 /* @layer base {
   body {
     @apply bg-[#F8F4EC] text-[#2F2F2F] font-sans;
@@ -19,6 +37,16 @@
   .mask-fade-top {
     mask-image: linear-gradient(to top, black 10%, transparent 100%);
     -webkit-mask-image: linear-gradient(to top, black 10%, transparent 100%);
+  }
+
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .border-gradient-custom {
+    border-image-slice: 1;
+    border-width: 2px;
+    border-image-source: linear-gradient(to right, #ff4e50, #f9d423, #ff6e7f);
   }
 }
 

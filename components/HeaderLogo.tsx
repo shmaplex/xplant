@@ -16,9 +16,11 @@ export default function HeaderLogo() {
     >
       <img
         src={
-          hovered ? "/svg/dirtman-shop-blk.svg" : "/svg/dirtman-shop-blk.svg"
+          hovered
+            ? "/svg/shmaplexplant-logo.svg"
+            : "/svg/shmaplexplant-logo.svg"
         }
-        alt="Dirtman Logo"
+        alt="Shmaplex Plant Logo"
         width={132} // 1057 / 8
         height={72} // 580 / 8
       />
