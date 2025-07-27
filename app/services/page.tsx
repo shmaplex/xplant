@@ -46,7 +46,7 @@ export default function ServicesPage() {
             </ul>
           </div>
           <Image
-            src="/services/retail-kit.jpg"
+            src="/services/retail-kit.png"
             alt="Organic medium kits"
             width={700}
             height={500}
@@ -81,7 +81,7 @@ export default function ServicesPage() {
         {/* Mediums and Additives */}
         <section className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <Image
-            src="/services/additives.jpg"
+            src="/services/additives.png"
             alt="Nutrient additives and culture media"
             width={700}
             height={500}

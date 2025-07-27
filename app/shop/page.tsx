@@ -10,6 +10,12 @@ import CartDrawer from "@/components/CartDrawer";
 import { useCart } from "@/contexts/CartContext";
 import CartButton from "@/components/CartButton";
 import PreOrderCallout from "@/components/shop/PreOrderCallout";
+import CategoryNav from "@/components/shop/CategoryNav";
+
+interface CategoryWithSub {
+  name: string;
+  subcategories?: string[];
+}
 
 export default function ShopPage() {
   const [search, setSearch] = useState("");
@@ -36,12 +42,41 @@ export default function ShopPage() {
     openCart();
   }
 
-  const categories = [...new Set(allProducts.map((p) => p.category))];
-
   const filtered = allProducts.filter(
     (p) =>
       p.title.toLowerCase().includes(search.toLowerCase()) ||
-      p.category.toLowerCase().includes(search.toLowerCase())
+      p.category.toLowerCase().includes(search.toLowerCase()) ||
+      (p.subcategory &&
+        p.subcategory.toLowerCase().includes(search.toLowerCase()))
+  );
+
+  // Group filtered products by category and subcategory
+  const grouped = filtered.reduce<
+    Record<string, Record<string, (typeof allProducts)[0][]>>
+  >((acc, product) => {
+    const cat = product.category || "Uncategorized";
+    const subcat = product.subcategory || "";
+
+    if (!acc[cat]) acc[cat] = {};
+    if (!acc[cat][subcat]) acc[cat][subcat] = [];
+
+    acc[cat][subcat].push(product);
+    return acc;
+  }, {});
+
+  const categories: CategoryWithSub[] = Object.entries(grouped).map(
+    ([cat, subcats]) => ({
+      name: cat,
+      subcategories: Object.keys(subcats),
+    })
+  );
+
+  const filteredCategories: string[] = Array.from(
+    new Set(
+      filtered.flatMap((p) =>
+        [p.category, p.subcategory].filter((v): v is string => !!v)
+      )
+    )
   );
 
   async function handleCheckout() {
@@ -79,50 +114,24 @@ export default function ShopPage() {
       <CartButton />
 
       <main className="flex p-8 flex-1 w-full px-12 gap-6">
-        {/* Left nav narrower and closer to left */}
-        <nav className="hidden md:flex flex-col w-auto pr-4 sticky top-24 self-start space-y-4 pr-2 border-r border-black/10">
-          <h2 className="text-sm uppercase font-semibold tracking-wide text-black/20">
-            Categories
-          </h2>
-          {categories.map((cat) => {
-            const catProducts = filtered.filter((p) => p.category === cat);
-            if (!catProducts.length) return null;
-            return (
-              <button
-                key={cat}
-                onClick={() => scrollToCategory(cat)}
-                className="
-                  relative z-10
-                  text-left text-sm font-medium text-[var(--color-moss-shadow)] hover:text-[var(--color-psybeam-purple)]
-                  px-[2px] py-[2px] rounded-full
-                  transition
-                  bg-[var(--color-milk-bio)]
-                  before:absolute before:inset-0 before:rounded-full before:z-[-1]
-                  before:bg-gradient-to-r before:from-[var(--color-future-lime)] before:to-[var(--color-psybeam-purple)]
-                  before:opacity-0 hover:before:opacity-100
-                  before:p-[1px] before:transition-opacity
-                  ease-in-out duration-300
-                "
-                type="button"
-              >
-                <span className="block bg-[var(--color-milk-bio)] hover:bg-white uppercase rounded-full px-4 py-0.5 transition ease-in-out duration-300">
-                  {cat}
-                </span>
-              </button>
-            );
-          })}
-        </nav>
+        {/* Left nav */}
+        <CategoryNav
+          categories={categories}
+          filteredCategories={filteredCategories}
+          scrollToCategory={scrollToCategory}
+        />
 
-        {/* Right content takes up remaining width */}
+        {/* Right content */}
         <div className="flex-1 flex flex-col">
           <SearchInput value={search} onChange={setSearch} />
           <PreOrderCallout />
 
-          {/* Stack categories vertically, full width */}
+          {/* Categories with subcategories */}
           <div className="flex flex-col gap-10">
-            {categories.map((cat) => {
-              const catProducts = filtered.filter((p) => p.category === cat);
-              if (!catProducts.length) return null;
+            {categories.map(({ name: cat }) => {
+              const catSubcats = grouped[cat];
+              if (!catSubcats) return null;
+
               return (
                 <div
                   key={cat}
@@ -131,11 +140,22 @@ export default function ShopPage() {
                   }}
                   className="w-full"
                 >
-                  <CategorySection
-                    category={cat}
-                    products={catProducts}
-                    onAddToCart={handleAddToCart}
-                  />
+                  {Object.entries(catSubcats).map(([subcat, products]) => (
+                    <section
+                      key={subcat}
+                      ref={(el) => {
+                        categoryRefs.current[subcat] = el;
+                      }}
+                      className="mb-8"
+                    >
+                      <CategorySection
+                        mainCategory={cat}
+                        subCategory={subcat}
+                        products={products}
+                        onAddToCart={handleAddToCart}
+                      />
+                    </section>
+                  ))}
                 </div>
               );
             })}

@@ -19,7 +19,7 @@ export default function Stats({ variant = "default" }: StatsProps) {
 
   const cardClasses =
     variant === "hero"
-      ? "p-6 rounded-xl bg-spore-grey/20 shadow-sm hover:shadow-md transition"
+      ? "p-6 rounded-xl bg-white/30 backdrop-blur-sm border border-white/20 shadow-md hover:shadow-lg hover:scale-[1.02] transition transform"
       : "p-6 rounded-xl bg-spore-grey/20 shadow-sm";
 
   return (

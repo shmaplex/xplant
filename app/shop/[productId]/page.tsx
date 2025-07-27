@@ -146,7 +146,7 @@ export default function ProductPage() {
             className="w-full py-32"
             style={{ backgroundColor: "var(--milk-bio)" }}
           >
-            <div className="mx-auto grid gap-16 sm:grid-cols-2 px-4 sm:px-8 lg:px-16">
+            <div className="mx-auto grid gap-16 xl:grid-cols-2 px-4 sm:px-8 lg:px-16">
               <ShopCTA />
               <CommunityCallout />
             </div>

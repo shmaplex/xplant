@@ -15,8 +15,13 @@ export default async function HomePage() {
       <Header />
       <main className="flex-1 flex flex-col items-center w-full">
         {/* Hero – full bleed and very spacious */}
-        <section className="w-full bg-gradient-to-b from-milk-bio to-spore-grey/20">
-          <div className="max-w-6xl mx-auto px-6 sm:px-10 pt-32 pb-24 sm:pt-40 sm:pb-32 min-h-[60vh] flex flex-col justify-center">
+        <section className="relative w-full bg-gradient-to-br from-future-lime/20 via-milk-bio to-spore-grey/40">
+          <div className="absolute inset-0">
+            {/* Soft radial spotlight */}
+            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[80%] h-[80%] rounded-full bg-future-lime/20 blur-3xl opacity-50" />
+          </div>
+
+          <div className="relative max-w-6xl mx-auto px-6 sm:px-10 pt-32 pb-24 sm:pt-40 sm:pb-32 min-h-[60vh] flex flex-col justify-center">
             <Hero />
           </div>
         </section>
@@ -29,15 +34,15 @@ export default async function HomePage() {
         </section>
 
         {/* How It Works – full bleed but lighter */}
-        <section className="w-full bg-psybeam-purple/5 py-24">
+        <section className="w-full bg-milk-bio py-24">
           <div className="max-w-6xl mx-auto px-6 sm:px-10">
             <HowItWorks />
           </div>
         </section>
 
         {/* Impact – contained */}
-        <section className="max-w-7xl mx-auto px-6 sm:px-10 py-20">
-          <div className="bg-milk-bio rounded-2xl p-10 shadow-sm">
+        <section className="max-w-7xl mx-auto">
+          <div className="bg-milk-bio rounded-2xl shadow-sm border border-spore-grey/10">
             <Impact />
           </div>
         </section>

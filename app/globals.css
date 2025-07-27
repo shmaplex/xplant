@@ -151,25 +151,6 @@ body {
   }
 }
 
-/* Tailwind doesn't support gradient borders natively, so add this custom class */
-.border-gradient-custom {
-  border-image-slice: 1;
-  border-width: 2px;
-  border-image-source: linear-gradient(to right, #ff4e50, #f9d423, #ff6e7f);
-}
-
-.border-gradient-custom:hover {
-  border-width: 2px;
-  border-style: solid;
-  border-image: linear-gradient(to right, #ff4e50, #f9d423, #ff6e7f) 1;
-  transition: border-image-source 0.3s ease;
-}
-
-/* Optional smooth transition for border */
-button:hover.border-gradient-custom {
-  transition: border-image-source 0.3s ease;
-}
-
 /* This ensures the center is cut out to simulate a border */
 .mask-border {
   -webkit-mask-image: linear-gradient(#fff 0 0), linear-gradient(#fff 0 0);
@@ -212,4 +193,20 @@ button:hover.border-gradient-custom {
 }
 .has-checkin abbr {
   font-weight: 600;
+}
+
+@keyframes gradient-slow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.animate-gradient-slow {
+  background-size: 200% 200%;
+  animation: gradient-slow 20s ease infinite;
 }
