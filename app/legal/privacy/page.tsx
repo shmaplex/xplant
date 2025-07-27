@@ -4,10 +4,10 @@ export default function PrivacyPolicy() {
   return (
     <LegalPage title="Privacy Policy">
       <p>
-        At <strong>Dirtman Worm &amp; Root Supply</strong>, we are committed to
-        protecting your personal information and your right to privacy. This
-        Privacy Policy outlines what information we collect, how we use it, and
-        the choices you have regarding your data.
+        At <strong>ShmaplexPlant</strong>, we are committed to protecting your
+        personal information and your right to privacy. This Privacy Policy
+        outlines what information we collect, how we use it, and the choices you
+        have regarding your data.
       </p>
 
       <h2 className="text-lg font-semibold mt-6">🔍 Information We Collect</h2>
@@ -56,8 +56,8 @@ export default function PrivacyPolicy() {
       <h2 className="text-lg font-semibold mt-6">📬 Email &amp; Marketing</h2>
       <p>
         If you opt into our newsletter, we may send you occasional updates,
-        offers, or news about Dirtman Worm &amp; Root Supply. You can
-        unsubscribe at any time using the link provided in our emails.
+        offers, or news about ShmaplexPlant. You can unsubscribe at any time
+        using the link provided in our emails.
       </p>
 
       <h2 className="text-lg font-semibold mt-6">
@@ -95,11 +95,9 @@ export default function PrivacyPolicy() {
       <p>
         If you have any questions about this policy or how we handle your data,
         you can reach us at{" "}
-        <a href="mailto:dirtmandiaries&#64;gmail.com">
-          dirtmandiaries&#64;gmail.com
-        </a>{" "}
+        <a href="mailto:contact@shmaplexplant.com">contact@shmaplexplant.com</a>{" "}
         or call us at{" "}
-        <a href="tel:+821042012407">&#43;82&nbsp;010&#8209;4201&#8209;2407</a>.
+        <a href="tel:+821012345678">&#43;82&nbsp;10&#8209;1234&#8209;5678</a>.
       </p>
     </LegalPage>
   );

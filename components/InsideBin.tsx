@@ -16,7 +16,7 @@ export default function InsideBin() {
       </p>
       <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
         <Link
-          href="https://www.youtube.com/@dirtmandiaries"
+          href="https://www.youtube.com/@ShmaplexPlant"
           target="_blank"
           rel="noopener noreferrer"
           className="bg-[#cfc2a3] text-black px-6 py-3 rounded-md hover:bg-[#e9dfc7] transition-colors"

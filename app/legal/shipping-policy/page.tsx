@@ -4,9 +4,9 @@ export default function ShippingPolicy() {
   return (
     <LegalPage title="Shipping Policy">
       <p>
-        Thank you for supporting <strong>Dirtman Worm &amp; Root Supply</strong>
-        . Below you&rsquo;ll find detailed information about how we handle
-        domestic shipping within South Korea.
+        Thank you for supporting <strong>ShmaplexPlant</strong>. Below
+        you&rsquo;ll find detailed information about how we handle domestic
+        shipping within South Korea.
       </p>
 
       <h2 className="text-lg font-semibold mt-6">📦 Order Processing</h2>
@@ -36,9 +36,8 @@ export default function ShippingPolicy() {
       <h2 className="text-lg font-semibold mt-6">📍 Address Accuracy</h2>
       <p>
         Please double-check your shipping address before placing an order.{" "}
-        <strong>Dirtman Worm &amp; Root Supply</strong> is not responsible for
-        orders delayed or lost due to incorrect or incomplete shipping
-        information.
+        <strong>ShmaplexPlant</strong> is not responsible for orders delayed or
+        lost due to incorrect or incomplete shipping information.
       </p>
       <p>
         If a package is returned to us due to an incorrect address, you will be
@@ -87,11 +86,9 @@ export default function ShippingPolicy() {
       <p>
         If you have any questions or need help with your order, feel free to
         contact us at{" "}
-        <a href="mailto:dirtmandiaries&#64;gmail.com">
-          dirtmandiaries&#64;gmail.com
-        </a>{" "}
+        <a href="mailto:contact@shmaplexplant.com">contact@shmaplexplant.com</a>{" "}
         or call us at{" "}
-        <a href="tel:+821042012407">&#43;82&nbsp;010&#8209;4201&#8209;2407</a>.
+        <a href="tel:+821012345678">&#43;82&nbsp;10&#8209;1234&#8209;5678</a>.
       </p>
     </LegalPage>
   );

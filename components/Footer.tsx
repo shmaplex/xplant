@@ -73,7 +73,7 @@ export default function Footer() {
           <ul className="space-y-1">
             <li>
               <a
-                href="https://www.youtube.com/@DirtmanDiaries"
+                href="https://www.youtube.com/@ShmaplexPlant"
                 target="_blank"
                 className="hover:text-[#B7EF48] transition"
               >
@@ -160,7 +160,7 @@ export default function Footer() {
       {/* Social Links */}
       <div className="hidden flex justify-center gap-4 mt-10 text-2xl text-[#1A1A1A]">
         <FaYoutube className="opacity-40 cursor-not-allowed" />
-        {/* <Link href="https://www.youtube.com/@DirtmanDiaries" target="_blank">
+        {/* <Link href="https://www.youtube.com/@ShmaplexPlant" target="_blank">
           <FaYoutube className="hover:text-[#B7EF48] transition cursor-pointer" />
         </Link> */}
         <FaInstagram className="opacity-40 cursor-not-allowed" />

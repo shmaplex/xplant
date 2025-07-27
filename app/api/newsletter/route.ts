@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
   const body = {
     customer: {
       email,
-      tags: ["dirtman-newsletter"],
+      tags: ["xplant-newsletter"],
       accepts_marketing: true,
     },
   };

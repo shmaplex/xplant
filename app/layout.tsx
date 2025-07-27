@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Dirtman Worm & Root Supply",
+  title: "ShmaplexPlant – Natural Organic Growth Solutions",
   description:
-    "Dirtman Worm & Root Supply offers regenerative composting systems, red wigglers, nutrient-rich castings, and soil-boosting tools for growers who care about microbes, not middlemen.",
+    "ShmaplexPlant offers premium organic tissue culture media, propagation kits, and natural growth boosters crafted to empower sustainable farming and nurture healthy ecosystems.",
 };
 
 export default function RootLayout({
