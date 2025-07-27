@@ -1,0 +1,187 @@
+@import "tailwindcss";
+
+/* @layer base {
+  body {
+    @apply bg-[#F8F4EC] text-[#2F2F2F] font-sans;
+  }
+} */
+
+@layer components {
+  .bg-grain {
+    @apply bg-[url('/jpg/gray-gradient-full.jpg')];
+    background-position: 0%;
+    background-repeat: repeat-x;
+    background-size: auto 100%;
+  }
+}
+
+@layer utilities {
+  .mask-fade-top {
+    mask-image: linear-gradient(to top, black 10%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to top, black 10%, transparent 100%);
+  }
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+button:hover .arrow-icon {
+  animation: slideLeftBack 0.6s ease forwards;
+}
+
+@keyframes slideLeftBack {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-6px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slow-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(194, 181, 155, 0.7);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(194, 181, 155, 0);
+  }
+}
+
+.slow-pulse {
+  animation: slow-pulse 3s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(-15deg);
+  }
+  50% {
+    transform: rotate(15deg);
+  }
+}
+
+.perspective {
+  perspective: 1000px;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+button {
+  cursor: pointer;
+}
+
+body {
+  /* background: var(--background);
+  color: var(--foreground); */
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.faq-columns {
+  column-count: 2;
+  column-gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .faq-columns {
+    column-count: 1 !important;
+  }
+}
+
+/* Tailwind doesn't support gradient borders natively, so add this custom class */
+.border-gradient-custom {
+  border-image-slice: 1;
+  border-width: 2px;
+  border-image-source: linear-gradient(to right, #ff4e50, #f9d423, #ff6e7f);
+}
+
+.border-gradient-custom:hover {
+  border-width: 2px;
+  border-style: solid;
+  border-image: linear-gradient(to right, #ff4e50, #f9d423, #ff6e7f) 1;
+  transition: border-image-source 0.3s ease;
+}
+
+/* Optional smooth transition for border */
+button:hover.border-gradient-custom {
+  transition: border-image-source 0.3s ease;
+}
+
+/* This ensures the center is cut out to simulate a border */
+.mask-border {
+  -webkit-mask-image: linear-gradient(#fff 0 0), linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.modern-calendar {
+  border: none !important;
+  background: transparent !important;
+  font-size: 1.1rem;
+  width: 100%;
+  max-width: 600px;
+}
+.modern-calendar .react-calendar__tile {
+  padding: 0.75rem 0 !important;
+  border-radius: 0.5rem;
+}
+.modern-calendar .react-calendar__tile--active {
+  background: #15803d !important;
+  color: white !important;
+}
+.modern-calendar .react-calendar__tile--now {
+  background: #f0fdf4 !important;
+  border-radius: 0.5rem;
+}
+.has-checkin abbr {
+  font-weight: 600;
+}
