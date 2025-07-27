@@ -87,12 +87,6 @@ function OrganicMediumsContent() {
           the best of both approaches.
         </p>
       </section>
-
-      <GuideCTA
-        title="Ready to experiment with organic culture?"
-        description="Learn to combine traditional knowledge with modern techniques to create sustainable, thriving plantlets."
-      />
-      <ShopCTA />
     </main>
   );
 }
@@ -104,6 +98,14 @@ export default function OrganicMediumsPage() {
       <Suspense>
         <OrganicMediumsContent />
       </Suspense>
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-12">
+        <GuideCTA
+          title="Ready to experiment with organic culture?"
+          description="Learn to combine traditional knowledge with modern techniques to create sustainable, thriving plantlets."
+        />
+        <ShopCTA />
+      </div>
       <Footer />
     </div>
   );

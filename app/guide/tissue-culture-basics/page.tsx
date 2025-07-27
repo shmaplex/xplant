@@ -69,17 +69,17 @@ function TissueCultureBasicsContent() {
         <p className="text-base sm:text-lg leading-relaxed">
           The culture medium is the lifeblood of your plantlets. It provides
           water, nutrients, and energy for growth. Beginners often start with a
-          pre‑formulated base such as <strong>PhytoBase&trade;</strong> (our
-          organic, plant‑focused blend) or the classic{" "}
+          pre&ndash;formulated base such as <strong>PhytoBase&trade;</strong>{" "}
+          (our organic, plant&ndash;focused blend) or the classic{" "}
           <strong>Murashige &amp; Skoog (MS) medium</strong>.
         </p>
         <p className="text-base sm:text-lg leading-relaxed">
           MS medium is a <em>synthetic laboratory formula</em> developed in the
           1960s to standardize plant tissue culture. It&apos;s widely used
-          because it&apos;s predictable and fast‑acting, but it relies on
+          because it&apos;s predictable and fast&ndash;acting, but it relies on
           chemical salts and industrial nutrients. Our approach focuses on
-          organic, low‑impact alternatives that support sustainable growth and a
-          more natural ecosystem around your cultures.
+          organic, low&ndash;impact alternatives that support sustainable growth
+          and a more natural ecosystem around your cultures.
         </p>
         <ul className="list-disc list-inside space-y-2 text-gray-700">
           <li>Use distilled water to prepare your medium.</li>
@@ -130,12 +130,6 @@ function TissueCultureBasicsContent() {
           ))}
         </div>
       </section>
-
-      {/* Guide CTA */}
-      <GuideCTA />
-
-      {/* Shop CTA */}
-      <ShopCTA />
     </main>
   );
 }
@@ -148,6 +142,14 @@ export default function TissueCultureBasicsPage() {
       <Suspense>
         <TissueCultureBasicsContent />
       </Suspense>
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-12">
+        {/* Guide CTA */}
+        <GuideCTA />
+
+        {/* Shop CTA */}
+        <ShopCTA />
+      </div>
 
       <Footer />
     </div>
