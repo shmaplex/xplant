@@ -20,7 +20,7 @@ export default function Testimonials() {
   ];
 
   return (
-    <section className="relative px-6 sm:px-10 overflow-hidden">
+    <section className="relative px-6 sm:px-10 overflow-hidden rounded-2xl">
       {/* Gradient background */}
       <div className="absolute inset-0 bg-gradient-to-tr from-milk-bio to-spore-grey"></div>
 
