@@ -7,145 +7,120 @@ export interface FAQItem {
 
 const faqs: FAQItem[] = [
   {
-    q: "🪱 What is Dirtman Diaries and Farm?",
+    q: "🌱 What is XPlant?",
     a: (
       <>
-        Dirtman Diaries is a journey into the world of worm composting,
-        sustainable living, and all things earthy. From weekly bin checks to
-        bokashi experiments and deep dives on soil health, it&rsquo;s your go-to
-        source for getting dirty — in the best way possible.
+        XPlant is a community-driven platform and shop focused on{" "}
+        <strong>organic plant tissue culture</strong> and sustainable
+        propagation. We make kits, tools, and guides so anyone—from hobbyists to
+        schools— can grow plants in clean, eco-friendly ways without a full lab.
         <br />
         <br />
-        Dirtman Worm &amp; Root Supply is our shop, studio, and testing ground —
-        where the lessons from the diaries come to life. We make and sell
-        small-batch tools, vermicomposting kits, natural soil boosters, and
-        other useful things for people who want to grow better and waste less.
+        Our shop curates organic culture media, growth boosters, jars, and
+        starter kits, with a vision to make plant science accessible and
+        inspiring.
       </>
     ),
   },
   {
-    q: "How do I start worm composting?",
+    q: "How do I start with plant tissue culture?",
     a: (
       <>
-        Check out our{" "}
+        Begin with our{" "}
         <a
-          href="/guide/worm-bin"
-          className="text-[#5C5138] underline hover:text-[#403a2b]"
+          href="/guide/intro-to-tissue-culture"
+          className="text-futureLime underline hover:text-mossShadow"
         >
-          Worm Bin Setup Guide
+          Intro to Tissue Culture Guide
         </a>
-        . It walks you through everything from bin selection to bedding,
-        feeding, and long-term care.
+        . It walks you through creating a clean workspace, preparing organic
+        media, taking explants, and growing your first plantlets at home.
       </>
     ),
   },
   {
-    q: "What kind of worms should I use?",
+    q: "Do I need a laboratory?",
     a: (
       <>
-        Red Wigglers (Eisenia fetida) are the most popular choice for home
-        composting. They&rsquo;re hardy, efficient, and love decaying organic
-        matter.
+        Not at all. One of our main goals is to show you how to grow plantlets
+        with a clean table, simple tools, and good habits—no expensive equipment
+        required.
       </>
     ),
   },
   {
-    q: "Can I keep my worm bin indoors?",
+    q: "What comes in the XPlant Starter Kit?",
     a: (
       <>
-        Absolutely. Worm bins are odor-free when maintained properly and can
-        live comfortably under your sink, in a closet, or anywhere that&rsquo;s
-        not too hot or cold.
+        Our Starter Kit includes everything you need: organic agar, MS-based
+        nutrients, growth hormones, and step-by-step guides. It’s designed for
+        small-scale experiments at home or in classrooms.
       </>
     ),
   },
   {
-    q: "How can I support the project?",
+    q: "What are additives like XBoost™ or BioTone™?",
     a: (
       <>
-        We&rsquo;re glad you asked! Soon you&rsquo;ll be able to buy compost
-        kits, merch, and maybe even sponsor worms. For now, just follow along,
-        share, and stay dirty.
+        These are optional boosters you can mix into your culture medium to help
+        plantlets grow faster, root more easily, or resist contamination. Think
+        of them as natural “vitamins” for your cultures.
       </>
     ),
   },
   {
-    q: "How are live worms shipped?",
+    q: "Can kids or schools use XPlant kits?",
     a: (
       <>
-        We ship live worms Monday through Friday, packed with care in breathable
-        bedding. We only ship domestically within South Korea using CJ Logistics
-        or Korea Post.
+        Yes! Our kits are designed for education and creativity. They are safe
+        to use under adult supervision and make an excellent STEM learning
+        project.
       </>
     ),
   },
   {
-    q: "What should I do when my worms arrive?",
+    q: "Is this eco-friendly?",
     a: (
       <>
-        Open the package immediately and transfer the worms into their prepared
-        bin. Give them time to adjust and avoid feeding for the first day or
-        two.
+        Absolutely. We use <strong>plant-based ingredients</strong>, recyclable
+        packaging, and emphasize low-waste methods so plant science can grow
+        alongside environmental care.
       </>
     ),
   },
   {
-    q: "What do worms eat?",
+    q: "Where do you ship?",
     a: (
       <>
-        Worms love fruit and veggie scraps, coffee grounds, eggshells, and
-        shredded paper. Avoid meat, dairy, citrus, oily foods, and anything
-        salty or spicy.
+        Currently, we ship throughout South Korea. International shipping is
+        being prepared—sign up for our newsletter to get notified.
       </>
     ),
   },
   {
-    q: "How many worms do I need to start?",
+    q: "How do I care for my cultures?",
     a: (
       <>
-        For most households, 500g to 1kg of Red Wigglers is enough to get
-        started. The size of your bin and the amount of food waste you generate
-        can guide this.
+        Cultures need indirect light, stable room temperatures (20–25&nbsp;°C),
+        and patience. Avoid opening jars frequently and let nature do its thing.
       </>
     ),
   },
   {
-    q: "Do worm bins smell bad?",
+    q: "Do I need to be a scientist to do this?",
     a: (
       <>
-        Not at all! A healthy worm bin smells like fresh earth. Odors are
-        usually a sign of overfeeding or too much moisture.
+        Not at all! XPlant is for anyone curious about plants. We provide
+        easy-to-follow guides and community support, no lab coat needed.
       </>
     ),
   },
   {
-    q: "What temperature is best for worms?",
+    q: "How can I support XPlant?",
     a: (
       <>
-        Worms thrive between 15&deg;C and 25&deg;C. Keep your bin out of direct
-        sunlight and protect it from freezing in the winter.
-      </>
-    ),
-  },
-  {
-    q: "Can I use worm castings right away?",
-    a: (
-      <>
-        Yes! Worm castings are ready to use once they&rsquo;re dark, crumbly,
-        and free of visible food scraps.
-      </>
-    ),
-  },
-  {
-    q: "Do you offer bulk worm orders?",
-    a: (
-      <>
-        We&rsquo;re working on it! If you&rsquo;re interested in larger
-        quantities for a school, farm, or community garden, send us a message at{" "}
-        <a href="mailto:dirtmandiaries@gmail.com" className="underline">
-          dirtmandiaries@gmail.com
-        </a>
-        .
+        Join the community, try a kit, share your results, and spread the word!
+        Every purchase supports the growth of open, sustainable plant science.
       </>
     ),
   },
@@ -154,12 +129,8 @@ const faqs: FAQItem[] = [
     a: (
       <>
         Reach out anytime at{" "}
-        <a href="mailto:dirtmandiaries@gmail.com" className="underline">
-          dirtmandiaries@gmail.com
-        </a>{" "}
-        or call{" "}
-        <a href="tel:+821042012407" className="underline">
-          +82 010-4201-2407
+        <a href="mailto:hello@xplant.kr" className="underline">
+          hello@shmaplex.com
         </a>
         .
       </>

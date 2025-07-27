@@ -32,8 +32,11 @@ export default function NewsletterForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <label htmlFor="email" className="block text-sm font-medium text-black">
-        Sign up for Dirtman Diaries
+      <label
+        htmlFor="email"
+        className="block text-sm font-medium text-moss-shadow"
+      >
+        Get the latest from XPlant
       </label>
       <div className="flex flex-col sm:flex-row items-start gap-2">
         <input
@@ -42,20 +45,20 @@ export default function NewsletterForm() {
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="px-4 py-2 rounded-md text-black w-5/8 outline-[#2F2F2F] outline-1 focus:ring-2 focus:ring-[#2F2F2F] bg-white"
+          className="px-4 py-2 rounded-md text-moss-shadow w-full outline-none focus:ring-2 focus:ring-future-lime bg-milk-bio border border-spore-grey"
           placeholder="Enter your email"
         />
         <button
           type="submit"
-          className="bg-[#E2D9C4] text-black font-semibold px-4 py-2 rounded hover:bg-[#2F2F2F] hover:text-white cursor-pointer transition-colors ease-in-out duration-300"
+          className="bg-future-lime text-moss-shadow font-semibold px-4 py-2 rounded hover:brightness-110 cursor-pointer transition-colors ease-in-out duration-300"
         >
           Subscribe
         </button>
       </div>
       {submitted && (
-        <p className="text-green-400 text-sm">Thanks for signing up!</p>
+        <p className="text-green-600 text-sm">Thanks for signing up!</p>
       )}
-      {error && <p className="text-red-400 text-sm">{error}</p>}
+      {error && <p className="text-red-500 text-sm">{error}</p>}
     </form>
   );
 }

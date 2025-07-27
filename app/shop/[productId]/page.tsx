@@ -6,13 +6,15 @@ import { useCart } from "@/contexts/CartContext";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { products, Product } from "@/data/products";
-import FeedingGuideCTA from "@/components/FeedingGuideCTA";
-import BinSetupCTA from "@/components/BinSetupCTA";
 import ProductVideo from "@/components/shop/ProductVideo";
 import RelatedProducts from "@/components/shop/RelatedProducts";
 import CartDrawer from "@/components/CartDrawer";
 import CartButton from "@/components/CartButton";
 import ProductInfo from "@/components/shop/ProductInfo";
+
+// New imports for existing CTAs you mentioned
+import { ShopCTA } from "@/components/ShopCTA";
+import CommunityCallout from "@/components/CommunityCallout";
 
 export default function ProductPage() {
   const { productId } = useParams();
@@ -100,7 +102,13 @@ export default function ProductPage() {
 
   if (!product) {
     return (
-      <div className="min-h-screen flex flex-col bg-[#F8F4EC] text-[#2F2F2F]">
+      <div
+        className="min-h-screen flex flex-col"
+        style={{
+          backgroundColor: "var(--milk-bio)",
+          color: "var(--biochar-black)",
+        }}
+      >
         <Header />
         <CartButton />
         <main className="flex-grow w-full px-6 flex items-center justify-center text-xl">
@@ -112,7 +120,13 @@ export default function ProductPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8F4EC] text-[#2F2F2F]">
+    <div
+      className="min-h-screen flex flex-col"
+      style={{
+        backgroundColor: "var(--milk-bio)",
+        color: "var(--biochar-black)",
+      }}
+    >
       <Header />
       <CartButton />
       <main className="flex-grow w-full">
@@ -127,16 +141,19 @@ export default function ProductPage() {
           {/* Video Section */}
           <ProductVideo videoId={product.youtubeVideoId} />
 
-          {/* CTA Section */}
-          <section className="w-full py-32 bg-[#fdfcf9]">
+          {/* Replacing FeedingGuideCTA + BinSetupCTA section with existing components */}
+          <section
+            className="w-full py-32"
+            style={{ backgroundColor: "var(--milk-bio)" }}
+          >
             <div className="mx-auto grid gap-16 sm:grid-cols-2 px-4 sm:px-8 lg:px-16">
-              <FeedingGuideCTA />
-              <BinSetupCTA />
+              <ShopCTA />
+              <CommunityCallout />
             </div>
           </section>
 
           {/* Related Products */}
-          <section className="px-4 sm:px-8 lg:px-16 pb-12">
+          <section className="pb-12">
             <RelatedProducts
               related={
                 product.relatedProducts

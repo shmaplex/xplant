@@ -7,7 +7,6 @@ import Footer from "@/components/Footer";
 import Image from "next/image";
 
 const allowedMagicEmails = [
-  "dirtmandiaries@gmail.com",
   "team@shmaplex.com",
   "rob@shmaplex.com",
   "daene@shmaplex.com",
@@ -61,38 +60,38 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="font-sans bg-[#F8F4EC] text-[#2F2F2F] min-h-screen flex flex-col">
+    <div className="font-sans bg-milk-bio text-moss-shadow min-h-screen flex flex-col">
       <Header />
 
       <main className="flex-1 flex items-center justify-center px-6 py-12 relative">
-        <div className="w-full max-w-2xl flex flex-col md:flex-row bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div className="w-full max-w-2xl flex flex-col md:flex-row bg-white rounded-2xl shadow-lg overflow-hidden border border-spore-grey/40">
           {/* Left side with form */}
           <div className="flex-1 p-8 flex flex-col justify-center">
             <div className="flex flex-col items-center mb-6 md:items-start">
-              <h1 className="mt-2 text-3xl font-bold">Welcome back!</h1>
-              <p className="text-gray-600 text-center md:text-left">
-                Sign in to manage your worm farm schedule.
+              <h1 className="mt-2 text-3xl font-bold">Welcome back</h1>
+              <p className="text-moss-shadow/70 text-center md:text-left">
+                Sign in to manage your plant culture workspace.
               </p>
             </div>
 
             {/* Mode switch */}
-            <div className="flex justify-center md:justify-start mb-6">
+            <div className="flex justify-center md:justify-start mb-6 rounded-lg overflow-hidden border border-spore-grey/30">
               <button
                 onClick={() => setMode("password")}
-                className={`px-4 py-2 rounded-l-lg ${
+                className={`px-4 py-2 transition-colors ${
                   mode === "password"
-                    ? "bg-[#5C5138] text-white"
-                    : "bg-gray-100 text-gray-600"
+                    ? "bg-future-lime text-moss-shadow font-semibold"
+                    : "bg-milk-bio text-moss-shadow/70 hover:bg-spore-grey/20"
                 }`}
               >
                 Password
               </button>
               <button
                 onClick={() => setMode("magic")}
-                className={`px-4 py-2 rounded-r-lg ${
+                className={`px-4 py-2 transition-colors ${
                   mode === "magic"
-                    ? "bg-[#5C5138] text-white"
-                    : "bg-gray-100 text-gray-600"
+                    ? "bg-future-lime text-moss-shadow font-semibold"
+                    : "bg-milk-bio text-moss-shadow/70 hover:bg-spore-grey/20"
                 }`}
               >
                 Magic Link
@@ -110,21 +109,21 @@ export default function LoginPage() {
                 <input
                   type="email"
                   placeholder="Email"
-                  className="border p-2 w-full rounded"
+                  className="border border-spore-grey/50 p-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-future-lime"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
                   type="password"
                   placeholder="Password"
-                  className="border p-2 w-full rounded"
+                  className="border border-spore-grey/50 p-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-future-lime"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#5C5138] text-white py-2 rounded hover:bg-[#403a2b] transition-colors"
+                  className="w-full bg-future-lime text-moss-shadow font-semibold py-2 rounded hover:bg-moss-shadow hover:text-white transition-colors"
                 >
                   {loading ? "Loading..." : "Sign In"}
                 </button>
@@ -134,14 +133,14 @@ export default function LoginPage() {
                 <input
                   type="email"
                   placeholder="Email"
-                  className="border p-2 w-full rounded"
+                  className="border border-spore-grey/50 p-2 w-full rounded focus:outline-none focus:ring-2 focus:ring-future-lime"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#5C5138] text-white py-2 rounded hover:bg-[#403a2b] transition-colors"
+                  className="w-full bg-future-lime text-moss-shadow font-semibold py-2 rounded hover:bg-moss-shadow hover:text-white transition-colors"
                 >
                   {loading ? "Loading..." : "Send Magic Link"}
                 </button>
@@ -149,14 +148,14 @@ export default function LoginPage() {
             )}
           </div>
 
-          {/* Right side with worm */}
-          <div className="relative hidden md:flex md:w-1/4 bg-[#F8F4EC] items-center justify-center p-8">
+          {/* Right side with logo */}
+          <div className="relative hidden md:flex md:w-1/3 bg-milk-bio items-center justify-center p-8">
             <Image
-              src="/svg/worm.svg"
-              alt="Friendly worm"
+              src="/svg/x-logo.svg"
+              alt="XPlant Logo"
               width={130}
               height={130}
-              className="opacity-90 drop-shadow-lg animate-float"
+              className="opacity-90 drop-shadow-lg"
               priority
             />
           </div>

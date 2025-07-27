@@ -3,9 +3,14 @@
 type SearchInputProps = {
   value: string;
   onChange: (value: string) => void;
+  placeholder?: string; // <-- added optional placeholder prop
 };
 
-export default function SearchInput({ value, onChange }: SearchInputProps) {
+export default function SearchInput({
+  value,
+  onChange,
+  placeholder = "Type to search...", // default placeholder
+}: SearchInputProps) {
   return (
     <div className="max-w-6xl w-full mx-auto mb-8 px-4">
       <div className="text-center mb-4">
@@ -22,7 +27,7 @@ export default function SearchInput({ value, onChange }: SearchInputProps) {
         <div className="bg-white rounded-xl overflow-hidden shadow-md focus-within:shadow-lg">
           <input
             type="text"
-            placeholder="Type to search..."
+            placeholder={placeholder}
             className="w-full px-5 py-3 text-sm sm:text-base outline-none"
             value={value}
             onChange={(e) => onChange(e.target.value)}

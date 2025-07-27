@@ -1,3 +1,5 @@
+"use client";
+
 import { Product } from "@/data/products";
 import { parsePrice, formatPrice } from "@/lib/price";
 import Breadcrumbs from "./Breadcrumbs";
@@ -24,16 +26,15 @@ export default function ProductInfo({
     product.variants[0];
 
   return (
-    <section className="w-full bg-white py-10">
+    <section className="w-full bg-milk-bio py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
         <Breadcrumbs
           items={[{ label: "Shop", href: "/shop" }, { label: product.title }]}
         />
 
-        {/* Product Info Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Product Image */}
-          <div className="bg-white rounded-xl flex items-center justify-center">
+          <div className="bg-milk-bio rounded-xl flex items-center justify-center">
             <img
               src={product.image}
               alt={product.title}
@@ -43,38 +44,35 @@ export default function ProductInfo({
 
           {/* Info Section */}
           <div>
-            {/* Tag - Left Aligned, Bordered */}
             {product.tag && (
               <div className="mb-3">
-                <span className="inline-block rounded-full border-2 border-black bg-white px-2 py-[0.2rem] text-xs font-semibold uppercase tracking-wide text-black">
+                <span className="inline-block rounded-full border-2 border-moss-shadow bg-milk-bio px-2 py-[0.2rem] text-xs font-semibold uppercase tracking-wide text-moss-shadow">
                   {product.tag}
                 </span>
               </div>
             )}
 
-            {/* Title */}
-            <h1 className="text-4xl font-bold mb-4">{product.title}</h1>
+            <h1 className="text-4xl font-bold mb-4 text-biochar-black">
+              {product.title}
+            </h1>
 
-            {/* Price */}
-            <p className="text-md text-gray-500 mb-6">
+            <p className="text-md text-moss-shadow mb-6">
               {formatPrice(parsePrice(selectedVariant.price))}
             </p>
 
-            {/* Description */}
-            <p className="text-base text-gray-700 mb-8 leading-relaxed max-w-xl">
+            <p className="text-base text-biochar-black mb-8 leading-relaxed max-w-xl">
               {product.description}
             </p>
 
-            {/* Variant Selector */}
             {product.variants.length > 1 && (
               <div className="max-w-xs mb-6">
-                <label className="block mb-2 text-xs font-semibold text-black/70 uppercase tracking-wide">
+                <label className="block mb-2 text-xs font-semibold text-moss-shadow uppercase tracking-wide">
                   Select Option
                 </label>
                 <select
                   value={selectedVariantId ?? ""}
                   onChange={(e) => setSelectedVariantId(e.target.value)}
-                  className="w-full bg-white border border-gray-300 py-3 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-[#FF4E50] transition"
+                  className="w-full bg-white border border-spore-grey py-3 px-4 rounded-md focus:outline-none focus:ring-2 focus:ring-future-lime transition"
                 >
                   {product.variants.map((variant) => (
                     <option key={variant.id} value={variant.id}>
@@ -85,15 +83,13 @@ export default function ProductInfo({
               </div>
             )}
 
-            {/* Add to Cart Button */}
             <div className="relative w-full max-w-xs group">
-              {/* Gradient border */}
+              {/* Lime border glow on hover */}
               <div
-                className="absolute -inset-[2.5px] rounded-xl bg-gradient-to-r from-[#FF4E50] via-[#F9D423] to-[#FF6E7F] opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"
+                className="absolute -inset-[2px] rounded-xl bg-gradient-to-r from-future-lime to-moss-shadow opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"
                 aria-hidden="true"
               />
 
-              {/* Button on top */}
               <button
                 onClick={() =>
                   selectedVariantId &&
@@ -109,8 +105,8 @@ export default function ProductInfo({
                   relative z-10 w-full py-3 px-6 font-bold uppercase tracking-wide rounded-lg transition-all duration-300
                   ${
                     selectedVariantId
-                      ? "bg-black text-white hover:text-[#FF4E50]"
-                      : "bg-gray-200 text-gray-400 cursor-not-allowed"
+                      ? "bg-moss-shadow text-milk-bio hover:bg-biochar-black"
+                      : "bg-spore-grey text-gray-400 cursor-not-allowed"
                   }
                 `}
               >

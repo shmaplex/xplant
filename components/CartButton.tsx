@@ -12,19 +12,19 @@ export default function CartButton() {
       onClick={openCart}
       className={`
         fixed top-6 right-4 z-40
-        bg-[#4B3F2A] text-[#F9F5EE]
-        px-5 py-2.5 rounded-lg shadow-xl cursor-pointer
+        bg-[var(--future-lime)] text-[var(--biochar-black)]
+        px-5 py-2.5 rounded-xl shadow-lg cursor-pointer
         transition-all duration-500 ease-in-out
-        focus:outline-none focus:ring-2 focus:ring-[#BFAF98] focus:ring-offset-2
+        focus:outline-none focus:ring-2 focus:ring-[var(--psybeam-purple)] focus:ring-offset-2
         flex items-center space-x-2
-        hover:bg-[#665842] hover:text-white
+        hover:bg-[var(--psybeam-purple)] hover:text-white
       `}
       aria-label="View cart"
     >
-      <span className="font-medium text-[15px]">&#129530; Peek Inside</span>
+      <span className="font-medium text-[15px]">🧫 Peek Inside</span>
       <span
         className="
-          bg-[#F9F5EE] text-[#4B3F2A] 
+          bg-[var(--milk-bio)] text-[var(--biochar-black)]
           font-semibold text-xs 
           px-2 py-0.5 rounded-full 
           leading-none tracking-wide 
