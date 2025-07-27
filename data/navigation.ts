@@ -11,9 +11,12 @@ export interface NavGroup {
 }
 
 // Guides (these could be expanded to plant tissue culture guides later)
+// /data/navigation.ts
+
 export const guideLinks: NavLink[] = [
   { href: "/guide/intro-to-tissue-culture", label: "Intro to Tissue Culture" },
   { href: "/guide/tissue-culture-basics", label: "Tissue Culture Basics" },
+  { href: "/guide/organic-alternatives", label: "Organic Alternatives" },
   { href: "/guide/organic-mediums", label: "Organic Mediums" },
   { href: "/guide/propagation-kits", label: "Propagation Kits" },
 ];
