@@ -42,7 +42,7 @@ export default async function HomePage() {
 
         {/* Impact – contained */}
         <section className="max-w-7xl mx-auto px-4 sm:px-10 py-10 sm:py-16">
-          <div className="bg-milk-bio rounded-2xl shadow-sm border border-spore-grey/10 p-8 sm:p-10">
+          <div className="rounded-2xl shadow-sm border border-spore-grey/10">
             <Impact />
           </div>
         </section>
