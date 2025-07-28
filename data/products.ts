@@ -16,12 +16,133 @@ export type Product = {
   features?: string[];
   specs?: Record<string, string>;
   variants: ProductVariant[];
-  youtubeVideoId?: string; // YouTube video ID for embedded videos
-  relatedProducts?: string[]; // Product IDs for related items
+  youtubeVideoId?: string;
+  relatedProducts?: string[];
 };
 
 export const products: Product[] = [
   // Propagation Kits
+  {
+    id: "orchid-starter-kit",
+    title: "Orchid Starter Kit",
+    image: "/shop/png/orchid-starter-kit.png",
+    images: [
+      "/shop/png/orchid-starter-kit.png",
+      "/shop/png/orchid-starter-kit-2.png",
+    ],
+    category: "Propagation Kits",
+    description:
+      "Designed for Phalaenopsis and other epiphytic orchids. Includes nutrient-rich organic base media and additives optimized for root initiation and early growth.",
+    features: [
+      "PhytoBase™ Organic Medium (pre-mixed)",
+      "Natural Coconut Charcoal Powder",
+      "Organic Sucrose (sterile)",
+      "Hormone-free rooting supplement",
+      "Sterile scalpel & forceps",
+      "Alcohol wipes",
+      "Instruction guide",
+    ],
+    specs: {
+      SkillLevel: "Beginner",
+      Shipping: "Ships in 3–5 days",
+    },
+    variants: [
+      {
+        id: "gid://shopify/ProductVariant/60011",
+        title: "Complete Kit",
+        price: "₩98,000",
+      },
+    ],
+  },
+
+  {
+    id: "succulent-cactus-kit",
+    title: "Succulent & Cactus Kit",
+    image: "/shop/png/succulent-cactus-kit.png",
+    images: ["/shop/png/succulent-cactus-kit.png"],
+    category: "Propagation Kits",
+    description:
+      "Formulated for desert plants and slow-growing succulents, focusing on firm, compact growth and low moisture requirements.",
+    features: [
+      "Low-sucrose PhytoBase™ Medium",
+      "Biochar grit additive",
+      "Aloe-enhanced gel mix",
+      "Sterile scalpel & forceps",
+      "Sterile petri cups",
+      "Beginner workshop access",
+    ],
+    specs: {
+      SkillLevel: "Beginner",
+      Shipping: "Ships in 3–5 days",
+    },
+    variants: [
+      {
+        id: "gid://shopify/ProductVariant/60012",
+        title: "Complete Kit",
+        price: "₩95,000",
+      },
+    ],
+  },
+
+  {
+    id: "houseplant-aroid-kit",
+    title: "Houseplant & Aroid Kit",
+    image: "/shop/png/houseplant-aroid-kit.png",
+    images: ["/shop/png/houseplant-aroid-kit.png"],
+    category: "Propagation Kits",
+    description:
+      "Perfect for duplicating monstera, philodendron, pothos, and other popular houseplants. Balanced organic nutrients support rapid callus formation.",
+    features: [
+      "PhytoBase™ Organic Medium",
+      "Natural Banana Powder (growth booster)",
+      "Kelp Extract",
+      "Mini scissors",
+      "Forceps",
+      "Reusable glass jars",
+    ],
+    specs: {
+      SkillLevel: "Beginner",
+      Shipping: "Ships in 3–5 days",
+    },
+    variants: [
+      {
+        id: "gid://shopify/ProductVariant/60013",
+        title: "Complete Kit",
+        price: "₩99,000",
+      },
+    ],
+  },
+
+  {
+    id: "rare-exotic-collectors-kit",
+    title: "Rare & Exotic Collector’s Kit",
+    image: "/shop/png/rare-exotic-collectors-kit.png",
+    images: ["/shop/png/rare-exotic-collectors-kit.png"],
+    category: "Propagation Kits",
+    description:
+      "For collectors experimenting with rare species. Advanced mix with organic additives and micronutrients to support delicate plant material.",
+    features: [
+      "Custom advanced culture blend",
+      "Mycorrhizae inoculant",
+      "Activated organic charcoal",
+      "Sterile transfer kit",
+      "Mini spray mister",
+      "Comprehensive guide",
+    ],
+    specs: {
+      SkillLevel: "Advanced",
+      Shipping: "Ships in 3–5 days",
+    },
+    variants: [
+      {
+        id: "gid://shopify/ProductVariant/60014",
+        title: "Complete Kit",
+        price: "₩125,000",
+      },
+    ],
+  },
+
+  // Propagation Starter Kit (general)
   {
     id: "propagation-kit",
     title: "Propagation Kit",
@@ -100,7 +221,8 @@ export const products: Product[] = [
     images: ["/shop/png/xboost.png"],
     category: "Additives",
     description:
-      "Accelerates rooting and shoot multiplication. Use sparingly for faster results.",
+      "Potent organic booster that accelerates rooting and shoot multiplication.",
+    features: ["Use sparingly for faster culture response"],
     specs: {
       Volume: "20ml",
       Use: "Rooting and multiplication booster",
@@ -169,6 +291,152 @@ export const products: Product[] = [
         id: "gid://shopify/ProductVariant/60007",
         title: "20ml (Pre-sale)",
         price: "₩15,000",
+      },
+    ],
+  },
+
+  // Other Shmaplex products (based on shmaplexProducts)
+  {
+    id: "phytobase-organic-agar",
+    title: "PhytoBase™ Organic Agar",
+    image: "/shop/png/phytobase-organic-agar.png",
+    category: "Organic Media",
+    subcategory: "Gelling Agents",
+    description:
+      "Plant-based gelling agent for solidifying media without synthetics. Essential for clean and stable tissue culture plates.",
+    features: ["Essential gelling agent for almost all media"],
+    variants: [
+      {
+        id: "gid://shopify/ProductVariant/60008",
+        title: "250g",
+        price: "₩30,000",
+      },
+      {
+        id: "gid://shopify/ProductVariant/60009",
+        title: "500g",
+        price: "₩55,000",
+      },
+    ],
+  },
+  {
+    id: "phytogelzan-gelling-agent",
+    title: "PhytoGelzan™ Plant-Based Gelling Agent",
+    image: "/shop/png/phytogelzan.png",
+    category: "Organic Media",
+    subcategory: "Gelling Agents",
+    description:
+      "A natural, clear alternative to agar. Provides a firmer, glassy surface ideal for woody plant cultures and specialized protocols.",
+    features: ["Clear and firm gelling alternative"],
+    variants: [
+      {
+        id: "gid://shopify/ProductVariant/60010",
+        title: "250g",
+        price: "₩38,000",
+      },
+    ],
+  },
+  {
+    id: "shootrise-cytokinin-extract",
+    title: "ShootRise™ Organic Cytokinin Extract",
+    image: "/shop/png/shootrise.png",
+    category: "Additives",
+    description:
+      "Natural cytokinin blend to stimulate shoot proliferation without harsh synthetics.",
+    variants: [
+      {
+        id: "gid://shopify/ProductVariant/60015",
+        title: "20ml",
+        price: "₩20,000",
+      },
+    ],
+  },
+  {
+    id: "rootflow-auxin-extract",
+    title: "RootFlow™ Natural Auxin Extract",
+    image: "/shop/png/rootflow.png",
+    category: "Additives",
+    description:
+      "Natural auxin complex that supports rooting and callus formation organically.",
+    variants: [
+      {
+        id: "gid://shopify/ProductVariant/60016",
+        title: "20ml",
+        price: "₩20,000",
+      },
+    ],
+  },
+  {
+    id: "phytoamino-plant-hydrolysate",
+    title: "PhytoAmino™ Plant Hydrolysate",
+    image: "/shop/png/phytoamino.png",
+    category: "Additives",
+    description:
+      "Fermented plant amino acids and peptides that enhance nutrition and natural growth signals.",
+    variants: [
+      {
+        id: "gid://shopify/ProductVariant/60017",
+        title: "100ml",
+        price: "₩22,000",
+      },
+    ],
+  },
+  {
+    id: "biobuffer-ph-kit",
+    title: "BioBuffer™ Natural pH Kit",
+    image: "/shop/png/biobuffer.png",
+    category: "Additives",
+    description:
+      "A natural buffering system derived from citrus extracts to maintain pH balance.",
+    variants: [
+      {
+        id: "gid://shopify/ProductVariant/60018",
+        title: "20ml",
+        price: "₩14,000",
+      },
+    ],
+  },
+  {
+    id: "biotea-compost-extract",
+    title: "BioTea™ Compost Extract",
+    image: "/shop/png/biotea.png",
+    category: "Additives",
+    description:
+      "Filtered worm castings and compost extract adding natural nutrients and beneficial compounds.",
+    variants: [
+      {
+        id: "gid://shopify/ProductVariant/60019",
+        title: "100ml",
+        price: "₩16,000",
+      },
+    ],
+  },
+  {
+    id: "vitaburst-vitamin-complex",
+    title: "VitaBurst™ Organic Vitamin Complex",
+    image: "/shop/png/vitaburst.png",
+    category: "Additives",
+    description:
+      "Fermentation-derived vitamin complex designed to boost slow or difficult plant cultures.",
+    variants: [
+      {
+        id: "gid://shopify/ProductVariant/60020",
+        title: "20ml",
+        price: "₩21,000",
+      },
+    ],
+  },
+  {
+    id: "chitoshield-chitosan-solution",
+    title: "ChitoShield™ Chitosan Solution",
+    image: "/shop/png/chitoshield.png",
+    category: "Additives",
+    description:
+      "Natural chitosan derived from crustaceans that helps plants resist fungal and bacterial diseases.",
+    variants: [
+      {
+        id: "gid://shopify/ProductVariant/60021",
+        title: "20ml",
+        price: "₩19,000",
       },
     ],
   },

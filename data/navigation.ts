@@ -25,6 +25,7 @@ export const guideLinks: NavLink[] = [
 // Main navigation links
 export const mainLinks: NavLink[] = [
   { href: "/lab", label: "Future Lab" },
+  { href: "/products", label: "Our Products" },
   { href: "/services", label: "Lab Services" },
   { href: "/shop", label: "Shop" },
   { href: "/faq", label: "FAQ" },
