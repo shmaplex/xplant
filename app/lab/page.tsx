@@ -14,14 +14,14 @@ export default function FutureFarmPage() {
         {/* Intro */}
         <section className="max-w-6xl mx-auto text-center space-y-6">
           <div className="flex flex-col space-y-2 items-center justify-center">
-            <img
+            <Image
               src="/svg/shmaplexplant-logo.svg"
               alt="Shmaplex Plant Logo"
               width={500}
               height={250}
             />
             <h1 className="text-4xl sm:text-5xl font-extrabold uppercase">
-              Future Farm
+              Future Lab
             </h1>
           </div>
           <p className="text-lg sm:text-xl text-[#4A4A4A] max-w-2xl mx-auto">

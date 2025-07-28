@@ -1,4 +1,3 @@
-// /data/media.ts
 export interface MediaType {
   name: string;
   description: string;
@@ -9,278 +8,262 @@ export interface MediaType {
 
 export const mediaTypes: MediaType[] = [
   {
-    name: "PhytoBase™ General Purpose",
+    name: "PhytoBase™ Organic General",
     description: `
-    Balanced organic base medium using PhytoBase™ agar and MS-based nutrients.
-    Promotes healthy direct shoot multiplication with low cytokinin.
-    Avoids rooting to focus energy on shoots.
+      Balanced organic base medium using PhytoBase™ organic agar,
+      coconut water, and natural nutrients. Supports healthy shoot growth
+      with no synthetic chemicals.
     `,
     keyIngredients: [
       "PhytoBase™ Organic Agar",
-      "MS Basal Salts",
-      "Low cytokinin (e.g., 0.5 mg/L BAP)",
-      "Natural amino acid supplement",
+      "Coconut water (10%)",
+      "PhytoAmino™ Plant Hydrolysate",
       "Organic cane sugar (3%)",
-      "Citric acid buffer for pH ~5.8",
+      "BioBuffer™ Natural pH Kit",
     ],
     associatedPlants: [
-      "Anthurium spp. (foliage plants)",
-      "Spathiphyllum (Peace Lily)",
-      "Philodendron genotypes",
+      "Anthurium spp.",
+      "Peace Lily (Spathiphyllum)",
+      "Philodendron varieties",
     ],
     funName: "Apical Prime",
   },
   {
-    name: "Woody Nodal Enrich",
+    name: "Woody Plant Organic Boost",
     description: `
-    Specialized for woody plants with nodal explants.
-    Slightly higher cytokinin and auxin balance to promote shoot elongation and prevent callusing.
-    Uses gelzan as gelling agent for firmer medium.
+      Designed for woody plants using natural gelling agents and
+      Seaweed Extract for improved shoot elongation and health.
     `,
     keyIngredients: [
-      "Gelzan gelling agent",
-      "MS Basal Salts",
-      "Balanced auxin-cytokinin ratio (e.g., 0.2 mg/L NAA, 1 mg/L BAP)",
-      "Seaweed extract for plant defense",
-      "Organic beet sugar",
+      "PhytoGelzan™ Plant-Based Gelling Agent", // updated
+      "Seaweed Extract (5%)",
+      "Organic cane sugar",
+      "PhytoAmino™ Plant Hydrolysate",
+      "Coconut water (8%)",
     ],
     associatedPlants: [
       "Blueberry (Vaccinium spp.)",
       "Blackberry (Rubus spp.)",
-      "Hardwood fruit trees (apple, cherry genotypes)",
+      "Apple and cherry varieties",
     ],
     funName: "Hardwood Harmony",
   },
   {
-    name: "Seedling Initiation Mix",
+    name: "Seedling Starter Organic Mix",
     description: `
-    Designed for clean, small seed explants (1mm) with minimized contamination risk.
-    Uses vacuum treatment to remove endophytes.
-    No antimicrobials in media, focus on technique.
+      Clean, contamination-resistant medium with natural agar and
+      gentle nutrients for seed and embryo culture.
     `,
     keyIngredients: [
-      "Organic agar powder",
-      "MS salts",
-      "Trace amino acids",
-      "Citric acid buffer pH 5.7",
-      "Organic cane sugar 2.5%",
+      "PhytoBase™ Organic Agar",
+      "Coconut water (12%)",
+      "PhytoAmino™ Plant Hydrolysate",
+      "Organic cane sugar (2.5%)",
+      "BioBuffer™ Natural pH Kit",
     ],
     associatedPlants: [
       "Orchid seedlings",
-      "Anthurium (seed culture)",
+      "Anthurium seed culture",
       "Rare foliage hybrids",
     ],
     funName: "Nerd Candy Starter",
   },
   {
-    name: "Shoot Tip Meristem Boost",
+    name: "Shoot Tip Natural Booster",
     description: `
-    Media optimized for apical shoot tips harvested to minimize somaclonal variation.
-    High cytokinin with biostimulants to maximize direct multiplication.
+      Optimized for apical shoot tip multiplication with
+      natural biostimulants and organic nutrients.
     `,
     keyIngredients: [
-      "PhytoBase™ agar",
-      "MS salts",
-      "Higher BAP (1.5 mg/L)",
-      "Natural auxins low (0.05 mg/L)",
-      "Organic amino acids",
-      "Beet sugar",
+      "PhytoBase™ Organic Agar",
+      "Coconut water (10%)",
+      "PhytoAmino™ Plant Hydrolysate",
+      "Beet sugar (3%)",
+      "Seaweed Extract (3%)",
     ],
     associatedPlants: [
       "Hybrid Spathiphyllum",
-      "Thai con variegated genotypes",
+      "Variegated Thai cultivars",
       "Specialty fruit breeding lines",
     ],
     funName: "Apical Apex",
   },
   {
-    name: "Acclimation Phase Medium",
+    name: "Acclimation Organic Medium",
     description: `
-    For young cultures adapting to in vitro conditions (6-12 months).
-    Low nutrient, gentle hormones to avoid hyperhydricity.
+      Low nutrient, gentle medium to help cultures adapt to in vitro conditions
+      and prevent stress.
     `,
     keyIngredients: [
-      "Organic agar",
-      "Reduced MS salts (50%)",
-      "Low auxin and cytokinin (0.1 mg/L each)",
-      "Organic cane sugar 1.5%",
-      "Seaweed extract",
+      "PhytoBase™ Organic Agar",
+      "Reduced coconut water (5%)",
+      "Low PhytoAmino™ Plant Hydrolysate",
+      "Organic cane sugar (1.5%)",
+      "Seaweed Extract (2%)",
     ],
     associatedPlants: [
-      "Mother Block stock plants",
+      "Mother block plants",
       "Sensitive foliage",
-      "New introductions from breeding",
+      "New breeding introductions",
     ],
     funName: "Gentle Start",
   },
   {
-    name: "Root Inhibition Media",
+    name: "Shoot Multiplication Organic",
     description: `
-    Intentionally stunts root development in vitro to maximize shoot multiplication.
-    Lower sugar to reduce fungal contamination risk in greenhouse.
+      Promotes shoot multiplication using natural hormones derived from
+      Seaweed Extract and amino acids.
     `,
     keyIngredients: [
-      "PhytoBase™ agar",
-      "MS salts",
-      "Cytokinin dominant (1.8 mg/L BAP)",
-      "No auxin",
-      "Organic cane sugar 2.5%",
+      "PhytoBase™ Organic Agar",
+      "Seaweed Extract (8%)",
+      "PhytoAmino™ Plant Hydrolysate",
+      "Organic cane sugar (2.5%)",
+      "Coconut water (7%)",
     ],
-    associatedPlants: [
-      "All hardwood genotypes in production",
-      "Foliage cultivars with rapid shoot growth",
-    ],
+    associatedPlants: ["Rapid growing hardwoods", "Foliage cultivars"],
     funName: "Shoot First",
   },
   {
-    name: "Cold Storage Dormant Mix",
+    name: "Cold Storage Organic Mix",
     description: `
-    For long-term fridge storage of hardwoods at 4-6°C.
-    Minimal nutrients to maintain dormancy without growth.
-    Agar firmness increased to avoid shoot elongation.
+      Minimal nutrients and firm PhytoBase™ organic agar for
+      long-term culture dormancy at low temperatures.
     `,
     keyIngredients: [
-      "Organic agar high concentration",
-      "Reduced MS salts",
-      "No hormones",
-      "Low sugar (1%)",
+      "PhytoBase™ Organic Agar (higher concentration)",
+      "Low coconut water (2%)",
+      "Organic cane sugar (1%)",
     ],
     associatedPlants: [
       "Blueberry clones",
       "Blackberry genotypes",
-      "Specialty hardwood selections",
+      "Specialty hardwoods",
     ],
     funName: "Winter Chill",
   },
   {
-    name: "Micropropagation Trial Media",
+    name: "Micropropagation Trial Organic",
     description: `
-    For university breeding lines, designed to allow screening for best fit.
-    Balanced hormones with growth boosters.
+      Balanced medium with natural growth boosters
+      for screening breeding lines.
     `,
     keyIngredients: [
-      "PhytoBase™ agar",
-      "MS salts",
-      "Medium cytokinin (1.0 mg/L BAP)",
-      "Low auxin (0.1 mg/L NAA)",
-      "BioTone™ additive",
+      "PhytoBase™ Organic Agar",
+      "Coconut water (8%)",
+      "PhytoAmino™ Plant Hydrolysate",
+      "Beet sugar (2.5%)",
+      "BioTone™ Additive",
     ],
-    associatedPlants: [
-      "Breeding program crosses",
-      "Experimental foliage hybrids",
-    ],
+    associatedPlants: ["Breeding program lines", "Experimental hybrids"],
     funName: "Trial Blend",
   },
   {
-    name: "Endophyte Cleansing Medium",
+    name: "Endophyte Cleanse Organic",
     description: `
-    For difficult explants suspected to harbor endophytes.
-    Minimal nutrients, no antimicrobials, relies on vacuum technique pre-treatment.
+      Minimal nutrient medium to support explants
+      post vacuum treatment for endophyte removal.
     `,
     keyIngredients: [
-      "Agar powder",
-      "Diluted MS salts (25%)",
-      "Low sugar",
-      "Citric acid buffer pH 5.6",
+      "PhytoBase™ Organic Agar",
+      "Diluted coconut water (3%)",
+      "Organic cane sugar (1.5%)",
+      "BioBuffer™ Natural pH Kit",
     ],
-    associatedPlants: ["Anthurium seed cultures", "Rare tropical foliage"],
+    associatedPlants: ["Anthurium seeds", "Rare tropical foliage"],
     funName: "Clean Sweep",
   },
   {
-    name: "High Multiplication Booster",
+    name: "High Multiplication Organic Boost",
     description: `
-    Maximizes shoot proliferation rate with optimized hormone balance and organic amino acids.
-    For vigorous genotypes in production.
+      Maximizes shoot proliferation using Seaweed Extract
+      and organic amino acid supplements.
     `,
     keyIngredients: [
-      "PhytoBase™ agar",
-      "MS salts",
-      "High BAP (2.0 mg/L)",
-      "Low NAA (0.05 mg/L)",
-      "Natural amino acid supplement",
-      "Beet sugar 3%",
+      "PhytoBase™ Organic Agar",
+      "Seaweed Extract (10%)",
+      "PhytoAmino™ Plant Hydrolysate",
+      "Beet sugar (3%)",
+      "Coconut water (8%)",
     ],
-    associatedPlants: [
-      "Commercial Spathiphyllum lines",
-      "High-yield foliage cultivars",
-    ],
+    associatedPlants: ["Commercial Spathiphyllum", "High yield foliage plants"],
     funName: "Growth Surge",
   },
   {
     name: "Low Sugar Sensitive Media",
     description: `
-    For species prone to contamination or hyperhydricity; sugar reduced to 1.5%.
+      Reduced sugar content to limit contamination
+      and hyperhydricity in sensitive species.
     `,
     keyIngredients: [
-      "Organic agar",
-      "MS salts",
-      "Low hormone (0.1 mg/L BAP)",
-      "Organic cane sugar 1.5%",
+      "PhytoBase™ Organic Agar",
+      "Coconut water (7%)",
+      "Low PhytoAmino™ Plant Hydrolysate",
+      "Organic cane sugar (1.5%)",
     ],
-    associatedPlants: ["Delicate foliage plants", "Newly initiated cultures"],
+    associatedPlants: ["Delicate foliage", "New cultures"],
     funName: "Lean & Clean",
   },
   {
-    name: "Plant Defense Blend",
+    name: "Plant Defense Organic Blend",
     description: `
-    Contains seaweed extracts and chitosan to boost plant immunity during culture.
+      Boosts immunity with Seaweed Extract and natural
+      chitosan derived from crustaceans.
     `,
     keyIngredients: [
-      "PhytoBase™ agar",
-      "MS salts",
-      "Seaweed extract",
-      "Chitosan solution",
-      "BioTone™",
+      "PhytoBase™ Organic Agar",
+      "Seaweed Extract",
+      "ChitoShield™ Chitosan Solution",
+      "PhytoAmino™ Plant Hydrolysate",
     ],
     associatedPlants: [
-      "Plants prone to fungal contamination",
-      "High-value breeding lines",
+      "Plants prone to fungal infections",
+      "High value breeding lines",
     ],
     funName: "Immunity Shield",
   },
   {
-    name: "pH Adjustment Mix",
+    name: "pH Balanced Organic Mix",
     description: `
-    Formulated to maintain precise pH using natural buffers like citric acid and lime.
+      Maintains stable pH using natural buffers
+      such as citric acid and lime powder.
     `,
     keyIngredients: [
-      "Organic agar",
-      "MS salts",
-      "Citric acid powder",
+      "PhytoBase™ Organic Agar",
+      "Coconut water",
+      "BioBuffer™ Natural pH Kit",
       "Lime powder",
     ],
-    associatedPlants: ["Sensitive species needing tight pH control"],
+    associatedPlants: ["Sensitive species requiring precise pH"],
     funName: "Balance Buffer",
   },
   {
-    name: "Carbohydrate Variation Media",
+    name: "Carbohydrate Variation Organic",
     description: `
-    Experimentation media varying cane sugar and beet sugar sources.
-    Helps determine best carbohydrate source for specific genotypes.
+      Experiments with cane sugar and beet sugar
+      sources to find ideal carbohydrate nutrition.
     `,
     keyIngredients: [
-      "Organic agar",
-      "MS salts",
+      "PhytoBase™ Organic Agar",
+      "Coconut water",
       "Organic cane sugar or beet sugar",
     ],
-    associatedPlants: ["Diverse foliage species", "Experimental lines"],
+    associatedPlants: ["Diverse foliage", "Experimental lines"],
     funName: "Sweet Choice",
   },
   {
-    name: "Vitamin Enhanced Media",
+    name: "Vitamin Enhanced Organic",
     description: `
-    Media fortified with fermentation-derived vitamin mixes to support robust growth.
+      Media enriched with fermentation-derived vitamins
+      and natural amino acids for slow growers.
     `,
     keyIngredients: [
-      "PhytoBase™ agar",
-      "MS salts",
-      "Vitamin mix from fermentation",
-      "Natural amino acids",
+      "PhytoBase™ Organic Agar",
+      "Coconut water",
+      "VitaBurst™ Organic Vitamin Complex",
+      "PhytoAmino™ Plant Hydrolysate",
     ],
-    associatedPlants: [
-      "Slow growers needing nutrient boost",
-      "Hard to culture genotypes",
-    ],
+    associatedPlants: ["Slow growers", "Hard to culture species"],
     funName: "VitaGrow",
   },
 ];

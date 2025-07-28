@@ -3,53 +3,6 @@
 import { useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 
-// const keyTerms = [
-//   {
-//     term: "PhytoBalance™ Organic Base",
-//     desc: "Our natural alternative to synthetic MS salts. Made with coconut water, kelp extract, bioferments, and organic amino acids to provide a balanced foundation for plant tissue culture without relying on synthetic inputs.",
-//   },
-//   {
-//     term: "Cytokinin (Natural Source)",
-//     desc: "A plant hormone that encourages shoots and branching. We use natural sources such as fermented coconut water, kelp extracts, or sprouted grain teas instead of lab-synthesized forms like BAP.",
-//   },
-//   {
-//     term: "Auxin (Natural Source)",
-//     desc: "Hormones that encourage rooting and callus formation. These can be derived from willow bark, alfalfa extracts, and fermentation products instead of synthetic NAA or IBA.",
-//   },
-//   {
-//     term: "Plant Hydrolysate",
-//     desc: "Amino acids and peptides derived from breaking down plant matter—provides nitrogen and growth signals without synthetic additives.",
-//   },
-//   {
-//     term: "Seaweed / Kelp Extract",
-//     desc: "A natural source of plant hormones (auxins, cytokinins, gibberellins) and trace minerals that gently boost growth and stress resilience.",
-//   },
-//   {
-//     term: "Chitosan Solution",
-//     desc: "Derived from shells of crustaceans or fungal cell walls, this natural polymer primes plants’ immune systems and improves rooting and acclimation.",
-//   },
-//   {
-//     term: "Citric Acid Buffer",
-//     desc: "Natural pH control using acids from citrus fruit to balance media instead of strong synthetic buffers.",
-//   },
-//   {
-//     term: "Agar & Plant-Based Gelling Agents",
-//     desc: "Solidifies the media. Our recipes use organic agar, carrageenan, or pectin as alternatives to synthetic gels.",
-//   },
-//   {
-//     term: "Carbohydrate Energy Sources",
-//     desc: "Sugars like organic cane sugar or beet sugar feed the cultured plantlets. These replace refined lab-grade sucrose.",
-//   },
-//   {
-//     term: "No Hormones (Resting Phase)",
-//     desc: "Certain stages use no growth regulators at all, allowing plants to develop naturally during dormancy or hardening.",
-//   },
-//   {
-//     term: "Compost Tea / Biofertilizer Extract",
-//     desc: "Gentle, microbe-rich liquid extracts that add trace nutrients and biological signals in a controlled way.",
-//   },
-// ];
-
 const keyTerms = [
   {
     term: "PhytoBalance™ Organic Base",
@@ -78,6 +31,10 @@ const keyTerms = [
   {
     term: "BioBuffer™ Natural pH Kit",
     desc: "Citrus-derived citric acid buffers for gentle pH balancing of organic culture media.",
+  },
+  {
+    term: "VitaBurst™ Organic Vitamin Complex",
+    desc: "Fermentation-derived vitamins (B-complex, inositol, etc.) made from plant and yeast extracts. Simplifies vitamin supplementation for plant tissue culture.",
   },
   {
     term: "PhytoGel™ Organic Gelling Kit",
