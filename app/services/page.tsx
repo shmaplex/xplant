@@ -42,8 +42,8 @@ export default function ServicesPage() {
           <div className="space-y-6">
             <h2 className="text-2xl font-bold">Retail & Hobbyist Kits</h2>
             <p className="text-lg text-[#3E3E3E] leading-relaxed">
-              We believe tissue culture belongs on every grower’s bench. Our
-              retail products are designed to make plant propagation
+              We believe tissue culture belongs on every grower&apos;s bench.
+              Our retail products are designed to make plant propagation
               approachable at home while maintaining professional quality.
             </p>
             <ul className="list-disc list-inside text-[#444] space-y-2 pl-2">

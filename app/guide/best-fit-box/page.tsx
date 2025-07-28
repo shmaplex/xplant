@@ -11,7 +11,7 @@ const accentColors = [
   {
     badge: "bg-[#8752c8]",
     header: "bg-psybeam-purple/30",
-    title: "text-psybeam-purple",
+    title: "text-[#3e2b53]",
   },
   {
     badge: "bg-[#2e3f36]",
@@ -31,7 +31,7 @@ const accentColors = [
   {
     badge: "bg-[#593380]",
     header: "bg-psybeam-purple/40",
-    title: "text-psybeam-purple",
+    title: "text-[#3e2b53]",
   },
   { badge: "bg-[#5a7c1f]", header: "bg-[#b7ef48]/40", title: "text-[#5a7c1f]" },
   {
@@ -52,7 +52,7 @@ const accentColors = [
   {
     badge: "bg-[#6c3ebf]",
     header: "bg-psybeam-purple/50",
-    title: "text-psybeam-purple",
+    title: "text-[#3e2b53]",
   },
   { badge: "bg-[#46641e]", header: "bg-[#b7ef48]/50", title: "text-[#46641e]" },
   {
