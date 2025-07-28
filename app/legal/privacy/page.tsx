@@ -95,9 +95,8 @@ export default function PrivacyPolicy() {
       <p>
         If you have any questions about this policy or how we handle your data,
         you can reach us at{" "}
-        <a href="mailto:contact@shmaplexplant.com">contact@shmaplexplant.com</a>{" "}
-        or call us at{" "}
-        <a href="tel:+821012345678">&#43;82&nbsp;10&#8209;1234&#8209;5678</a>.
+        <a href="mailto:team@shmaplex.com">team@shmaplex.com</a> or call us at{" "}
+        <a href="tel:+8201042012407">&#43;82&nbsp;10&#8209;4201&#8209;2407</a>.
       </p>
     </LegalPage>
   );

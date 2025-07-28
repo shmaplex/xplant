@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { guideLinks } from "@/data/navigation";
 
 export default function Footer() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -30,7 +31,7 @@ export default function Footer() {
 
   return (
     <footer className="bg-[#F7F2EC] text-[#1A1A1A] text-sm px-6 sm:px-10 py-12 border-t border-[#DAD7D2]">
-      <div className="max-w-6xl mx-auto grid gap-8 sm:grid-cols-6 text-center sm:text-left">
+      <div className="max-w-6xl mx-auto grid gap-8 sm:grid-cols-6 text-center sm:text-left mb-8">
         {/* Branding */}
         <div className="sm:col-span-1">
           <Image
@@ -56,7 +57,7 @@ export default function Footer() {
                 About XPlant
               </Link>
             </li>
-            <li className="opacity-40 cursor-not-allowed">
+            <li>
               <Link href="/projects">Research Projects</Link>
             </li>
             <li className="opacity-40 cursor-not-allowed pointer-events-none">
@@ -71,7 +72,7 @@ export default function Footer() {
             Get Involved
           </h5>
           <ul className="space-y-1">
-            <li>
+            {/* <li>
               <a
                 href="https://www.youtube.com/@ShmaplexPlant"
                 target="_blank"
@@ -79,9 +80,9 @@ export default function Footer() {
               >
                 Subscribe on YouTube
               </a>
-            </li>
+            </li> */}
             <li className="text-[#999] cursor-not-allowed">
-              Join Discord (Coming Soon)
+              Join Discord (Soon)
             </li>
             <li>
               <Link href="/shop" className="hover:text-[#B7EF48] transition">
@@ -102,7 +103,17 @@ export default function Footer() {
                 Tissue Culture FAQ
               </Link>
             </li>
-            <li className="text-[#999] cursor-not-allowed">Resources</li>
+            {guideLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="hover:text-[#B7EF48] transition"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+            {/* <li className="text-[#999] cursor-not-allowed">Resources</li> */}
           </ul>
         </div>
 
@@ -158,7 +169,7 @@ export default function Footer() {
       </div>
 
       {/* Social Links */}
-      <div className="hidden flex justify-center gap-4 mt-10 text-2xl text-[#1A1A1A]">
+      <div className="hidden justify-center gap-4 mt-10 text-2xl text-[#1A1A1A]">
         <FaYoutube className="opacity-40 cursor-not-allowed" />
         {/* <Link href="https://www.youtube.com/@ShmaplexPlant" target="_blank">
           <FaYoutube className="hover:text-[#B7EF48] transition cursor-pointer" />
