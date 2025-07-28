@@ -25,7 +25,7 @@ export const products: Product[] = [
   {
     id: "orchid-starter-kit",
     title: "Orchid Starter Kit",
-    image: "/shop/png/orchid-starter-kit.png",
+    image: "/shop/jpg/propagation-kits.jpg",
     images: [
       "/shop/png/orchid-starter-kit.png",
       "/shop/png/orchid-starter-kit-2.png",
@@ -58,7 +58,7 @@ export const products: Product[] = [
   {
     id: "succulent-cactus-kit",
     title: "Succulent & Cactus Kit",
-    image: "/shop/png/succulent-cactus-kit.png",
+    image: "/shop/jpg/propagation-kits.jpg",
     images: ["/shop/png/succulent-cactus-kit.png"],
     category: "Propagation Kits",
     description:
@@ -87,7 +87,7 @@ export const products: Product[] = [
   {
     id: "houseplant-aroid-kit",
     title: "Houseplant & Aroid Kit",
-    image: "/shop/png/houseplant-aroid-kit.png",
+    image: "/shop/jpg/propagation-kits.jpg",
     images: ["/shop/png/houseplant-aroid-kit.png"],
     category: "Propagation Kits",
     description:
@@ -116,7 +116,7 @@ export const products: Product[] = [
   {
     id: "rare-exotic-collectors-kit",
     title: "Rare & Exotic Collector’s Kit",
-    image: "/shop/png/rare-exotic-collectors-kit.png",
+    image: "/shop/jpg/propagation-kits.jpg",
     images: ["/shop/png/rare-exotic-collectors-kit.png"],
     category: "Propagation Kits",
     description:
@@ -146,7 +146,7 @@ export const products: Product[] = [
   {
     id: "propagation-kit",
     title: "Propagation Kit",
-    image: "/shop/png/propagation-kit.png",
+    image: "/shop/jpg/propagation-kits.jpg",
     images: [
       "/shop/png/propagation-kit.png",
       "/shop/png/propagation-kit-2.png",
