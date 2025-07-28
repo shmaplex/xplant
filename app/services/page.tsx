@@ -37,29 +37,41 @@ export default function ServicesPage() {
           />
         </section>
 
-        {/* Retail & Hobbyist Services */}
+        {/* Retail & Hobbyist Kits */}
         <section className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold">Retail & Hobbyist Kits</h2>
+            <h2 className="text-3xl font-bold tracking-tight text-[#2F2F2F]">
+              Retail & Hobbyist Kits
+            </h2>
             <p className="text-lg text-[#3E3E3E] leading-relaxed">
               We believe tissue culture belongs on every grower&apos;s bench.
               Our retail products are designed to make plant propagation
               approachable at home while maintaining professional quality.
             </p>
-            <ul className="list-disc list-inside text-[#444] space-y-2 pl-2">
-              <li>Organic medium base with balanced nutrients</li>
-              <li>Proprietary additive blends for healthy growth</li>
-              <li>Ready-to-use starter kits for home labs</li>
-              <li>Hands-on workshops and guided courses</li>
+            <ul className="list-none text-[#444] space-y-3">
+              {[
+                "Organic medium base with balanced nutrients",
+                "Proprietary additive blends for healthy growth",
+                "Ready-to-use starter kits for home labs",
+                "Hands-on workshops and guided courses",
+              ].map((item) => (
+                <li key={item} className="flex items-start space-x-3">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[#F5B199] mt-2"></span>
+                  <span>{item}</span>
+                </li>
+              ))}
             </ul>
           </div>
-          <Image
-            src="/services/retail-kit.png"
-            alt="Organic medium kits"
-            width={700}
-            height={500}
-            className="rounded-xl shadow-lg w-full"
-          />
+          <div className="relative">
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-[#F9F5F0] via-[#FFF5E8] to-[#FFD8B2] -z-10" />
+            <Image
+              src="/services/retail-kit.png"
+              alt="Organic medium kits"
+              width={700}
+              height={500}
+              className="rounded-2xl shadow-xl w-full"
+            />
+          </div>
         </section>
 
         {/* Commercial Propagation */}
@@ -88,15 +100,20 @@ export default function ServicesPage() {
 
         {/* Mediums and Additives */}
         <section className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
-          <Image
-            src="/services/additives.png"
-            alt="Nutrient additives and culture media"
-            width={700}
-            height={500}
-            className="rounded-xl shadow-lg w-full"
-          />
-          <div className="space-y-6">
-            <h2 className="text-2xl font-bold">Organic Mediums & Additives</h2>
+          <div className="relative order-2 md:order-1">
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-tr from-[#F9F5F0] via-[#E9F3DF] to-[#C6E3B5] -z-10" />
+            <Image
+              src="/services/additives.png"
+              alt="Nutrient additives and culture media"
+              width={700}
+              height={500}
+              className="rounded-2xl shadow-xl w-full"
+            />
+          </div>
+          <div className="space-y-6 order-1 md:order-2">
+            <h2 className="text-3xl font-bold tracking-tight text-[#2F2F2F]">
+              Organic Mediums & Additives
+            </h2>
             <p className="text-lg text-[#3E3E3E] leading-relaxed">
               ShmaplexPlant has developed a base medium using natural organic
               components, combined with additive blends to address specific

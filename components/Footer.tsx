@@ -59,7 +59,7 @@ export default function Footer() {
             <li className="opacity-40 cursor-not-allowed">
               <Link href="/projects">Research Projects</Link>
             </li>
-            <li className="opacity-40 cursor-not-allowed">
+            <li className="opacity-40 cursor-not-allowed pointer-events-none">
               <Link href="/blog">Journal</Link>
             </li>
           </ul>
