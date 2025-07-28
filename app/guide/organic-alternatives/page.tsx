@@ -7,88 +7,82 @@ import { FaChevronDown } from "react-icons/fa";
 
 const sections = [
   {
-    title: "General",
+    title: "Propagation Kits",
     description:
-      "Organic base mediums made from natural plant materials instead of synthetic chemical mixes.",
-    products: ["PhytoBase™ Organic Medium", "Starter Propagation Kit"],
+      "Complete beginner and advanced tissue culture kits with everything you need to propagate plants at home or in the lab.",
+    products: [
+      "Propagation Kit",
+      "Orchid Starter Kit",
+      "Succulent & Cactus Kit",
+      "Houseplant & Aroid Kit",
+      "Rare & Exotic Collector’s Kit",
+    ],
+  },
+  {
+    title: "Organic Media",
+    description:
+      "Organic base media formulations derived from plant ingredients instead of synthetic chemical mixes.",
+    products: ["PhytoBase™ Organic Culture Medium"],
   },
   {
     title: "Amino Acids",
     description:
-      "Organic protein hydrolysates and natural nitrogen sources derived from plants or animals.",
-    products: ["Natural Amino Acid Supplement"],
+      "Organic protein hydrolysates and natural nitrogen sources derived from plants.",
+    products: ["PhytoAmino™ Plant Hydrolysate"],
   },
   {
     title: "Antimicrobials",
     description:
-      "Plant-derived antimicrobials such as neem, essential oils, or mild organic sterilants.",
-    products: ["Neem Oil Extract", "Organic Essential Oils Blend"],
+      "Natural anti-contamination additives and plant-based antimicrobials.",
+    products: ["PureShield™", "ChitoShield™ Chitosan Solution"],
   },
   {
     title: "Buffers",
     description:
-      "Natural pH stabilizers like citric acid, apple cider vinegar, and carbonates.",
-    products: ["Citric Acid Powder", "Apple Cider Vinegar"],
+      "Natural pH stabilizers and buffering systems derived from citrus extracts.",
+    products: ["BioBuffer™ Natural pH Kit", "BioTone™"],
   },
   {
     title: "Carbohydrates",
     description:
-      "Organic cane sugar, beet sugar, and other plant-based energy sources.",
-    products: ["Organic Cane Sugar", "Beet Sugar Crystals"],
-  },
-  {
-    title: "Dyes & Stains",
-    description:
-      "Typically not needed; natural pigments like beet or chlorophyll can be used if indicators are needed.",
-    products: ["Beetroot Pigment", "Chlorophyll Extract"],
+      "Natural plant-derived sugars used as an energy source in tissue culture.",
+    products: ["Organic Cane Sugar (included in kits)"],
   },
   {
     title: "Gelling Agents",
     description:
-      "Agar, carrageenan, and pectin—plant-based and organic-friendly.",
-    products: ["Organic Agar Powder", "Carrageenan Extract"],
+      "Plant-based alternatives to synthetic gel media for solidifying culture media.",
+    products: [
+      "PhytoBase™ Organic Agar",
+      "PhytoGelzan™ Plant-Based Gelling Agent",
+    ],
   },
   {
     title: "Plant Defense",
     description:
-      "Seaweed extracts, chitosan, and natural elicitors to strengthen plant immunity.",
-    products: ["Seaweed Extract Spray", "Chitosan Solution"],
+      "Natural additives to improve plant immune response and resilience.",
+    products: ["MycoLift™", "ChitoShield™ Chitosan Solution"],
   },
   {
     title: "Plant Growth Regulators",
     description:
-      "Natural plant hormones (auxins, cytokinins) extracted from plants or fermented, plus biostimulants.",
-    products: ["Natural Auxin Supplement", "Organic Cytokinin Booster"],
-  },
-  {
-    title: "pH Adjustment",
-    description:
-      "Natural options like lime, sulfur, or organic acids for balancing pH.",
-    products: ["Lime Powder", "Sulfur Granules", "Organic Acid Blend"],
-  },
-  {
-    title: "Solvents",
-    description:
-      "Replaced with water or food-grade ethanol when needed instead of lab solvents.",
-    products: ["Distilled Water", "Food-grade Ethanol"],
+      "Natural plant hormones and stimulants that guide growth and development.",
+    products: [
+      "ShootRise™ Organic Cytokinin Extract",
+      "RootFlow™ Natural Auxin Extract",
+      "XBoost™",
+    ],
   },
   {
     title: "Vitamins",
     description:
-      "Naturally derived vitamins produced through fermentation or plant extraction.",
-    products: ["Vitamin Mix from Fermentation"],
+      "Fermentation-derived vitamins for slow or difficult plant cultures.",
+    products: ["VitaBurst™ Organic Vitamin Complex"],
   },
   {
-    title: "Nutrients",
-    description:
-      "Compost, organic fertilizers, fish emulsions, and kelp extracts as nutrient sources.",
-    products: ["Kelp Extract", "Fish Emulsion Fertilizer", "Compost Blend"],
-  },
-  {
-    title: "Enzymes",
-    description:
-      "Naturally occurring enzymes produced via fermentation (for example, cellulases from fungi).",
-    products: ["Fermented Cellulase Enzyme"],
+    title: "Nutrients & Bioadditives",
+    description: "Organic inputs to enrich plant media with natural nutrients.",
+    products: ["BioTea™ Compost Extract"],
   },
 ];
 

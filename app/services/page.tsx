@@ -13,9 +13,17 @@ export default function ServicesPage() {
       <main className="flex-1 px-6 sm:px-10 py-16 space-y-24">
         {/* Intro */}
         <section className="max-w-5xl mx-auto text-center space-y-6">
-          <h1 className="text-4xl sm:text-5xl font-extrabold">
-            ShmaplexPlant Services
-          </h1>
+          <div className="flex flex-row space-x-2 items-center justify-center">
+            <Image
+              src="/svg/shmaplex-x-logo.svg"
+              alt="Shmaplex X Logo"
+              width={500}
+              height={250}
+            />
+            <h1 className="text-4xl sm:text-5xl font-extrabold uppercase">
+              Services
+            </h1>
+          </div>
           <p className="text-lg sm:text-xl text-[#4A4A4A] max-w-2xl mx-auto">
             From the lab bench to the greenhouse, we provide solutions for
             hobbyists, retail partners, and commercial growers.
