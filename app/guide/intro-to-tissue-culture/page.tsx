@@ -1,7 +1,5 @@
 "use client";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import Link from "next/link";
 import { FiArrowRight } from "react-icons/fi";
 import TissueCultureDiagram from "@/components/TissueCultureDiagram";
@@ -85,9 +83,7 @@ function extractBaseColor(color: string) {
 
 export default function TissueCultureIntroPage() {
   return (
-    <div className="font-sans bg-[#F8F4EC] text-[#2F2F2F] min-h-screen flex flex-col">
-      <Header />
-
+    <>
       <main className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-16">
         {/* Diagram first on mobile */}
         <div className="w-full h-full flex items-center justify-center order-1 lg:order-2">
@@ -159,8 +155,6 @@ export default function TissueCultureIntroPage() {
 
         <ShopCTA />
       </div>
-
-      <Footer />
-    </div>
+    </>
   );
 }

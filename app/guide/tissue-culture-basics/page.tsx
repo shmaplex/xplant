@@ -1,7 +1,5 @@
 "use client";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import Link from "next/link";
 import { FiArrowLeft } from "react-icons/fi";
 import { useSearchParams } from "next/navigation";
@@ -156,9 +154,7 @@ function TissueCultureBasicsContent() {
 
 export default function TissueCultureBasicsPage() {
   return (
-    <div className="font-sans bg-[#F8F4EC] text-[#2F2F2F] min-h-screen flex flex-col">
-      <Header />
-
+    <>
       <Suspense>
         <TissueCultureBasicsContent />
       </Suspense>
@@ -167,8 +163,6 @@ export default function TissueCultureBasicsPage() {
         <GuideCTA />
         <ShopCTA />
       </div>
-
-      <Footer />
-    </div>
+    </>
   );
 }

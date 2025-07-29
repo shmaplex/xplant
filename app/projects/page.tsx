@@ -1,7 +1,5 @@
 "use client";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { FaFlask, FaSeedling, FaUsers, FaLeaf } from "react-icons/fa";
 
 const projects = [
@@ -37,39 +35,33 @@ const projects = [
 
 export default function ProjectsPage() {
   return (
-    <div className="bg-[var(--milk-bio)] text-[var(--biochar-black)] min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1 px-6 sm:px-10 py-16">
-        <section className="max-w-4xl mx-auto text-center mb-16">
-          <h1 className="text-4xl sm:text-5xl font-extrabold uppercase">
-            Research Projects
-          </h1>
-          <p className="mt-6 text-lg sm:text-xl text-[var(--moss-shadow)] max-w-3xl mx-auto">
-            Exploring plant science, sustainable propagation, and
-            community-driven innovation.
-          </p>
-        </section>
+    <main className="flex-1 px-6 sm:px-10 py-16">
+      <section className="max-w-4xl mx-auto text-center mb-16">
+        <h1 className="text-4xl sm:text-5xl font-extrabold uppercase">
+          Research Projects
+        </h1>
+        <p className="mt-6 text-lg sm:text-xl text-[var(--moss-shadow)] max-w-3xl mx-auto">
+          Exploring plant science, sustainable propagation, and community-driven
+          innovation.
+        </p>
+      </section>
 
-        <section className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
-          {projects.map((proj) => (
-            <div
-              key={proj.title}
-              className={`rounded-3xl p-10 flex flex-col items-center text-center 
+      <section className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10">
+        {projects.map((proj) => (
+          <div
+            key={proj.title}
+            className={`rounded-3xl p-10 flex flex-col items-center text-center 
               shadow-md bg-gradient-to-br ${proj.gradient}
               transition-transform duration-300 hover:scale-[1.03] hover:shadow-lg`}
-            >
-              <div className="mb-5 text-[var(--biochar-black)]">
-                {proj.icon}
-              </div>
-              <h2 className="text-2xl font-bold mb-3">{proj.title}</h2>
-              <p className="text-base text-[var(--biochar-black)]/80 leading-relaxed">
-                {proj.description}
-              </p>
-            </div>
-          ))}
-        </section>
-      </main>
-      <Footer />
-    </div>
+          >
+            <div className="mb-5 text-[var(--biochar-black)]">{proj.icon}</div>
+            <h2 className="text-2xl font-bold mb-3">{proj.title}</h2>
+            <p className="text-base text-[var(--biochar-black)]/80 leading-relaxed">
+              {proj.description}
+            </p>
+          </div>
+        ))}
+      </section>
+    </main>
   );
 }

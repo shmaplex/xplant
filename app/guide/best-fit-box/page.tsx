@@ -129,108 +129,104 @@ export default function BestFitBoxPage() {
   const organicMedia = mediaTypes.slice(0, 15);
 
   return (
-    <div className="bg-milk-bio text-biochar-black min-h-screen flex flex-col">
-      <Header />
-      <main className="flex-1 max-w-7xl mx-auto px-6 py-16">
-        <h1 className="text-4xl font-extrabold mb-12">
-          XPlant Tissue Culture Media Guide
-        </h1>
-        <p className="mb-12 max-w-prose leading-relaxed text-moss-shadow">
-          Inspired by proven lab protocols and refined through our own organic
-          methods, this guide outlines 15 core media types that support clean,
-          reliable plant tissue culture. The “best fit box” philosophy lets the
-          plant lead, adapting these recipes across genera and genotypes.
-        </p>
+    <main className="flex-1 max-w-7xl mx-auto px-6 py-16">
+      <h1 className="text-4xl font-extrabold mb-12">
+        XPlant Tissue Culture Media Guide
+      </h1>
+      <p className="mb-12 max-w-prose leading-relaxed text-moss-shadow">
+        Inspired by proven lab protocols and refined through our own organic
+        methods, this guide outlines 15 core media types that support clean,
+        reliable plant tissue culture. The “best fit box” philosophy lets the
+        plant lead, adapting these recipes across genera and genotypes.
+      </p>
 
-        <KeyTerms />
+      <KeyTerms />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-          {organicMedia.map(
-            (
-              { name, description, keyIngredients, associatedPlants, funName },
-              i
-            ) => {
-              const color = accentColors[i];
-              const productsUsed = getProductsForFormula(name, keyIngredients);
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        {organicMedia.map(
+          (
+            { name, description, keyIngredients, associatedPlants, funName },
+            i
+          ) => {
+            const color = accentColors[i];
+            const productsUsed = getProductsForFormula(name, keyIngredients);
 
-              return (
-                <section
-                  key={i}
-                  className="relative rounded-2xl overflow-hidden shadow-md border border-spore-grey/50 hover:shadow-lg hover:scale-[1.02] transition-transform duration-300 flex flex-col"
+            return (
+              <section
+                key={i}
+                className="relative rounded-2xl overflow-hidden shadow-md border border-spore-grey/50 hover:shadow-lg hover:scale-[1.02] transition-transform duration-300 flex flex-col"
+              >
+                <div
+                  className={`absolute top-0 left-0 ${color.badge} text-white text-xs font-bold px-3 py-1 rounded-br-lg`}
                 >
-                  <div
-                    className={`absolute top-0 left-0 ${color.badge} text-white text-xs font-bold px-3 py-1 rounded-br-lg`}
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </div>
+                  {String(i + 1).padStart(2, "0")}
+                </div>
 
-                  <div className={`${color.header} px-6 pt-10 pb-4`}>
-                    <h2 className={`text-xl font-bold mb-1 ${color.title}`}>
-                      {name}
-                    </h2>
-                    <p className="text-moss-shadow text-sm italic">{funName}</p>
-                  </div>
+                <div className={`${color.header} px-6 pt-10 pb-4`}>
+                  <h2 className={`text-xl font-bold mb-1 ${color.title}`}>
+                    {name}
+                  </h2>
+                  <p className="text-moss-shadow text-sm italic">{funName}</p>
+                </div>
 
-                  <div className="bg-white/85 flex-1 px-6 py-6 flex flex-col justify-between">
-                    <div>
-                      <p className="mb-4 text-sm leading-relaxed">
-                        {description.trim()}
-                      </p>
+                <div className="bg-white/85 flex-1 px-6 py-6 flex flex-col justify-between">
+                  <div>
+                    <p className="mb-4 text-sm leading-relaxed">
+                      {description.trim()}
+                    </p>
 
-                      <div className="text-sm">
-                        <h3 className="font-semibold mb-1 text-moss-shadow">
-                          Key Ingredients
-                        </h3>
-                        <ul className="list-disc list-inside mb-4 text-moss-shadow/90">
-                          {keyIngredients.map((ing, idx) => (
-                            <li key={idx}>{ing}</li>
-                          ))}
-                        </ul>
+                    <div className="text-sm">
+                      <h3 className="font-semibold mb-1 text-moss-shadow">
+                        Key Ingredients
+                      </h3>
+                      <ul className="list-disc list-inside mb-4 text-moss-shadow/90">
+                        {keyIngredients.map((ing, idx) => (
+                          <li key={idx}>{ing}</li>
+                        ))}
+                      </ul>
 
-                        <h3 className="font-semibold mb-1 text-moss-shadow">
-                          Associated Plants
-                        </h3>
-                        <ul className="list-disc list-inside text-moss-shadow/90">
-                          {associatedPlants.map((plant, idx) => (
-                            <li key={idx}>{plant}</li>
-                          ))}
-                        </ul>
-                      </div>
+                      <h3 className="font-semibold mb-1 text-moss-shadow">
+                        Associated Plants
+                      </h3>
+                      <ul className="list-disc list-inside text-moss-shadow/90">
+                        {associatedPlants.map((plant, idx) => (
+                          <li key={idx}>{plant}</li>
+                        ))}
+                      </ul>
                     </div>
-
-                    {productsUsed.length > 0 && (
-                      <div className="mt-6 pt-4 border-t border-spore-grey">
-                        <h3 className="text-base font-bold mb-2">
-                          Products to Purchase
-                        </h3>
-                        <ul className="list-disc list-inside space-y-1 text-sm text-gray-800">
-                          {productsUsed.map((prodName) => {
-                            const prod = shmaplexProducts.find(
-                              (p) => p.name === (prodName as ProductKey)
-                            );
-
-                            if (!prod) return null; // skip if product doesn't exist
-
-                            return (
-                              <li key={prodName}>
-                                <strong>{prod.name}:</strong> {prod.use}{" "}
-                                <em className="text-gray-600">
-                                  (Replaces: {prod.replaces})
-                                </em>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </div>
-                    )}
                   </div>
-                </section>
-              );
-            }
-          )}
-        </div>
-      </main>
-      <Footer />
-    </div>
+
+                  {productsUsed.length > 0 && (
+                    <div className="mt-6 pt-4 border-t border-spore-grey">
+                      <h3 className="text-base font-bold mb-2">
+                        Products to Purchase
+                      </h3>
+                      <ul className="list-disc list-inside space-y-1 text-sm text-gray-800">
+                        {productsUsed.map((prodName) => {
+                          const prod = shmaplexProducts.find(
+                            (p) => p.name === (prodName as ProductKey)
+                          );
+
+                          if (!prod) return null; // skip if product doesn't exist
+
+                          return (
+                            <li key={prodName}>
+                              <strong>{prod.name}:</strong> {prod.use}{" "}
+                              <em className="text-gray-600">
+                                (Replaces: {prod.replaces})
+                              </em>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+              </section>
+            );
+          }
+        )}
+      </div>
+    </main>
   );
 }

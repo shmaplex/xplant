@@ -1,7 +1,5 @@
 "use client";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import Link from "next/link";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import { useSearchParams } from "next/navigation";
@@ -152,7 +150,7 @@ function PropagationKitsContent() {
                 </div>
 
                 <Link
-                  href="/shop/tissue-culture"
+                  href="/shop"
                   className="mt-auto inline-flex items-center justify-center gap-2
              bg-moss-shadow text-milk-bio 
              px-5 py-2 rounded-lg
@@ -208,8 +206,7 @@ function PropagationKitsContent() {
 
 export default function PropagationKitsPage() {
   return (
-    <div className="font-sans bg-milk-bio text-biochar-black min-h-screen flex flex-col">
-      <Header />
+    <>
       <Suspense>
         <PropagationKitsContent />
       </Suspense>
@@ -217,7 +214,6 @@ export default function PropagationKitsPage() {
         <ShopCTA />
         <CommunityCallout />
       </div>
-      <Footer />
-    </div>
+    </>
   );
 }

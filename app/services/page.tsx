@@ -1,15 +1,12 @@
 "use client";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import Image from "next/image";
 import Link from "next/link";
 import { FiArrowRight } from "react-icons/fi";
 
 export default function ServicesPage() {
   return (
-    <div className="font-sans bg-[#F8F4EC] text-[#2F2F2F] min-h-screen flex flex-col">
-      <Header />
+    <>
       <main className="flex-1 px-6 sm:px-10 py-16 space-y-24">
         {/* Intro */}
         <section className="max-w-5xl mx-auto text-center space-y-6">
@@ -148,7 +145,6 @@ export default function ServicesPage() {
           </div>
         </div>
       </section>
-      <Footer />
-    </div>
+    </>
   );
 }

@@ -26,7 +26,7 @@ export function ShopCTA() {
 
         <div className="inline-block rounded-xl p-[3px] bg-gradient-to-r from-future-lime/70 via-psybeam-purple/70 to-future-lime/70 shadow-md group hover:shadow-lg transition-shadow">
           <Link
-            href="/shop/tissue-culture"
+            href="/shop"
             className="flex items-center gap-4 bg-milk-bio group-hover:bg-white text-biochar-black px-10 py-4 rounded-xl text-lg font-semibold tracking-wide transition-colors"
           >
             Visit the Shop

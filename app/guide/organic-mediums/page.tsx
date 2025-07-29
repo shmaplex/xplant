@@ -93,8 +93,7 @@ function OrganicMediumsContent() {
 
 export default function OrganicMediumsPage() {
   return (
-    <div className="font-sans bg-[#F8F4EC] text-[#2F2F2F] min-h-screen flex flex-col">
-      <Header />
+    <>
       <Suspense>
         <OrganicMediumsContent />
       </Suspense>
@@ -106,7 +105,6 @@ export default function OrganicMediumsPage() {
         />
         <ShopCTA />
       </div>
-      <Footer />
-    </div>
+    </>
   );
 }
