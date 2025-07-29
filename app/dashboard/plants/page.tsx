@@ -1,12 +1,11 @@
-// app/dashboard/plants/page.tsx
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import PlantCard from "@/components/dashboard/plants/PlantCard";
 import { Plant, PlantStage } from "@/lib/types";
 
 export default async function PlantLogbook() {
-  const supabase = createServerComponentClient({ cookies });
+  // Use the custom server-side client
+  const supabase = await createClient();
 
   const {
     data: { session },

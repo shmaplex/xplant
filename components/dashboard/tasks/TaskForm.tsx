@@ -1,34 +1,53 @@
 "use client";
 
 import { useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/client";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
-export default function TaskForm() {
-  const supabase = createClientComponentClient();
+interface TaskFormProps {
+  onTaskAdded?: () => void;
+}
+
+export default function TaskForm({ onTaskAdded }: TaskFormProps) {
+  const supabase = createClient();
   const [form, setForm] = useState({
-    task_type: "Media Prep",
+    title: "",
+    category: "media_prep",
     due_date: "",
     notes: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { task_type, due_date, notes } = form;
+
+    // Get the current user
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      toast.error("You must be logged in to add tasks.");
+      return;
+    }
+
+    const { title, category, due_date, notes } = form;
 
     const { error } = await supabase.from("tasks").insert({
-      task_type,
+      user_id: user.id,
+      title,
+      category, // must be snake_case
       due_date,
       notes,
-      completed: false,
+      is_completed: false,
     });
 
     if (error) {
+      console.error("Insert error:", error);
       toast.error("Failed to add task");
     } else {
       toast.success("Task added!");
-      setForm({ task_type: "Media Prep", due_date: "", notes: "" });
+      setForm({ title: "", category: "media_prep", due_date: "", notes: "" });
+
+      if (onTaskAdded) onTaskAdded();
     }
   };
 
@@ -39,15 +58,25 @@ export default function TaskForm() {
     >
       <h2 className="text-xl font-semibold">Add Task</h2>
 
+      <input
+        type="text"
+        placeholder="Task title"
+        value={form.title}
+        onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
+        className="p-2 border rounded w-full"
+        required
+      />
+
       <select
-        value={form.task_type}
-        onChange={(e) => setForm((f) => ({ ...f, task_type: e.target.value }))}
+        value={form.category}
+        onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
         className="p-2 border rounded w-full"
       >
-        <option>Media Prep</option>
-        <option>Subculturing</option>
-        <option>Cleaning</option>
-        <option>Monitoring</option>
+        <option value="media_prep">Media Prep</option>
+        <option value="subculture">Subculturing</option>
+        <option value="cleaning">Cleaning</option>
+        <option value="monitoring">Monitoring</option>
+        <option value="other">Other</option>
       </select>
 
       <input
@@ -67,7 +96,7 @@ export default function TaskForm() {
 
       <button
         type="submit"
-        className="bg-moss-shadow text-white px-4 py-2 rounded"
+        className="bg-moss-shadow text-white px-4 py-2 rounded w-full"
       >
         Add Task
       </button>

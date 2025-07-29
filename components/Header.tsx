@@ -8,9 +8,7 @@ import DesktopNav from "@/components/nav/DesktopNav";
 import MobileMenu from "@/components/nav/MobileMenu";
 import AdminQuicklinks from "@/components/admin/AdminQuicklinks";
 import UserQuicklinks from "@/components/dashboard/UserQuicklinks";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import Image from "next/image";
-import Link from "next/link";
+import { createClient } from "@/lib/supabase/client";
 
 interface HeaderProps {
   showAdminQuicklinks?: boolean;
@@ -28,7 +26,7 @@ export default function Header({
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   useEffect(() => {
     const handleResize = () => setIsDesktop(window.innerWidth >= 640);
@@ -60,12 +58,10 @@ export default function Header({
   return (
     <>
       <header className="w-full shadow-md relative flex flex-col">
-        {/* Main header row */}
         <div className="w-full py-4 px-6 sm:px-10 bg-milk-bio flex items-center justify-between border-b border-spore-grey">
           <HeaderLogo />
 
           <div className="flex items-center gap-4">
-            {/* Mobile Menu Button */}
             <button
               className={`sm:hidden text-2xl text-moss-shadow ${
                 isShopPage && !navOpen ? "mr-48" : "mr-0"
@@ -86,7 +82,6 @@ export default function Header({
           </div>
         </div>
 
-        {/* Conditional Quicklinks */}
         {isLoggedIn && (
           <>
             {showAdminQuicklinks && <AdminQuicklinks />}
@@ -95,7 +90,6 @@ export default function Header({
         )}
       </header>
 
-      {/* Mobile overlay */}
       <div
         className={`fixed inset-0 bg-black/40 backdrop-blur-md z-50 transition-opacity duration-300 ease-in-out ${
           navOpen

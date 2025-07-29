@@ -1,19 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 export default function SignupPage() {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
   async function handleSignup(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
@@ -29,7 +30,7 @@ export default function SignupPage() {
     setLoading(false);
 
     if (!error) {
-      router.push("/login"); // or "/dashboard" if you auto-login
+      router.push("/login");
     }
   }
 
@@ -39,7 +40,6 @@ export default function SignupPage() {
 
       <main className="flex-1 flex items-center justify-center px-6 py-12">
         <div className="w-full max-w-2xl flex flex-col md:flex-row bg-white rounded-2xl shadow-lg overflow-hidden border border-spore-grey/40">
-          {/* Left Side — Form */}
           <div className="flex-1 p-8 flex flex-col justify-center">
             <h1 className="text-3xl font-bold mb-2 text-center md:text-left">
               Create Your Account
@@ -81,7 +81,6 @@ export default function SignupPage() {
             </form>
           </div>
 
-          {/* Right Side — Logo or Illustration */}
           <div className="relative hidden md:flex md:w-1/3 bg-milk-bio items-center justify-center p-8">
             <Image
               src="/svg/x-logo.svg"

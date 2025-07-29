@@ -10,12 +10,12 @@ import {
   FaTelegram,
 } from "react-icons/fa";
 import { useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/client";
 import { guideLinks } from "@/data/navigation";
 
 export default function Footer() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -32,7 +32,6 @@ export default function Footer() {
   return (
     <footer className="bg-[#F7F2EC] text-[#1A1A1A] text-sm px-6 sm:px-10 py-12 border-t border-[#DAD7D2]">
       <div className="max-w-6xl mx-auto grid gap-8 sm:grid-cols-6 text-center sm:text-left mb-8">
-        {/* Branding */}
         <div className="sm:col-span-1">
           <Image
             src="/svg/shmaplexplant-logo.svg"
@@ -46,7 +45,6 @@ export default function Footer() {
           </p>
         </div>
 
-        {/* About */}
         <div>
           <h5 className="text-[#42594D] font-semibold uppercase tracking-wide text-xs mb-2">
             About
@@ -66,21 +64,11 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Get Involved */}
         <div>
           <h5 className="text-[#42594D] font-semibold uppercase tracking-wide text-xs mb-2">
             Get Involved
           </h5>
           <ul className="space-y-1">
-            {/* <li>
-              <a
-                href="https://www.youtube.com/@ShmaplexPlant"
-                target="_blank"
-                className="hover:text-[#B7EF48] transition"
-              >
-                Subscribe on YouTube
-              </a>
-            </li> */}
             <li className="text-[#999] cursor-not-allowed">
               Join Discord (Soon)
             </li>
@@ -92,7 +80,6 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Learn */}
         <div>
           <h5 className="text-[#42594D] font-semibold uppercase tracking-wide text-xs mb-2">
             Learn
@@ -113,11 +100,9 @@ export default function Footer() {
                 </Link>
               </li>
             ))}
-            {/* <li className="text-[#999] cursor-not-allowed">Resources</li> */}
           </ul>
         </div>
 
-        {/* Fine Print */}
         <div>
           <h5 className="text-[#42594D] font-semibold uppercase tracking-wide text-xs mb-2">
             Fine Print
@@ -142,7 +127,6 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Account */}
         <div>
           <h5 className="text-[#42594D] font-semibold uppercase tracking-wide text-xs mb-2">
             Account
@@ -168,7 +152,6 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Social Links */}
       <div className="hidden justify-center gap-4 mt-10 text-2xl text-[#1A1A1A]">
         <FaYoutube className="opacity-40 cursor-not-allowed" />
         {/* <Link href="https://www.youtube.com/@ShmaplexPlant" target="_blank">

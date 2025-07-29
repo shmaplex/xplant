@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/client";
 
 type MediaComponent = {
   name: string;
@@ -18,21 +18,27 @@ type MediaRecipe = {
 };
 
 export default function MediaRecipeList() {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const [recipes, setRecipes] = useState<MediaRecipe[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("media_recipes")
         .select("*")
         .order("created_at", { ascending: false });
 
+      if (error) {
+        console.error("Error fetching media recipes:", error);
+        setLoading(false);
+        return;
+      }
+
       if (data) setRecipes(data);
       setLoading(false);
     })();
-  }, []);
+  }, [supabase]);
 
   if (loading)
     return <p className="text-center text-sm text-spore-grey">Loading...</p>;

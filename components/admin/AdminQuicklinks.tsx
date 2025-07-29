@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/client";
 import { useState } from "react";
 import { FiGrid, FiUsers, FiBox, FiBook, FiSettings } from "react-icons/fi";
 import { FaSignOutAlt } from "react-icons/fa";
 
 export default function AdminQuicklinks() {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const router = useRouter();
   const pathname = usePathname();
   const [hovered, setHovered] = useState<string | null>(null);
@@ -91,7 +91,6 @@ export default function AdminQuicklinks() {
         );
       })}
 
-      {/* Logout */}
       <div
         className="relative flex items-center group"
         onMouseEnter={() => setHovered("Logout")}

@@ -1,17 +1,16 @@
-"use client";
-
 import { useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import type { PlantTransfer, PlantBasic } from "@/lib/types";
+import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import type { PlantBasic, PlantTransfer } from "@/lib/types";
 
 export default function NewTransferForm({
+  plants,
   transferId,
 }: {
+  plants: PlantBasic[];
   transferId?: string;
 }) {
-  const [plants, setPlants] = useState<PlantBasic[]>([]);
   const [plantId, setPlantId] = useState("");
   const [notes, setNotes] = useState("");
   const [loading, setLoading] = useState(false);
@@ -19,17 +18,12 @@ export default function NewTransferForm({
     null
   );
 
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const router = useRouter();
 
   useEffect(() => {
-    const fetchPlants = async () => {
-      const { data } = await supabase.from("plants").select("id, species");
-      if (data) setPlants(data);
-    };
-
-    const fetchTransfer = async () => {
-      if (transferId) {
+    if (transferId) {
+      const fetchTransfer = async () => {
         const { data } = await supabase
           .from("plant_transfers")
           .select("*")
@@ -41,12 +35,10 @@ export default function NewTransferForm({
           setPlantId(data.plant_id);
           setNotes(data.notes ?? "");
         }
-      }
-    };
-
-    fetchPlants();
-    fetchTransfer();
-  }, [supabase, transferId]);
+      };
+      fetchTransfer();
+    }
+  }, [transferId, supabase]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,10 +53,7 @@ export default function NewTransferForm({
     if (editingTransfer) {
       const { error } = await supabase
         .from("plant_transfers")
-        .update({
-          plant_id: plantId,
-          notes,
-        })
+        .update({ plant_id: plantId, notes })
         .eq("id", editingTransfer.id);
 
       if (error) {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/client";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MediaComponentRow from "./MediaComponentRow";
@@ -13,7 +13,7 @@ type ComponentItem = {
 };
 
 export default function MediaRecipeForm() {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const [title, setTitle] = useState("");
   const [recipeComponents, setRecipeComponents] = useState<ComponentItem[]>([]);
   const [loading, setLoading] = useState(false);

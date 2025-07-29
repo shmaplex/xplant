@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/client";
 
 type ContaminationLog = {
   id: string;
@@ -13,20 +13,25 @@ type ContaminationLog = {
 
 export default function ContaminationList() {
   const [logs, setLogs] = useState<ContaminationLog[]>([]);
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   useEffect(() => {
     const fetchLogs = async () => {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("contamination_logs")
         .select("*")
         .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Error fetching contamination logs:", error);
+        return;
+      }
 
       if (data) setLogs(data);
     };
 
     fetchLogs();
-  }, []);
+  }, [supabase]);
 
   return (
     <div className="bg-white p-4 rounded-xl shadow space-y-4">

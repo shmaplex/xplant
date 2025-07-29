@@ -9,19 +9,26 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/client";
 
 export default function ContaminationStats() {
   const [data, setData] = useState<any[]>([]);
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   useEffect(() => {
     const fetchStats = async () => {
-      const { data } = await supabase.rpc("contamination_by_date"); // optional view or function
+      const { data, error } = await supabase.rpc("contamination_by_date");
+
+      if (error) {
+        console.error("Error fetching contamination stats:", error);
+        return;
+      }
+
       if (data) setData(data);
     };
+
     fetchStats();
-  }, []);
+  }, [supabase]);
 
   return (
     <div className="bg-white p-4 shadow rounded-xl">

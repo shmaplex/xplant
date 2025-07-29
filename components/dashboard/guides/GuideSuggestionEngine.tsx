@@ -2,23 +2,35 @@
 
 import { useEffect, useState } from "react";
 import type { Guide } from "@/lib/types";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/client";
 
 export default function GuideSuggestionEngine({ tags }: { tags: string[] }) {
   const [suggestions, setSuggestions] = useState<Guide[]>([]);
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   useEffect(() => {
     const fetchSuggestions = async () => {
-      if (tags.length === 0) return;
-      const { data } = await supabase
+      if (tags.length === 0) {
+        setSuggestions([]);
+        return;
+      }
+
+      const { data, error } = await supabase
         .from("guides")
         .select("*")
         .contains("tags", tags);
+
+      if (error) {
+        console.error("Failed to fetch guide suggestions:", error);
+        setSuggestions([]);
+        return;
+      }
+
       if (data) setSuggestions(data);
     };
+
     fetchSuggestions();
-  }, [tags]);
+  }, [tags, supabase]);
 
   return (
     <div className="bg-white rounded-xl shadow p-4">

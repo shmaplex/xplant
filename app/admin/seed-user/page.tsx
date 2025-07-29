@@ -1,18 +1,16 @@
-// app/dashboard/admin/seed-user/page.tsx
-
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/server";
 import SeedUserPage from "./SeedUserPage";
 
 export default async function ProtectedSeedPage() {
-  const supabase = createServerComponentClient({ cookies });
+  // Create Supabase server client — this handles cookies internally
+  const supabase = await createClient();
 
   const {
     data: { session },
   } = await supabase.auth.getSession();
 
-  const allowedEmails = ["team@shmaplex.com"]; // 👈 add your admin email(s) here
+  const allowedEmails = ["team@shmaplex.com"]; // 👈 your admin emails
 
   if (
     !session ||

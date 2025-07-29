@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/client";
 
 export default function AllPlantsAdminPage() {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
+
   const [plants, setPlants] = useState<any[]>([]);
 
   useEffect(() => {
@@ -12,6 +13,9 @@ export default function AllPlantsAdminPage() {
       const { data, error } = await supabase
         .from("plants")
         .select("id, species, user_id, created_at");
+      if (error) {
+        console.error("Error fetching plants:", error);
+      }
       if (data) setPlants(data);
     }
 

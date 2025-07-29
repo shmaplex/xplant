@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/client";
 import type { PlantStage, PlantSummary } from "@/lib/types";
 
 export default function StageTracker() {
   const [stages, setStages] = useState<PlantStage[]>([]);
   const [plants, setPlants] = useState<PlantSummary[]>([]);
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   useEffect(() => {
     const fetchData = async () => {

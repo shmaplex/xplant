@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/client";
 
 export default function ContaminationForm() {
   const [form, setForm] = useState({
@@ -10,13 +10,13 @@ export default function ContaminationForm() {
     photo: null as File | null,
   });
   const [uploading, setUploading] = useState(false);
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setUploading(true);
 
-    let imageUrl = null;
+    let imageUrl: string | null = null;
     if (form.photo) {
       const { data, error } = await supabase.storage
         .from("contamination-photos")
@@ -27,7 +27,7 @@ export default function ContaminationForm() {
         setUploading(false);
         return;
       }
-      imageUrl = data?.path;
+      imageUrl = data?.path ?? null;
     }
 
     const { error } = await supabase.from("contamination_logs").insert([
@@ -77,7 +77,7 @@ export default function ContaminationForm() {
       />
       <button
         type="submit"
-        className="bg-moss-shadow text-white px-4 py-2 rounded"
+        className="bg-moss-shadow text-white px-4 py-2 rounded disabled:opacity-50"
         disabled={uploading}
       >
         {uploading ? "Logging..." : "Submit"}

@@ -22,14 +22,14 @@ export interface Plant {
   source: string;
   initial_n_date: string;
   initial_i_date: string;
-  current_stage: PlantStage;
+  current_stage?: PlantStage | null;
   transfer_cycle: number;
   media: string[];
   notes?: string;
   photo_url?: string;
   created_at: string;
 
-  plant_stages?: PlantStage[]; // for related queries
+  plant_stages?: PlantStage[];
 }
 
 export type PlantBasic = {
@@ -63,10 +63,12 @@ export type Task = {
 export type ContaminationLog = {
   id: string;
   plant_id: string;
+  type: "mold" | "bacteria" | "hyperhydricity" | "other";
   issue: string;
   description?: string;
   photo_url?: string;
-  logged_at: string;
+  log_date: string;
+  created_at: string;
 };
 
 type MediaComponent = {

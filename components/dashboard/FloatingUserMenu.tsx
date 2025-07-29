@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
 import Link from "next/link";
 import { floatingUserMenuLinks } from "@/data/floatingUserMenuLinks";
@@ -10,8 +10,12 @@ import { floatingUserMenuLinks } from "@/data/floatingUserMenuLinks";
 export default function FloatingUserMenu() {
   const [userId, setUserId] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const router = useRouter();
+
+  const handleLinkClick = () => {
+    setIsOpen(false);
+  };
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -60,7 +64,10 @@ export default function FloatingUserMenu() {
               <li key={index}>
                 {item.action === "logout" ? (
                   <button
-                    onClick={handleLogout}
+                    onClick={async () => {
+                      await handleLogout();
+                      handleLinkClick();
+                    }}
                     className="w-full text-left px-4 py-3 hover:bg-red-100 text-red-600"
                   >
                     {item.label}
@@ -69,6 +76,7 @@ export default function FloatingUserMenu() {
                   <Link
                     href={item.href!}
                     className="block px-4 py-3 hover:bg-spore-grey/30"
+                    onClick={handleLinkClick} // <-- close menu on link click
                   >
                     {item.label}
                   </Link>

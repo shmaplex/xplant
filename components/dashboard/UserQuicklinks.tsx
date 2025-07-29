@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/client";
 import { useState } from "react";
 import { FaSignOutAlt, FaLeaf, FaFlask, FaCalendarAlt } from "react-icons/fa";
 import { MdAddCircleOutline } from "react-icons/md";
 
 export default function UserQuicklinks() {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const router = useRouter();
   const [hovered, setHovered] = useState<string | null>(null);
 

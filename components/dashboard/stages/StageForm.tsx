@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/client";
 import type { PlantSummary } from "@/lib/types";
 
 export default function StageForm() {
@@ -14,7 +14,7 @@ export default function StageForm() {
     notes: "",
   });
 
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   useEffect(() => {
     const loadPlants = async () => {

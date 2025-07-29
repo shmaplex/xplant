@@ -1,9 +1,9 @@
-// /dashboard/transfers/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useUser } from "@supabase/auth-helpers-react";
+
+import { createClient } from "@/lib/supabase/client";
 import TransferList from "@/components/dashboard/transfers/TransferList";
 import TransferWarning from "@/components/dashboard/transfers/TransferWarning";
 import TransferTimeline from "@/components/dashboard/transfers/TransferTimeline";
@@ -11,31 +11,33 @@ import NewTransferForm from "@/components/dashboard/transfers/NewTransferForm";
 import type { Plant, PlantTransfer } from "@/lib/types";
 
 export default function TransfersPage() {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const user = useUser();
+
   const [plants, setPlants] = useState<Plant[]>([]);
   const [transfers, setTransfers] = useState<PlantTransfer[]>([]);
   const [selectedPlantId, setSelectedPlantId] = useState<string | null>(null);
 
+  const fetchData = async () => {
+    if (!user) return;
+
+    const { data: plantData, error: plantError } = await supabase
+      .from("plants")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false });
+
+    const { data: transferData, error: transferError } = await supabase
+      .from("plant_transfers")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: true });
+
+    if (!plantError) setPlants(plantData ?? []);
+    if (!transferError) setTransfers(transferData ?? []);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      if (!user) return;
-      const { data: plantData } = await supabase
-        .from("plants")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false });
-
-      const { data: transferData } = await supabase
-        .from("plant_transfers")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: true });
-
-      setPlants(plantData || []);
-      setTransfers(transferData || []);
-    };
-
     fetchData();
   }, [user]);
 
@@ -50,7 +52,6 @@ export default function TransfersPage() {
         Transfer Cycle Tracker
       </h1>
 
-      {/* Plant Selector */}
       <div className="mb-6">
         <label className="block mb-2 text-[var(--moss-shadow)] font-semibold">
           Select Plant:
@@ -63,28 +64,24 @@ export default function TransfersPage() {
           <option value="">All Plants</option>
           {plants.map((plant) => (
             <option key={plant.id} value={plant.id}>
-              {plant.species} – {plant.current_stage}
+              {plant.species} – {plant.current_stage?.stage || "No stage"}
             </option>
           ))}
         </select>
       </div>
 
-      {/* New Transfer Form */}
       <NewTransferForm plants={plants} />
 
-      {/* Warning */}
       {selectedPlant && (
         <div className="my-6">
           <TransferWarning plant={selectedPlant} />
         </div>
       )}
 
-      {/* Timeline */}
       <div className="my-6">
         <TransferTimeline transfers={filteredTransfers} />
       </div>
 
-      {/* Transfer List */}
       <div className="my-6">
         <TransferList transfers={filteredTransfers} />
       </div>

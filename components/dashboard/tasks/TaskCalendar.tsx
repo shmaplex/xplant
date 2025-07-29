@@ -1,49 +1,44 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import type { Task } from "@/lib/types";
 
 const localizer = momentLocalizer(moment);
 
-// Define the type for each calendar event
-type CalendarEvent = {
-  id: string;
-  title: string;
-  start: Date;
-  end: Date;
-  allDay: boolean;
-};
+export default function TaskCalendar({ tasks }: { tasks: Task[] }) {
+  const events = tasks.map((t) => ({
+    id: t.id,
+    title: t.title ?? "Untitled Task",
+    start: new Date(t.due_date),
+    end: new Date(t.due_date),
+    allDay: true,
+    isCompleted: t.is_completed,
+  }));
 
-export default function TaskCalendar() {
-  const supabase = createClientComponentClient();
-  const [events, setEvents] = useState<CalendarEvent[]>([]);
-
-  useEffect(() => {
-    const fetchTasks = async () => {
-      const { data, error } = await supabase.from("tasks").select("*");
-      if (error) {
-        console.error("Error fetching tasks:", error.message);
-        return;
-      }
-
-      if (data) {
-        const evs: CalendarEvent[] = data.map((t: Task) => ({
-          id: t.id,
-          title: `${t.title ?? "Untitled Task"}${t.is_completed ? " ✅" : ""}`,
-          start: new Date(t.due_date),
-          end: new Date(t.due_date),
-          allDay: true,
-        }));
-        setEvents(evs);
-      }
+  const eventStyleGetter = (event: any) => {
+    const style = {
+      backgroundColor: event.isCompleted ? "#6b7280" : "#84cc16", // gray if done, green if not
+      color: "white",
+      borderRadius: "4px",
+      border: "none",
+      padding: "2px 6px",
+      fontWeight: "600",
     };
+    return {
+      style,
+    };
+  };
 
-    fetchTasks();
-  }, []);
+  // Custom event component to add strikethrough on title if completed
+  const Event = ({ event }: { event: any }) => (
+    <span
+      style={{ textDecoration: event.isCompleted ? "line-through" : "none" }}
+    >
+      {event.title} {event.isCompleted ? "✅" : ""}
+    </span>
+  );
 
   return (
     <div className="bg-white p-4 rounded-xl shadow">
@@ -56,6 +51,8 @@ export default function TaskCalendar() {
           endAccessor="end"
           style={{ height: 500 }}
           className="rounded-md"
+          eventPropGetter={eventStyleGetter}
+          components={{ event: Event }}
         />
       </div>
     </div>

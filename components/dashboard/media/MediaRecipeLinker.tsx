@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { createClient } from "@/lib/supabase/client";
 
 type PlantOption = {
   id: string;
@@ -16,7 +16,7 @@ type RecipeOption = {
 };
 
 export default function MediaRecipeLinker() {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const [plants, setPlants] = useState<PlantOption[]>([]);
   const [recipes, setRecipes] = useState<RecipeOption[]>([]);
   const [selected, setSelected] = useState({ plant_id: "", recipe_id: "" });
@@ -24,17 +24,27 @@ export default function MediaRecipeLinker() {
 
   useEffect(() => {
     const load = async () => {
-      const { data: p } = await supabase.from("plants").select("id, species");
-      const { data: r } = await supabase
+      const { data: p, error: pError } = await supabase
+        .from("plants")
+        .select("id, species");
+      const { data: r, error: rError } = await supabase
         .from("media_recipes")
         .select("id, title");
 
+      if (pError) {
+        console.error("Error loading plants:", pError);
+        toast.error("Failed to load plants.");
+      }
+      if (rError) {
+        console.error("Error loading recipes:", rError);
+        toast.error("Failed to load recipes.");
+      }
       if (p) setPlants(p);
       if (r) setRecipes(r);
     };
 
     load();
-  }, []);
+  }, [supabase]);
 
   const link = async () => {
     if (!selected.plant_id || !selected.recipe_id) {

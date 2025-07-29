@@ -1,13 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/client";
 import { Plant } from "@/lib/types";
 import PlantCard from "./PlantCard";
 
 export default function PlantList() {
   const [plants, setPlants] = useState<Plant[]>([]);
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   useEffect(() => {
     const fetchPlants = async () => {

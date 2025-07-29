@@ -5,7 +5,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/client";
 
 export default function NewPlantForm() {
   const [form, setForm] = useState({
@@ -17,11 +17,14 @@ export default function NewPlantForm() {
   });
 
   const router = useRouter();
-  const supabase = createClientComponentClient();
+  const supabase = createClient(); // use your wrapper
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const user = (await supabase.auth.getUser()).data.user;
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     const { data, error } = await supabase
       .from("plants")
@@ -39,6 +42,7 @@ export default function NewPlantForm() {
       .single();
 
     if (!error && data) {
+      // Insert initial stage
       await supabase.from("plant_stages").insert([
         {
           plant_id: data.id,
@@ -47,7 +51,10 @@ export default function NewPlantForm() {
           notes: "Initial stage",
         },
       ]);
+
       router.push(`/dashboard/plants/${data.id}`);
+    } else {
+      console.error("Error adding plant:", error);
     }
   }
 

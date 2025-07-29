@@ -2,21 +2,25 @@
 
 import { useEffect, useState } from "react";
 import type { Guide } from "@/lib/types";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/client";
 
 export default function GuideList() {
   const [guides, setGuides] = useState<Guide[]>([]);
   const [filter, setFilter] = useState("");
 
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   useEffect(() => {
     const loadGuides = async () => {
-      const { data } = await supabase.from("guides").select("*");
+      const { data, error } = await supabase.from("guides").select("*");
+      if (error) {
+        console.error("Failed to load guides:", error);
+        return;
+      }
       if (data) setGuides(data);
     };
     loadGuides();
-  }, []);
+  }, [supabase]);
 
   const filtered = guides.filter((g) =>
     g.tags?.some((tag) => tag.toLowerCase().includes(filter.toLowerCase()))

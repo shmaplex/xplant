@@ -1,33 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 import type { Task } from "@/lib/types";
 import TaskItem from "./TaskItem";
 import { toast } from "react-toastify";
 import { isToday, isThisWeek, parseISO } from "date-fns";
 
-export default function TaskList() {
-  const supabase = createClientComponentClient();
-  const [tasks, setTasks] = useState<Task[]>([]);
+export default function TaskList({
+  tasks,
+  onTasksChanged,
+}: {
+  tasks: Task[];
+  onTasksChanged: () => void;
+}) {
+  const supabase = createClient();
   const [filter, setFilter] = useState<"all" | "today" | "week">("all");
-
-  const fetchTasks = async () => {
-    const { data, error } = await supabase
-      .from("tasks")
-      .select("*")
-      .order("due_date");
-
-    if (error) {
-      toast.error("Failed to fetch tasks.");
-    } else {
-      setTasks(data || []);
-    }
-  };
-
-  useEffect(() => {
-    fetchTasks();
-  }, []);
 
   const filteredTasks = tasks.filter((task) => {
     const date = parseISO(task.due_date);
@@ -39,14 +27,21 @@ export default function TaskList() {
   const toggleTask = async (id: string, done: boolean) => {
     const { error } = await supabase
       .from("tasks")
-      .update({ is_completed: done }) // ✅ correct field
+      .update({ is_completed: done })
       .eq("id", id);
-
-    if (error) {
-      toast.error("Failed to update task");
-    } else {
+    if (error) toast.error("Failed to update task");
+    else {
       toast.success(done ? "Task completed!" : "Task re-opened.");
-      fetchTasks(); // ✅ refresh state after update
+      onTasksChanged();
+    }
+  };
+
+  const deleteTask = async (id: string) => {
+    const { error } = await supabase.from("tasks").delete().eq("id", id);
+    if (error) toast.error("Failed to delete task");
+    else {
+      toast.success("Task deleted!");
+      onTasksChanged();
     }
   };
 
@@ -73,7 +68,8 @@ export default function TaskList() {
           <TaskItem
             key={task.id}
             task={task}
-            onToggle={(done) => toggleTask(task.id, done)} // ✅ passes toggle action
+            onToggle={(done) => toggleTask(task.id, done)}
+            onDelete={() => deleteTask(task.id)} // <-- pass delete handler here
           />
         ))}
         {filteredTasks.length === 0 && (

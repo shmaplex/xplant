@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/lib/supabase/client";
 
 export default function AdminUsersPage() {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const [users, setUsers] = useState<any[]>([]);
 
   useEffect(() => {
@@ -12,11 +12,14 @@ export default function AdminUsersPage() {
       const { data, error } = await supabase
         .from("profiles")
         .select("id, email, created_at");
+      if (error) {
+        console.error("Error fetching users:", error);
+      }
       if (data) setUsers(data);
     }
 
     fetchUsers();
-  }, []);
+  }, [supabase]);
 
   return (
     <div>

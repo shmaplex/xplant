@@ -1,22 +1,24 @@
 "use client";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabaseClient";
+import { createClient } from "@/lib/supabase/client";
 
 export default function AuthCallbackPage() {
   const router = useRouter();
+  const supabase = createClient();
 
   useEffect(() => {
     const handleSession = async () => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
+
       if (session) {
-        router.replace("/schedule"); // redirect where you want after login
+        router.replace("/dashboard");
       }
     };
     handleSession();
-  }, [router]);
+  }, [router, supabase]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">

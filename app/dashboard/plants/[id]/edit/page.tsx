@@ -5,11 +5,11 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import type { Plant } from "@/lib/types"; // make sure this is imported
+import { createClient } from "@/lib/supabase/client";
+import type { Plant } from "@/lib/types";
 
 export default function EditPlantPage({ params }: { params: { id: string } }) {
-  const supabase = createClientComponentClient();
+  const supabase = createClient(); // use custom browser client
   const router = useRouter();
 
   const [form, setForm] = useState({
@@ -39,18 +39,24 @@ export default function EditPlantPage({ params }: { params: { id: string } }) {
           notes: data.notes ?? "",
         });
       }
+
       setLoading(false);
     })();
   }, [params.id, supabase]);
 
   async function handleUpdate(e: React.FormEvent) {
     e.preventDefault();
+
     const { error } = await supabase
       .from("plants")
       .update(form)
       .eq("id", params.id);
-    if (!error) router.push(`/dashboard/plants/${params.id}`);
-    else alert("Update failed.");
+
+    if (!error) {
+      router.push(`/dashboard/plants/${params.id}`);
+    } else {
+      alert("Update failed.");
+    }
   }
 
   if (loading) return <p className="p-6">Loading...</p>;

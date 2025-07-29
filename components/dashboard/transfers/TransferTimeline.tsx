@@ -1,7 +1,4 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import type { PlantTransfer } from "@/lib/types";
 import {
   LineChart,
   Line,
@@ -12,7 +9,6 @@ import {
   ResponsiveContainer,
   Label,
 } from "recharts";
-import type { PlantTransfer } from "@/lib/types";
 
 type TimelinePoint = {
   date: string;
@@ -20,30 +16,17 @@ type TimelinePoint = {
   transferNumber: number;
 };
 
-export default function TransferTimeline() {
-  const [timelineData, setTimelineData] = useState<TimelinePoint[]>([]);
-  const supabase = createClientComponentClient();
-
-  useEffect(() => {
-    const fetchTransfers = async () => {
-      const { data, error } = await supabase
-        .from("plant_transfers")
-        .select("*, plant:plants(species)")
-        .order("transfer_date", { ascending: true });
-
-      if (!error && data) {
-        const formatted: TimelinePoint[] = data.map((t: any) => ({
-          date: new Date(t.transfer_date).toLocaleDateString("en-US"),
-          plant: t.plant?.species ?? "Unnamed Plant",
-          transferNumber: t.transfer_number,
-        }));
-
-        setTimelineData(formatted);
-      }
-    };
-
-    fetchTransfers();
-  }, []);
+export default function TransferTimeline({
+  transfers,
+}: {
+  transfers: PlantTransfer[];
+}) {
+  // Prepare timeline data
+  const timelineData: TimelinePoint[] = transfers.map((t) => ({
+    date: new Date(t.transfer_date).toLocaleDateString("en-US"),
+    plant: t.plant?.species ?? "Unnamed Plant",
+    transferNumber: t.transfer_number || 0,
+  }));
 
   return (
     <div className="bg-white p-4 rounded-xl shadow mt-6">
@@ -70,12 +53,7 @@ export default function TransferTimeline() {
                 position: "insideLeft",
               }}
             />
-            <Tooltip
-              formatter={(val: any, name: any, props: any) => [
-                `${val}`,
-                "Transfer #",
-              ]}
-            />
+            <Tooltip formatter={(val: any) => [`${val}`, "Transfer #"]} />
             <Line
               type="monotone"
               dataKey="transferNumber"
