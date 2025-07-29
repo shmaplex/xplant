@@ -2,13 +2,11 @@
 
 import { useState, useRef } from "react";
 import { products as allProducts } from "@/data/products";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import SearchInput from "@/components/shop/SearchInput";
 import CategorySection from "@/components/shop/CategorySection";
+import CartButton from "@/components/CartButton";
 import CartDrawer from "@/components/CartDrawer";
 import { useCart } from "@/contexts/CartContext";
-import CartButton from "@/components/CartButton";
 import PreOrderCallout from "@/components/shop/PreOrderCallout";
 import CategoryNav from "@/components/shop/CategoryNav";
 
@@ -55,7 +53,7 @@ export default function ShopPage() {
     Record<string, Record<string, (typeof allProducts)[0][]>>
   >((acc, product) => {
     const cat = product.category || "Uncategorized";
-    const subcat = product.subcategory || "";
+    const subcat = product.subcategory || "General";
 
     if (!acc[cat]) acc[cat] = {};
     if (!acc[cat][subcat]) acc[cat][subcat] = [];
@@ -109,8 +107,7 @@ export default function ShopPage() {
   }
 
   return (
-    <div className="font-sans bg-[#F8F4EC] text-[#2F2F2F] min-h-screen flex flex-col">
-      <Header />
+    <>
       <CartButton />
 
       <main className="flex p-8 flex-1 w-full px-12 gap-6">
@@ -162,9 +159,6 @@ export default function ShopPage() {
           </div>
         </div>
       </main>
-
-      <Footer />
-
       <CartDrawer
         isOpen={isOpen}
         onClose={closeCart}
@@ -173,6 +167,6 @@ export default function ShopPage() {
         onUpdateQuantity={updateQuantity}
         onRemoveLine={removeLine}
       />
-    </div>
+    </>
   );
 }

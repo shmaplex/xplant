@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Plant, PlantStage } from "@/lib/types";
 import { formatDate } from "@/lib/date";
 import CurrentStage from "@/components/dashboard/plants/CurrentStage";
+import Breadcrumbs from "@/components/ui/Breadcrumbs";
 
 export default function PlantHero({
   plant,
@@ -11,6 +12,11 @@ export default function PlantHero({
   plant: Plant & { plant_stages?: PlantStage[] };
   currentStage?: PlantStage;
 }) {
+  const breadcrumbItems = [
+    { label: "Plants", href: "/dashboard/plants" },
+    { label: plant.species }, // current page, no href
+  ];
+
   const tooltips = {
     source: "Where the original plant material came from.",
     nDate:
@@ -38,6 +44,8 @@ export default function PlantHero({
 
       <div className="flex flex-col justify-center space-y-8">
         <div>
+          <Breadcrumbs items={breadcrumbItems} />
+
           <h1 className="text-4xl font-bold text-gray-900 mb-3">
             {plant.species}
           </h1>

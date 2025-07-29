@@ -11,9 +11,9 @@ export default function CartButton() {
     <button
       onClick={openCart}
       className={`
-        fixed top-6 right-4 z-40
+        fixed top-3 right-4 z-40
         bg-[var(--future-lime)] text-[var(--biochar-black)]
-        px-5 py-2.5 rounded-xl shadow-lg cursor-pointer
+        px-5 py-2.5 rounded-full shadow-lg cursor-pointer
         transition-all duration-500 ease-in-out
         focus:outline-none focus:ring-2 focus:ring-[var(--psybeam-purple)] focus:ring-offset-2
         flex items-center space-x-2

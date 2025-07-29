@@ -75,27 +75,31 @@ export default function LoginPage() {
             </div>
 
             {/* Mode switch */}
-            <div className="flex justify-center md:justify-start mb-6 rounded-lg overflow-hidden border border-spore-grey/30">
-              <button
-                onClick={() => setMode("password")}
-                className={`px-4 py-2 transition-colors ${
-                  mode === "password"
-                    ? "bg-future-lime text-moss-shadow font-semibold"
-                    : "bg-milk-bio text-moss-shadow/70 hover:bg-spore-grey/20"
-                }`}
-              >
-                Password
-              </button>
-              <button
-                onClick={() => setMode("magic")}
-                className={`px-4 py-2 transition-colors ${
-                  mode === "magic"
-                    ? "bg-future-lime text-moss-shadow font-semibold"
-                    : "bg-milk-bio text-moss-shadow/70 hover:bg-spore-grey/20"
-                }`}
-              >
-                Magic Link
-              </button>
+            <div className="flex justify-center md:justify-start mb-8">
+              <div className="inline-flex bg-spore-grey/20 p-1 rounded-full">
+                <button
+                  type="button"
+                  onClick={() => setMode("password")}
+                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+                    mode === "password"
+                      ? "bg-future-lime text-moss-shadow shadow-sm"
+                      : "text-moss-shadow/70 hover:text-moss-shadow"
+                  }`}
+                >
+                  Password
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setMode("magic")}
+                  className={`px-5 py-2 rounded-full text-sm font-medium transition-all ${
+                    mode === "magic"
+                      ? "bg-future-lime text-moss-shadow shadow-sm"
+                      : "text-moss-shadow/70 hover:text-moss-shadow"
+                  }`}
+                >
+                  Magic Link
+                </button>
+              </div>
             </div>
 
             {message && (
@@ -146,6 +150,15 @@ export default function LoginPage() {
                 </button>
               </form>
             )}
+            <div className="mt-6 text-center text-sm text-moss-shadow/70">
+              Don&apos;t have an account?{" "}
+              <a
+                href="/signup"
+                className="font-medium text-future-lime hover:text-lime-500 transition-colors"
+              >
+                Sign up
+              </a>
+            </div>
           </div>
 
           {/* Right side with logo */}

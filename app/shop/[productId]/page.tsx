@@ -3,13 +3,11 @@
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useCart } from "@/contexts/CartContext";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { products, Product } from "@/data/products";
+import CartButton from "@/components/CartButton";
+import CartDrawer from "@/components/CartDrawer";
 import ProductVideo from "@/components/shop/ProductVideo";
 import RelatedProducts from "@/components/shop/RelatedProducts";
-import CartDrawer from "@/components/CartDrawer";
-import CartButton from "@/components/CartButton";
 import ProductInfo from "@/components/shop/ProductInfo";
 
 // New imports for existing CTAs you mentioned
@@ -109,25 +107,15 @@ export default function ProductPage() {
           color: "var(--biochar-black)",
         }}
       >
-        <Header />
-        <CartButton />
         <main className="flex-grow w-full px-6 flex items-center justify-center text-xl">
           Product not found.
         </main>
-        <Footer />
       </div>
     );
   }
 
   return (
-    <div
-      className="min-h-screen flex flex-col"
-      style={{
-        backgroundColor: "var(--milk-bio)",
-        color: "var(--biochar-black)",
-      }}
-    >
-      <Header />
+    <>
       <CartButton />
       <main className="flex-grow w-full">
         <div className="flex flex-col">
@@ -153,7 +141,7 @@ export default function ProductPage() {
           </section>
 
           {/* Related Products */}
-          <section className="pb-12">
+          <section className="pb-12 px-12">
             <RelatedProducts
               related={
                 product.relatedProducts
@@ -165,7 +153,6 @@ export default function ProductPage() {
           </section>
         </div>
       </main>
-
       <CartDrawer
         isOpen={isOpen}
         onClose={closeCart}
@@ -174,7 +161,6 @@ export default function ProductPage() {
         onUpdateQuantity={updateQuantity}
         onRemoveLine={removeLine}
       />
-      <Footer />
-    </div>
+    </>
   );
 }

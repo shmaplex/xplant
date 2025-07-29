@@ -7,12 +7,12 @@ export default function StageHistory({ stages }: { stages: PlantStage[] }) {
 
   return (
     <section className="bg-white rounded-2xl p-6 shadow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 className="text-2xl font-semibold text-[var(--psybeam-purple)] mb-8">
+      <h2 className="text-xl font-semibold text-[#5b3fa8] mb-8">
         Stage History
       </h2>
 
       {!hasStages ? (
-        <div className="flex flex-col items-center justify-center py-20 bg-[var(--spore-grey)]/10 w-full rounded-xl text-center mx-auto">
+        <div className="flex flex-col items-center justify-center py-20 bg-spore-grey/10 w-full rounded-xl text-center mx-auto">
           <History className="w-14 h-14 text-[var(--psybeam-purple)] mb-5" />
           <p className="text-[var(--psybeam-purple)] text-xl font-semibold">
             No stage history found

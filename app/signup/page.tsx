@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function SignupPage() {
   const supabase = createClient();
@@ -79,6 +80,17 @@ export default function SignupPage() {
                 {loading ? "Creating..." : "Sign Up"}
               </button>
             </form>
+
+            {/* Subtle login link */}
+            <div className="mt-6 text-center text-sm text-moss-shadow/70">
+              Already have an account?{" "}
+              <a
+                href="/login"
+                className="font-medium text-future-lime hover:text-lime-500 transition-colors"
+              >
+                Log in
+              </a>
+            </div>
           </div>
 
           <div className="relative hidden md:flex md:w-1/3 bg-milk-bio items-center justify-center p-8">
