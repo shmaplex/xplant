@@ -14,7 +14,7 @@ export default async function MediaRecipeDetailPage({
   // Fetch media recipe
   const { data: recipe } = await supabase
     .from("media_recipes")
-    .select("*, linked_plant_ids") // no related_product_ids for now
+    .select("*, linked_plant_ids")
     .eq("id", id)
     .maybeSingle();
 
@@ -29,9 +29,14 @@ export default async function MediaRecipeDetailPage({
         .in("id", linkedPlantIds)
     : { data: [] };
 
+  // Decide if edit button should show
+  // TODO: Replace with permission check based on user session
+  const canEdit = true;
+  const editUrl = `/dashboard/media/${id}/edit`;
+
   return (
     <div className="w-full p-8 bg-spore-grey">
-      <div className="max-w-4xl mx-auto min-h-screen bg-white/40 p-12 rounded-2xl">
+      <div className="max-w-4xl mx-auto min-h-screen bg-white/40 p-12 rounded-2xl relative">
         <Breadcrumbs
           items={[
             { label: "Media Recipes", href: "/dashboard/media" },
@@ -52,10 +57,7 @@ export default async function MediaRecipeDetailPage({
           <h2 className="text-2xl font-semibold mb-4">Components</h2>
           <ul className="list-disc list-inside bg-white/70 p-4 rounded-xl shadow">
             {recipe.components.map((c: any, idx: number) => {
-              // If this component has an associated product_id, create a link
               const hasProduct = !!c.product_id;
-              console.log("c", c);
-              console.log("hasProduct", hasProduct);
               const content = (
                 <>
                   {c.qty} &ndash; {c.name}
@@ -66,7 +68,7 @@ export default async function MediaRecipeDetailPage({
                 <li key={idx} className="text-gray-700">
                   {hasProduct ? (
                     <Link
-                      href={`/shop/${c.product_id}`} // Adjust to your product route
+                      href={`/shop/${c.product_id}`}
                       className="text-psybeam-purple hover:underline"
                     >
                       {content}
@@ -96,6 +98,24 @@ export default async function MediaRecipeDetailPage({
               ))}
             </ul>
           </section>
+        )}
+
+        {/* Floating Edit Recipe Button */}
+        {canEdit && (
+          <Link
+            href={editUrl}
+            className="
+              fixed bottom-5 right-6 sm:right-24
+              bg-[var(--future-lime)] hover:bg-lime-500
+              text-black font-medium shadow-lg rounded-full
+              px-6 py-3
+              transition-colors duration-300
+              z-50
+            "
+            aria-label="Edit Recipe"
+          >
+            ✏️ Edit Recipe
+          </Link>
         )}
       </div>
     </div>

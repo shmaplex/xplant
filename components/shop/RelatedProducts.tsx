@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import ProductCard from "./ProductCard";
-import { Product } from "@/data/products";
+import type { Product } from "@/lib/types";
 
 type RelatedProductsProps = {
   related: Product[];

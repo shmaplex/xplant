@@ -1,6 +1,6 @@
 "use client";
 
-import { Product } from "@/data/products";
+import type { Product } from "@/lib/types";
 import { parsePrice, formatPrice } from "@/lib/price";
 import Breadcrumbs from "./Breadcrumbs";
 

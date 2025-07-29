@@ -8,6 +8,7 @@ export type Profile = {
   phone?: string;
   locale?: string;
   is_premium?: boolean;
+  is_banned?: boolean;
   metadata?: Record<string, any>;
   created_at: string;
   updated_at: string;
@@ -130,8 +131,15 @@ export type GuideSuggestion = {
    SHOP / PRODUCTS
 =========================================== */
 
+export interface Variant {
+  id: string;
+  title: string;
+  price: string;
+}
+
 export interface Product {
   id: string;
+  slug?: string;
   title: string;
   image?: string;
   category: string;
@@ -141,12 +149,8 @@ export interface Product {
   images?: string[];
   features?: string[];
   specs?: Record<string, any>;
-  youtube_video_id?: string;
-  variants?: {
-    id: string;
-    title: string;
-    price: string;
-  }[];
+  youtube_video_id?: string; // keep as-is to match DB naming
+  variants: Variant[];
 }
 
 export interface CategoryWithSub {

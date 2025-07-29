@@ -12,19 +12,64 @@ type ComponentItem = {
   qty: string;
 };
 
-export default function MediaRecipeForm() {
+export default function MediaRecipeForm({ recipeId }: { recipeId?: string }) {
   const supabase = createClient();
+
   const [title, setTitle] = useState("");
   const [recipeComponents, setRecipeComponents] = useState<ComponentItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [allComponentNames, setAllComponentNames] = useState<string[]>([]);
 
-  // Add initial blank component only on client
-  useEffect(() => {
-    setRecipeComponents([{ id: crypto.randomUUID(), name: "", qty: "" }]);
-  }, []);
+  // Product state
+  const [products, setProducts] = useState<any[]>([]);
+  const [linkedProductIds, setLinkedProductIds] = useState<string[]>([]);
 
-  // Fetch existing component names for suggestions
+  /**
+   * Initialize blank component only for new recipes
+   */
+  useEffect(() => {
+    if (!recipeId) {
+      setRecipeComponents([{ id: crypto.randomUUID(), name: "", qty: "" }]);
+    }
+  }, [recipeId]);
+
+  /**
+   * Load existing recipe when editing
+   */
+  useEffect(() => {
+    if (!recipeId) return;
+
+    const loadRecipe = async () => {
+      const { data, error } = await supabase
+        .from("media_recipes")
+        .select("title, components, linked_product_ids")
+        .eq("id", recipeId)
+        .maybeSingle();
+
+      if (error) {
+        console.error("Failed to fetch recipe:", error);
+        return;
+      }
+
+      if (data) {
+        setTitle(data.title || "");
+        setRecipeComponents(
+          (data.components || []).map((c: any) => ({
+            id: crypto.randomUUID(),
+            name: c.name,
+            qty: c.qty,
+          }))
+        );
+        setLinkedProductIds(data.linked_product_ids || []);
+      }
+    };
+
+    loadRecipe();
+  }, [recipeId, supabase]);
+
+  /**
+   * Fetch existing component names for autocomplete suggestions
+   */
   useEffect(() => {
     const fetchComponents = async () => {
       const { data, error } = await supabase
@@ -47,6 +92,31 @@ export default function MediaRecipeForm() {
     };
     fetchComponents();
   }, [supabase]);
+
+  /**
+   * Fetch all products for linking
+   */
+  useEffect(() => {
+    async function fetchProducts() {
+      const { data, error } = await supabase
+        .from("products")
+        .select("id,title")
+        .order("title");
+
+      if (error) {
+        console.error("Error loading products:", error);
+        return;
+      }
+      setProducts(data || []);
+    }
+    fetchProducts();
+  }, [supabase]);
+
+  const toggleLinkedProduct = (id: string) => {
+    setLinkedProductIds((prev) =>
+      prev.includes(id) ? prev.filter((pid) => pid !== id) : [...prev, id]
+    );
+  };
 
   const handleComponentChange = (
     id: string,
@@ -102,12 +172,14 @@ export default function MediaRecipeForm() {
     const { error } = await supabase.from("media_recipes").upsert(
       [
         {
+          id: recipeId, // ensures update if editing
           user_id: session.user.id,
-          name: title,
+          title,
           components: cleanComponents,
+          linked_product_ids: linkedProductIds,
         },
       ],
-      { onConflict: "unique_user_title" }
+      { onConflict: "id" }
     );
 
     setLoading(false);
@@ -117,12 +189,15 @@ export default function MediaRecipeForm() {
       console.error(error);
     } else {
       toast.success("Media recipe saved!");
-      setTitle("");
-      setRecipeComponents([{ id: crypto.randomUUID(), name: "", qty: "" }]);
+      if (!recipeId) {
+        // reset form only when creating new
+        setTitle("");
+        setRecipeComponents([{ id: crypto.randomUUID(), name: "", qty: "" }]);
+        setLinkedProductIds([]);
+      }
     }
   };
 
-  // Don't render anything until components are initialized on the client
   if (recipeComponents.length === 0) return null;
 
   return (
@@ -165,6 +240,24 @@ export default function MediaRecipeForm() {
         >
           + Add another component
         </button>
+      </fieldset>
+
+      <fieldset className="space-y-3">
+        <legend className="text-sm font-semibold text-moss-shadow mb-2">
+          Link to Products
+        </legend>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 max-h-48 overflow-y-auto border rounded p-2 bg-white">
+          {products.map((p) => (
+            <label key={p.id} className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={linkedProductIds.includes(p.id)}
+                onChange={() => toggleLinkedProduct(p.id)}
+              />
+              {p.title}
+            </label>
+          ))}
+        </div>
       </fieldset>
 
       <button
