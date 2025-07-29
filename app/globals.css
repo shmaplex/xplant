@@ -42,12 +42,6 @@
   .perspective-1000 {
     perspective: 1000px;
   }
-
-  .border-gradient-custom {
-    border-image-slice: 1;
-    border-width: 2px;
-    border-image-source: linear-gradient(to right, #ff4e50, #f9d423, #ff6e7f);
-  }
 }
 
 .disabled {
@@ -129,6 +123,7 @@ button:hover .arrow-icon {
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-handwriting: var(--font-patrick-hand);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -192,15 +187,21 @@ body {
   border-radius: 0.5rem;
 }
 .modern-calendar .react-calendar__tile--active {
-  background: #15803d !important;
-  color: white !important;
-}
-.modern-calendar .react-calendar__tile--now {
-  background: #f0fdf4 !important;
+  background: var(--future-lime) !important; /* palette color */
+  color: var(--biochar-black) !important;
+  font-weight: 600;
   border-radius: 0.5rem;
 }
+
+.modern-calendar .react-calendar__tile--now {
+  background: var(--spore-grey) !important; /* softer highlight */
+  border-radius: 0.5rem;
+  color: var(--moss-shadow) !important;
+}
+
 .has-checkin abbr {
   font-weight: 600;
+  color: var(--moss-shadow);
 }
 
 @keyframes gradient-slow {

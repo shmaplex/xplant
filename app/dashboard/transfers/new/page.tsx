@@ -8,26 +8,29 @@ import NewTransferForm from "@/components/dashboard/transfers/NewTransferForm";
 
 export default function NewTransferPage() {
   const searchParams = useSearchParams();
-  const transferId = searchParams.get("id") ?? undefined;
+  const transferId = searchParams?.get("id") ?? undefined;
+
   const [plants, setPlants] = useState<PlantBasic[]>([]);
   const supabase = createClient();
 
   useEffect(() => {
     const fetchPlants = async () => {
-      const { data } = await supabase.from("plants").select("id,species");
-      setPlants(data || []);
+      const { data, error } = await supabase
+        .from("plants")
+        .select("id,species");
+      if (!error) setPlants(data || []);
     };
     fetchPlants();
   }, [supabase]);
 
   return (
-    <div className="min-h-screen bg-[var(--milk-bio)] py-12 px-6 flex flex-col items-center">
-      <div className="w-full max-w-3xl bg-white rounded-2xl shadow-lg p-8 sm:p-12">
-        <h1 className="text-2xl sm:text-3xl font-semibold text-[var(--moss-shadow)] mb-4">
+    <div className="min-h-screen bg-[var(--milk-bio)] py-16 px-6 flex flex-col items-center">
+      <div className="w-full max-w-3xl bg-white rounded-3xl shadow-xl p-12">
+        <h1 className="text-3xl font-semibold text-[var(--moss-shadow)] mb-6">
           {transferId ? "Edit Transfer" : "New Transfer"}
         </h1>
 
-        <p className="mb-8 text-sm sm:text-base text-gray-600 max-w-lg">
+        <p className="mb-10 text-base text-[var(--moss-shadow)] max-w-lg leading-relaxed">
           {transferId
             ? "Update the details of your existing plant transfer."
             : "Fill out the form below to log a new plant transfer cycle."}

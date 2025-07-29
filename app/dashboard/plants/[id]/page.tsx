@@ -3,64 +3,49 @@ import PlantNotFoundClient from "../PlantNotFoundClient";
 import type { Plant, PlantStage } from "@/lib/types";
 import { createClient } from "@/lib/supabase/server";
 
-type PlantWithStages = Omit<Plant, "current_stage"> & {
-  plant_stages: PlantStage[];
-};
-
-export default async function PlantsPage({
-  params,
-}: {
+export default async function PlantsPage(props: {
   params: Promise<{ id: string }>;
 }) {
   try {
-    const { id } = await params;
+    const { id } = await props.params;
     const supabase = await createClient();
 
-    console.log("Fetching plant with id:", id);
-
-    // Log the session to verify RLS will allow the row
     const {
-      data: { session },
-      error: sessionError,
-    } = await supabase.auth.getSession();
-    console.log("Supabase session:", session);
-    if (sessionError) console.error("Error fetching session:", sessionError);
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+    if (userError) console.error("Error fetching user:", userError);
+
+    if (!user) return <PlantNotFoundClient />;
 
     // Fetch plant
     const { data: plantData, error: plantError } = await supabase
       .from("plants")
       .select("*")
       .eq("id", id)
+      .eq("user_id", user.id)
       .maybeSingle();
 
-    console.log("Plant query error:", plantError);
-    console.log("Plant query data:", plantData);
+    if (plantError) console.error("Error fetching plant:", plantError);
+    if (!plantData) return <PlantNotFoundClient />;
 
-    if (!plantData) {
-      // This usually means RLS blocked access or the record truly doesn't exist
-      return <PlantNotFoundClient />;
-    }
-
-    // Fetch stages separately
+    // Fetch stages
     const { data: stages, error: stagesError } = await supabase
       .from("plant_stages")
       .select("*")
       .eq("plant_id", id)
       .order("entered_on", { ascending: false });
 
-    if (stagesError) {
-      console.error("Error fetching plant stages:", stagesError);
-    }
+    if (stagesError) console.error("Error fetching stages:", stagesError);
 
     const current_stage = stages?.[0] ?? null;
-
     const plant: Plant = {
       ...plantData,
       plant_stages: stages ?? [],
       current_stage,
     };
 
-    // Fetch related data concurrently
+    // Related data
     const [
       { data: transfersRaw, error: transfersError },
       { data: logsRaw, error: logsError },
@@ -76,12 +61,12 @@ export default async function PlantsPage({
         .from("contamination_logs")
         .select("*")
         .eq("plant_id", id)
-        .order("logged_at", { ascending: false }),
+        .order("log_date", { ascending: false }),
 
       supabase
         .from("media_recipes")
         .select("*")
-        .contains("linked_plants", [id]),
+        .contains("linked_plant_ids", [id]),
     ]);
 
     if (transfersError)

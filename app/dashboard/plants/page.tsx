@@ -4,14 +4,14 @@ import PlantCard from "@/components/dashboard/plants/PlantCard";
 import { Plant, PlantStage } from "@/lib/types";
 
 export default async function PlantLogbook() {
-  // Use the custom server-side client
   const supabase = await createClient();
 
+  // Use getUser for verified auth
   const {
-    data: { session },
-  } = await supabase.auth.getSession();
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  if (!session?.user?.id) {
+  if (!user) {
     return (
       <div className="text-center py-16 text-moss-shadow">
         <h2 className="text-2xl font-semibold mb-2">
@@ -36,7 +36,7 @@ export default async function PlantLogbook() {
       notes,
       photo_url,
       created_at,
-      plant_stages (
+      plant_stages!plant_stages_plant_id_fkey (
         id,
         stage,
         room,
@@ -46,7 +46,7 @@ export default async function PlantLogbook() {
       )
     `
     )
-    .eq("user_id", session.user.id)
+    .eq("user_id", user.id)
     .order("created_at", { ascending: false });
 
   if (error || !plantsWithStages) {
@@ -59,7 +59,8 @@ export default async function PlantLogbook() {
     );
   }
 
-  const plants: Plant[] = (plantsWithStages || []).map((plant: any) => {
+  // Sort and attach latest stage
+  const plants: Plant[] = plantsWithStages.map((plant: any) => {
     const stages: PlantStage[] = plant.plant_stages || [];
     const latestStage =
       stages.sort(

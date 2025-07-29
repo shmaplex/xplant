@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
@@ -100,41 +102,52 @@ export default function NewTransferForm({
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="bg-white p-6 rounded-xl shadow space-y-4"
-    >
-      <h3 className="font-semibold text-moss-shadow text-lg">
-        {editingTransfer ? "Edit Transfer" : "Record New Transfer"}
-      </h3>
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div>
+        <label
+          htmlFor="plant"
+          className="block text-[var(--moss-shadow)] font-semibold mb-2"
+        >
+          Select Plant <span className="text-red-600">*</span>
+        </label>
+        <select
+          id="plant"
+          value={plantId}
+          onChange={(e) => setPlantId(e.target.value)}
+          required
+          className="w-full border border-spore-grey rounded-lg px-4 py-3 text-[var(--biochar-black)] focus:outline-none focus:ring-2 focus:ring-[var(--future-lime)]"
+        >
+          <option value="">-- Choose a Plant --</option>
+          {plants.map((plant) => (
+            <option key={plant.id} value={plant.id}>
+              {plant.species}
+            </option>
+          ))}
+        </select>
+      </div>
 
-      <select
-        value={plantId}
-        onChange={(e) => setPlantId(e.target.value)}
-        required
-        className="w-full border p-2 rounded"
-      >
-        <option value="">Select Plant</option>
-        {plants.map((plant) => (
-          <option key={plant.id} value={plant.id}>
-            {plant.species}
-          </option>
-        ))}
-      </select>
+      <div>
+        <label
+          htmlFor="notes"
+          className="block text-[var(--moss-shadow)] font-semibold mb-2"
+        >
+          Notes (optional)
+        </label>
+        <textarea
+          id="notes"
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          rows={4}
+          placeholder="Add any relevant details about the transfer..."
+          className="w-full border border-spore-grey rounded-lg px-4 py-3 text-[var(--biochar-black)] resize-none focus:outline-none focus:ring-2 focus:ring-[var(--future-lime)]"
+        />
+      </div>
 
-      <textarea
-        value={notes}
-        onChange={(e) => setNotes(e.target.value)}
-        placeholder="Notes about the transfer (optional)"
-        className="w-full border p-2 rounded"
-        rows={3}
-      />
-
-      <div className="flex items-center gap-4">
+      <div className="flex gap-4">
         <button
           type="submit"
           disabled={loading}
-          className="bg-future-lime text-moss-shadow font-bold px-4 py-2 rounded"
+          className="flex-1 bg-[var(--future-lime)] text-[var(--moss-shadow)] font-bold py-3 rounded-lg shadow hover:bg-lime-500 transition disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {editingTransfer ? "Update Transfer" : "Save Transfer"}
         </button>
@@ -144,9 +157,9 @@ export default function NewTransferForm({
             type="button"
             onClick={handleDelete}
             disabled={loading}
-            className="text-red-600 border border-red-600 px-4 py-2 rounded hover:bg-red-50"
+            className="flex-1 border border-red-600 text-red-600 font-semibold py-3 rounded-lg hover:bg-red-50 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Delete
+            Delete Transfer
           </button>
         )}
       </div>
