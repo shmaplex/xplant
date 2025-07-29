@@ -35,7 +35,7 @@ export default async function AdminDashboardPage() {
               {
                 label: "Seed Sample Data",
                 desc: "Run the seed_new_user() RPC for any user",
-                href: "/admin/seed-user",
+                href: "/admin/seed",
               },
               {
                 label: "Manage Users",

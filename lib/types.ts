@@ -1,4 +1,23 @@
-// lib/types.ts
+export type Profile = {
+  id: string; // matches auth.users.id
+  email: string;
+  full_name?: string;
+  username?: string;
+  avatar_url?: string;
+  bio?: string;
+  phone?: string;
+  locale?: string;
+  is_premium?: boolean;
+  metadata?: Record<string, any>;
+  created_at: string;
+  updated_at: string;
+};
+
+export type User = {
+  id: string;
+  email: string;
+  created_at: string;
+};
 
 export type PlantStage = {
   id: string;
@@ -71,7 +90,7 @@ export type ContaminationLog = {
   created_at: string;
 };
 
-type MediaComponent = {
+export type MediaComponent = {
   name: string;
   qty: string;
 };
@@ -82,6 +101,8 @@ export type MediaRecipe = {
   title: string;
   components: MediaComponent[];
   linked_plant_ids?: string[];
+  origin?: "user" | "system"; // new field for recipe source
+  status?: "active" | "archived"; // new field for future control
   created_at: string;
 };
 
@@ -104,3 +125,31 @@ export type GuideSuggestion = {
   suggestion?: string;
   created_at: string;
 };
+
+/* ===========================================
+   SHOP / PRODUCTS
+=========================================== */
+
+export interface Product {
+  id: string;
+  title: string;
+  image?: string;
+  category: string;
+  subcategory?: string;
+  tag?: string;
+  description?: string;
+  images?: string[];
+  features?: string[];
+  specs?: Record<string, any>;
+  youtube_video_id?: string;
+  variants?: {
+    id: string;
+    title: string;
+    price: string;
+  }[];
+}
+
+export interface CategoryWithSub {
+  name: string;
+  subcategories?: string[];
+}

@@ -1,21 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
-
-type MediaComponent = {
-  name: string;
-  qty: string;
-};
-
-type MediaRecipe = {
-  id: string;
-  title: string;
-  components?: MediaComponent[];
-  linked_plant_ids?: string[];
-  created_at?: string;
-};
+import { MediaRecipe } from "@/lib/types";
+import MediaRecipeCard from "@/components/dashboard/media/MediaRecipeCard";
 
 export default function MediaRecipeList() {
   const supabase = createClient();
@@ -40,14 +28,39 @@ export default function MediaRecipeList() {
     })();
   }, [supabase]);
 
-  if (loading)
-    return <p className="text-center text-sm text-spore-grey">Loading...</p>;
-
-  if (recipes.length === 0) {
+  if (loading) {
     return (
-      <div className="text-center text-spore-grey mt-10">
-        <p className="text-lg font-medium">No media recipes yet.</p>
-        <p className="text-sm">Add one using the form.</p>
+      <p className="text-center text-sm text-spore-grey py-20">
+        Loading media recipes...
+      </p>
+    );
+  }
+
+  if (!recipes || recipes.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-20 px-6 bg-white rounded-xl shadow-md border border-gray-200">
+        <svg
+          className="w-16 h-16 mb-6 text-psybeam-purple"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={1.5}
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 12h6m-3-3v6m4.5-9a6 6 0 11-9 0 6 6 0 019 0z"
+          />
+        </svg>
+
+        <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          No Media Recipes Yet
+        </h3>
+        <p className="text-center text-gray-500 max-w-xs">
+          It looks like you haven’t added any media recipes yet. Get started by
+          clicking the “Add Media” button above to create your first recipe!
+        </p>
       </div>
     );
   }
@@ -55,47 +68,7 @@ export default function MediaRecipeList() {
   return (
     <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3">
       {recipes.map((recipe) => (
-        <div
-          key={recipe.id}
-          className="bg-white rounded-2xl shadow p-5 border border-spore-grey/30 hover:shadow-lg transition"
-        >
-          <h3 className="text-lg font-semibold text-biochar-black mb-3">
-            {recipe.title}
-          </h3>
-
-          <div className="mb-3 text-sm text-moss-shadow space-y-1 min-h-[60px]">
-            {Array.isArray(recipe.components) &&
-            recipe.components.length > 0 ? (
-              recipe.components.map((comp, i) => (
-                <div key={i}>
-                  <span className="font-semibold">{comp.name}</span>: {comp.qty}
-                </div>
-              ))
-            ) : (
-              <p className="italic text-gray-400">No components listed.</p>
-            )}
-          </div>
-
-          {Array.isArray(recipe.linked_plant_ids) &&
-            recipe.linked_plant_ids.length > 0 && (
-              <div>
-                <p className="text-xs font-semibold text-psybeam-purple mb-2">
-                  Linked Plants
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {recipe.linked_plant_ids.map((pid) => (
-                    <Link
-                      key={pid}
-                      href={`/dashboard/plants/${pid}`}
-                      className="bg-future-lime text-biochar-black text-xs px-2 py-1 rounded hover:underline"
-                    >
-                      {pid.slice(0, 6)}...
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
-        </div>
+        <MediaRecipeCard key={recipe.id} recipe={recipe} />
       ))}
     </div>
   );

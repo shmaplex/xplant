@@ -7,6 +7,8 @@
   --spore-grey: #dad7d2;
   --psybeam-purple: #d3a8f9;
   --biochar-black: #1a1a1a;
+  --organic-amber: #d9a441;
+  --organic-amber-light: #f5e7b2;
 }
 
 @theme inline {
@@ -16,6 +18,8 @@
   --color-spore-grey: var(--spore-grey);
   --color-psybeam-purple: var(--psybeam-purple);
   --color-biochar-black: var(--biochar-black);
+  --color-organic-amber: var(--organic-amber);
+  --color-organic-amber-light: var(--organic-amber-light);
 }
 
 /* @layer base {

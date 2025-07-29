@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useState } from "react";
 import { FiGrid, FiUsers, FiBox, FiBook, FiSettings } from "react-icons/fi";
-import { FaSignOutAlt } from "react-icons/fa";
+// import { FaSignOutAlt } from "react-icons/fa";
 
 export default function AdminQuicklinks() {
   const supabase = createClient();
@@ -13,16 +13,16 @@ export default function AdminQuicklinks() {
   const pathname = usePathname();
   const [hovered, setHovered] = useState<string | null>(null);
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.refresh();
-    router.push("/");
-  };
+  // const handleLogout = async () => {
+  //   await supabase.auth.signOut();
+  //   router.refresh();
+  //   router.push("/");
+  // };
 
   const links = [
     {
       href: "/admin",
-      label: "Dashboard",
+      label: "Admin Dashboard",
       icon: <FiGrid size={18} />,
     },
     {
@@ -36,7 +36,7 @@ export default function AdminQuicklinks() {
       icon: <FiBox size={18} />,
     },
     {
-      href: "/admin/recipes",
+      href: "/admin/media",
       label: "Recipes",
       icon: <FiBook size={18} />,
     },
@@ -49,7 +49,7 @@ export default function AdminQuicklinks() {
 
   return (
     <nav
-      className="fixed top-[64px] right-4 flex flex-col gap-4 z-50"
+      className="fixed top-[64px] right-18 flex flex-col gap-4 z-50"
       aria-label="Admin Quicklinks"
     >
       {links.map(({ href, label, icon }) => {
@@ -64,11 +64,11 @@ export default function AdminQuicklinks() {
           >
             <Link
               href={href}
-              className={`w-10 h-10 flex items-center justify-center rounded-full shadow-md hover:shadow-lg text-[#333] transition hover:bg-white
+              className={`w-10 h-10 flex items-center justify-center rounded-full shadow-md hover:shadow-lg text-white transition hover:bg-black/80
                 ${
                   isActive
-                    ? "bg-white backdrop-blur border border-[var(--moss-shadow)]"
-                    : "bg-white/60 backdrop-blur"
+                    ? "bg-black backdrop-blur border border-[var(--moss-shadow)]"
+                    : "bg-black/40 backdrop-blur"
                 }
               `}
               aria-label={label}
@@ -91,7 +91,7 @@ export default function AdminQuicklinks() {
         );
       })}
 
-      <div
+      {/* <div
         className="relative flex items-center group"
         onMouseEnter={() => setHovered("Logout")}
         onMouseLeave={() => setHovered(null)}
@@ -114,7 +114,7 @@ export default function AdminQuicklinks() {
         >
           Logout
         </div>
-      </div>
+      </div> */}
     </nav>
   );
 }

@@ -42,7 +42,7 @@ export default function RootLayout({
         <FloatingUserMenu />
         <CartProvider>
           <div className="w-full font-sans bg-milk-bio text-biochar-black min-h-screen flex flex-col">
-            <Header showUserQuicklinks />
+            <Header showUserQuicklinks showAdminQuicklinks />
             {children}
             <Footer />
           </div>

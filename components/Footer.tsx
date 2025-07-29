@@ -133,14 +133,24 @@ export default function Footer() {
           </h5>
           <ul className="space-y-1">
             {isLoggedIn ? (
-              <li>
-                <button
-                  onClick={handleLogout}
-                  className="text-left w-full hover:text-[#B7EF48] transition"
-                >
-                  Logout
-                </button>
-              </li>
+              <>
+                <li>
+                  <Link
+                    href="/dashboard"
+                    className="hover:text-[#B7EF48] transition"
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+                <li>
+                  <button
+                    onClick={handleLogout}
+                    className="text-left w-full hover:text-[#B7EF48] transition"
+                  >
+                    Logout
+                  </button>
+                </li>
+              </>
             ) : (
               <li>
                 <Link href="/login" className="hover:text-[#B7EF48] transition">

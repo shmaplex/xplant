@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { products as allProducts } from "@/data/products";
+import { useState, useRef, useEffect } from "react";
+import { createClient } from "@/lib/supabase/client";
 import SearchInput from "@/components/shop/SearchInput";
 import CategorySection from "@/components/shop/CategorySection";
 import CartButton from "@/components/CartButton";
@@ -9,14 +9,14 @@ import CartDrawer from "@/components/CartDrawer";
 import { useCart } from "@/contexts/CartContext";
 import PreOrderCallout from "@/components/shop/PreOrderCallout";
 import CategoryNav from "@/components/shop/CategoryNav";
-
-interface CategoryWithSub {
-  name: string;
-  subcategories?: string[];
-}
+import { Product, CategoryWithSub } from "@/lib/types";
 
 export default function ShopPage() {
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const supabase = createClient();
+
   const {
     cartLines,
     addToCart,
@@ -28,6 +28,53 @@ export default function ShopPage() {
   } = useCart();
 
   const categoryRefs = useRef<Record<string, HTMLElement | null>>({});
+
+  // --- Fetch products and variants from Supabase ---
+  useEffect(() => {
+    async function fetchProducts() {
+      setLoading(true);
+      const { data: products, error } = await supabase
+        .from("products")
+        .select(
+          `
+          *,
+          product_variants (
+            id,
+            title,
+            price
+          )
+        `
+        )
+        .order("title", { ascending: true });
+
+      if (error) {
+        console.error("Error fetching products:", error);
+        setLoading(false);
+        return;
+      }
+
+      // Normalize data
+      const normalized = (products ?? []).map((p: any) => ({
+        id: p.id,
+        title: p.title,
+        image: p.image,
+        category: p.category,
+        subcategory: p.subcategory,
+        tag: p.tag,
+        description: p.description,
+        images: p.images || [],
+        features: p.features || [],
+        specs: p.specs || {},
+        youtube_video_id: p.youtube_video_id,
+        variants: p.product_variants || [],
+      }));
+
+      setAllProducts(normalized);
+      setLoading(false);
+    }
+
+    fetchProducts();
+  }, [supabase]);
 
   function handleAddToCart(
     variantId: string,
@@ -49,18 +96,19 @@ export default function ShopPage() {
   );
 
   // Group filtered products by category and subcategory
-  const grouped = filtered.reduce<
-    Record<string, Record<string, (typeof allProducts)[0][]>>
-  >((acc, product) => {
-    const cat = product.category || "Uncategorized";
-    const subcat = product.subcategory || "General";
+  const grouped = filtered.reduce<Record<string, Record<string, Product[]>>>(
+    (acc, product) => {
+      const cat = product.category || "Uncategorized";
+      const subcat = product.subcategory || "General";
 
-    if (!acc[cat]) acc[cat] = {};
-    if (!acc[cat][subcat]) acc[cat][subcat] = [];
+      if (!acc[cat]) acc[cat] = {};
+      if (!acc[cat][subcat]) acc[cat][subcat] = [];
 
-    acc[cat][subcat].push(product);
-    return acc;
-  }, {});
+      acc[cat][subcat].push(product);
+      return acc;
+    },
+    {}
+  );
 
   const categories: CategoryWithSub[] = Object.entries(grouped).map(
     ([cat, subcats]) => ({
@@ -123,40 +171,43 @@ export default function ShopPage() {
           <SearchInput value={search} onChange={setSearch} />
           <PreOrderCallout />
 
-          {/* Categories with subcategories */}
-          <div className="flex flex-col gap-10">
-            {categories.map(({ name: cat }) => {
-              const catSubcats = grouped[cat];
-              if (!catSubcats) return null;
+          {loading ? (
+            <div className="text-center mt-20">Loading products...</div>
+          ) : (
+            <div className="flex flex-col gap-10">
+              {categories.map(({ name: cat }) => {
+                const catSubcats = grouped[cat];
+                if (!catSubcats) return null;
 
-              return (
-                <div
-                  key={cat}
-                  ref={(el) => {
-                    categoryRefs.current[cat] = el;
-                  }}
-                  className="w-full"
-                >
-                  {Object.entries(catSubcats).map(([subcat, products]) => (
-                    <section
-                      key={subcat}
-                      ref={(el) => {
-                        categoryRefs.current[subcat] = el;
-                      }}
-                      className="mb-8"
-                    >
-                      <CategorySection
-                        mainCategory={cat}
-                        subCategory={subcat}
-                        products={products}
-                        onAddToCart={handleAddToCart}
-                      />
-                    </section>
-                  ))}
-                </div>
-              );
-            })}
-          </div>
+                return (
+                  <div
+                    key={cat}
+                    ref={(el) => {
+                      categoryRefs.current[cat] = el;
+                    }}
+                    className="w-full"
+                  >
+                    {Object.entries(catSubcats).map(([subcat, products]) => (
+                      <section
+                        key={subcat}
+                        ref={(el) => {
+                          categoryRefs.current[subcat] = el;
+                        }}
+                        className="mb-8"
+                      >
+                        <CategorySection
+                          mainCategory={cat}
+                          subCategory={subcat}
+                          products={products}
+                          onAddToCart={handleAddToCart}
+                        />
+                      </section>
+                    ))}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </main>
       <CartDrawer

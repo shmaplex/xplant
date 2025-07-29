@@ -98,29 +98,59 @@ export default async function PlantCultureDashboard() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {/* Plants */}
-            <div className="relative rounded-2xl shadow bg-gradient-to-br from-white to-milk-bio p-6">
-              <h3 className="font-semibold text-moss-shadow mb-3">
-                Your Cultured Plants
-              </h3>
-              <PlantList plants={plantsWithStages} />
+            <div className="relative rounded-2xl shadow bg-gradient-to-br from-white to-milk-bio flex flex-col">
+              <div className="p-6 flex-1">
+                <h3 className="font-semibold text-moss-shadow mb-3">
+                  Your Cultured Plants
+                </h3>
+                <PlantList plants={plantsWithStages} />
+              </div>
+              <div className="bg-milk-bio/70 px-6 py-3 rounded-b-2xl border-t border-gray-200">
+                <a
+                  href="/dashboard/plants"
+                  className="text-sm text-green-800 hover:text-green-600 font-medium"
+                >
+                  See all plants in the logbook →
+                </a>
+              </div>
             </div>
 
             {/* Tasks */}
-            <div className="relative rounded-2xl shadow bg-gradient-to-br from-white to-milk-bio p-6">
-              <h3 className="font-semibold text-moss-shadow mb-3">
-                Reminders & Tasks
-              </h3>
-              <TaskList tasks={tasks ?? []} />
+            <div className="relative rounded-2xl shadow bg-gradient-to-br from-white to-milk-bio flex flex-col">
+              <div className="p-6 flex-1">
+                <h3 className="font-semibold text-moss-shadow mb-3">
+                  Reminders & Tasks
+                </h3>
+                <TaskList tasks={tasks ?? []} />
+              </div>
+              <div className="bg-milk-bio/70 px-6 py-3 rounded-b-2xl border-t border-gray-200">
+                <a
+                  href="/dashboard/tasks"
+                  className="text-sm text-green-800 hover:text-green-600 font-medium"
+                >
+                  View all tasks →
+                </a>
+              </div>
             </div>
 
             {/* Media Recipes */}
-            <div className="relative rounded-2xl shadow bg-gradient-to-br from-white to-milk-bio p-6">
-              <h3 className="font-semibold text-moss-shadow mb-3">
-                Media Recipes
-              </h3>
-              <p className="text-gray-600 text-sm">
-                Save recipes using our organic products or custom inputs.
-              </p>
+            <div className="relative rounded-2xl shadow bg-gradient-to-br from-white to-milk-bio flex flex-col">
+              <div className="p-6 flex-1">
+                <h3 className="font-semibold text-moss-shadow mb-3">
+                  Media Recipes
+                </h3>
+                <p className="text-gray-600 text-sm">
+                  Save recipes using our organic products or custom inputs.
+                </p>
+              </div>
+              <div className="bg-milk-bio/70 px-6 py-3 rounded-b-2xl border-t border-gray-200">
+                <a
+                  href="/dashboard/media"
+                  className="text-sm text-green-800 hover:text-green-600 font-medium"
+                >
+                  Browse all recipes →
+                </a>
+              </div>
             </div>
           </div>
         </section>

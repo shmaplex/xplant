@@ -1,6 +1,6 @@
 "use client";
 
-import { Product } from "@/data/products";
+import { Product } from "@/lib/types";
 import ProductGrid from "./ProductGrid";
 
 type CategorySectionProps = {
