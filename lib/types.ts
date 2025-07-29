@@ -67,6 +67,7 @@ export type PlantTransfer = {
   plant?: {
     species: string;
   };
+  created_at: string;
 };
 
 export type Task = {
@@ -157,3 +158,14 @@ export interface CategoryWithSub {
   name: string;
   subcategories?: string[];
 }
+
+export type ContaminationLogWithRelations = ContaminationLog & {
+  plant_species?: string;
+  user_email?: string;
+};
+
+export type PlantTransferWithRelations = PlantTransfer & {
+  plant_species?: string;
+  user_email?: string;
+  transfer_cycle?: number;
+};

@@ -2,9 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
 export default async function AdminDashboardPage() {
-  // Create server Supabase client using your custom async util
   const supabase = await createClient();
-
   const {
     data: { session },
   } = await supabase.auth.getSession();
@@ -13,56 +11,68 @@ export default async function AdminDashboardPage() {
     redirect("/login");
   }
 
+  // Define all admin tools
+  const adminTools = [
+    {
+      label: "Manage Products",
+      desc: "View, edit, and delete products",
+      href: "/admin/products",
+    },
+    {
+      label: "Add New Product",
+      desc: "Create a new product and upload details",
+      href: "/admin/products/new",
+    },
+    {
+      label: "Seed Sample Data",
+      desc: "Run the seed_new_user() RPC for any user",
+      href: "/admin/seed",
+    },
+    {
+      label: "Manage Users",
+      desc: "Browse, promote, or remove users",
+      href: "/admin/users",
+    },
+    {
+      label: "View Logs",
+      desc: "Contamination & transfer logs across accounts",
+      href: "/admin/logs",
+    },
+    {
+      label: "Media Recipe Library",
+      desc: "Curate and edit shared media recipes",
+      href: "/admin/media",
+    },
+    {
+      label: "App Settings",
+      desc: "Global configuration (coming soon)",
+      href: "/admin/settings",
+    },
+    {
+      label: "Analytics",
+      desc: "View usage and growth metrics (coming soon)",
+      href: "#",
+    },
+  ];
+
   return (
     <div className="bg-[var(--milk-bio)] min-h-screen">
       <div className="bg-[var(--psybeam-purple)] text-white py-14 shadow-lg">
         <div className="max-w-5xl mx-auto text-center px-6">
           <h1 className="text-4xl font-bold mb-2">Admin Control Center</h1>
           <p className="text-[var(--spore-grey)] text-lg">
-            Manage users, seed data, and oversee app health.
+            Manage users, products, data, and oversee app health.
           </p>
         </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-6 py-16 space-y-16">
-        {/* Admin Tools */}
         <section>
           <h2 className="text-2xl font-semibold mb-6 text-[var(--moss-shadow)]">
             Admin Tools
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[
-              {
-                label: "Seed Sample Data",
-                desc: "Run the seed_new_user() RPC for any user",
-                href: "/admin/seed",
-              },
-              {
-                label: "Manage Users",
-                desc: "Browse, promote, or remove users",
-                href: "/admin/users",
-              },
-              {
-                label: "View Logs",
-                desc: "Contamination & transfer logs across accounts",
-                href: "/admin/logs",
-              },
-              {
-                label: "Media Recipe Library",
-                desc: "Curate and edit shared media recipes",
-                href: "/admin/recipes",
-              },
-              {
-                label: "App Settings",
-                desc: "Global configuration (coming soon)",
-                href: "#",
-              },
-              {
-                label: "Analytics",
-                desc: "View usage and growth metrics (coming soon)",
-                href: "#",
-              },
-            ].map((item) => (
+            {adminTools.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
@@ -77,7 +87,6 @@ export default async function AdminDashboardPage() {
           </div>
         </section>
 
-        {/* Coming Soon */}
         <section>
           <h2 className="text-2xl font-semibold mb-4 text-[var(--moss-shadow)]">
             Future Features
