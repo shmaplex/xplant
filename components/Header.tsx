@@ -1,19 +1,33 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FaBars, FaTimes } from "react-icons/fa";
 import HeaderLogo from "@/components/HeaderLogo";
 import DesktopNav from "@/components/nav/DesktopNav";
 import MobileMenu from "@/components/nav/MobileMenu";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import AdminQuicklinks from "@/components/admin/AdminQuicklinks";
+import UserQuicklinks from "@/components/dashboard/UserQuicklinks";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import Image from "next/image";
+import Link from "next/link";
 
-export default function Header() {
+interface HeaderProps {
+  showAdminQuicklinks?: boolean;
+  showUserQuicklinks?: boolean;
+}
+
+export default function Header({
+  showAdminQuicklinks = false,
+  showUserQuicklinks = false,
+}: HeaderProps) {
   const [navOpen, setNavOpen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState<string | null>(null);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   const supabase = createClientComponentClient();
 
   useEffect(() => {
@@ -25,12 +39,23 @@ export default function Header() {
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
-      setIsLoggedIn(!!data.user);
+      const user = data?.user;
+      if (user) {
+        setIsLoggedIn(true);
+        setUserId(user.id);
+      }
     });
   }, [supabase]);
 
   const closeNav = () => setNavOpen(false);
+  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
   const isShopPage = pathname?.startsWith("/shop");
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.refresh();
+    router.push("/");
+  };
 
   return (
     <>
@@ -61,8 +86,13 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Show admin links when logged in */}
-        {isLoggedIn && <AdminQuicklinks />}
+        {/* Conditional Quicklinks */}
+        {isLoggedIn && (
+          <>
+            {showAdminQuicklinks && <AdminQuicklinks />}
+            {showUserQuicklinks && <UserQuicklinks />}
+          </>
+        )}
       </header>
 
       {/* Mobile overlay */}

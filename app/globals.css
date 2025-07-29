@@ -55,6 +55,14 @@
   opacity: 0.5;
 }
 
+.input {
+  @apply w-full border border-spore-grey/40 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-future-lime;
+}
+
+.btn {
+  @apply px-4 py-2 rounded-lg font-semibold;
+}
+
 button:hover .arrow-icon {
   animation: slideLeftBack 0.6s ease forwards;
 }

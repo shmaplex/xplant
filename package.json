@@ -11,15 +11,21 @@
   "dependencies": {
     "@shopify/storefront-api-client": "^1.0.9",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
+    "@supabase/auth-helpers-react": "^0.5.0",
     "@supabase/supabase-js": "^2.52.1",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.525.0",
     "next": "15.4.2",
     "react": "19.1.0",
+    "react-big-calendar": "^1.19.4",
     "react-calendar": "^6.0.0",
+    "react-chrono": "^2.9.1",
     "react-dom": "19.1.0",
-    "react-icons": "^5.5.0"
+    "react-hot-toast": "^2.5.2",
+    "react-icons": "^5.5.0",
+    "react-toastify": "^11.0.5",
+    "recharts": "^3.1.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.11",

@@ -35,8 +35,9 @@ export default function AboutPage() {
             XPlant began with two people and a shared obsession: one a former
             computer scientist who loves clean systems, and the other a lifelong
             gardener, fascinated by plants and soil. Together, as a small
-            husband‑and‑wife team, we wanted to bring the joy and science of
-            plant tissue culture to everyone—without the intimidating lab coat.
+            husband&ndash;and&ndash;wife team, we wanted to bring the joy and
+            science of plant tissue culture to everyone—without the intimidating
+            lab coat.
           </p>
           <p className="text-lg leading-relaxed">
             Our work blends curiosity with cleanliness: simple kits, clear
