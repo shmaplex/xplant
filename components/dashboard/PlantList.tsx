@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 import type { Plant } from "@/lib/types";
 
 type PlantListProps = {
@@ -13,7 +14,6 @@ export default function PlantList({ plants }: PlantListProps) {
   return (
     <ul className="space-y-2 max-h-64 overflow-y-auto pr-2">
       {plants.map((plant) => {
-        // current_stage is a single PlantStage or null
         const latestStage = plant.current_stage ?? null;
 
         const warningLevel =
@@ -24,16 +24,30 @@ export default function PlantList({ plants }: PlantListProps) {
             : "bg-green-100 text-green-700";
 
         return (
-          <li
-            key={plant.id}
-            className={`flex justify-between items-center p-2 rounded ${warningLevel}`}
-          >
-            <span className="truncate">
-              {plant.species} ({plant.transfer_cycle}/12)
-            </span>
-            <span className="text-xs uppercase font-bold tracking-wider">
-              {latestStage?.stage ?? "Unknown"}
-            </span>
+          <li key={plant.id}>
+            <Link
+              href={`/dashboard/plants/${plant.id}`}
+              className={`
+                flex justify-between items-center p-3 rounded-md
+                ${warningLevel}
+                hover:bg-opacity-90 hover:shadow-md transition
+                focus:outline-none focus:ring-2 focus:ring-future-lime
+                truncate
+              `}
+              title={`${plant.species} — Stage: ${
+                latestStage?.stage ?? "Unknown"
+              }`}
+            >
+              <span className="font-semibold truncate">
+                {plant.species}{" "}
+                <span className="text-sm font-normal">
+                  ({plant.transfer_cycle}/12)
+                </span>
+              </span>
+              <span className="text-xs uppercase font-bold tracking-wider whitespace-nowrap">
+                {latestStage?.stage ?? "Unknown"}
+              </span>
+            </Link>
           </li>
         );
       })}

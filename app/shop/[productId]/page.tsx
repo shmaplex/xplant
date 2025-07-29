@@ -9,6 +9,7 @@ import CartDrawer from "@/components/CartDrawer";
 import ProductVideo from "@/components/shop/ProductVideo";
 import RelatedProducts from "@/components/shop/RelatedProducts";
 import ProductInfo from "@/components/shop/ProductInfo";
+import ProductNotFound from "@/components/shop/ProductNotFound";
 
 // New imports for existing CTAs you mentioned
 import { ShopCTA } from "@/components/ShopCTA";
@@ -99,19 +100,7 @@ export default function ProductPage() {
   }
 
   if (!product) {
-    return (
-      <div
-        className="min-h-screen flex flex-col"
-        style={{
-          backgroundColor: "var(--milk-bio)",
-          color: "var(--biochar-black)",
-        }}
-      >
-        <main className="flex-grow w-full px-6 flex items-center justify-center text-xl">
-          Product not found.
-        </main>
-      </div>
-    );
+    return <ProductNotFound />;
   }
 
   return (

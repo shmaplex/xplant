@@ -80,6 +80,8 @@ export default async function PlantsPage(props: {
         transfers={transfersRaw ?? []}
         logs={logsRaw ?? []}
         recipes={recipesRaw ?? []}
+        canEdit={user?.id === plant.user_id}
+        editUrl={`/dashboard/plants/${id}/edit`}
       />
     );
   } catch (err) {
