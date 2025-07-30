@@ -210,10 +210,7 @@ export default function ProductPage() {
 
           <ProductVideo videoId={product.youtube_video_id} />
 
-          <section
-            className="w-full py-32"
-            style={{ backgroundColor: "var(--milk-bio)" }}
-          >
+          <section className="w-full py-32 bg-milk-bio">
             <div className="mx-auto grid gap-16 xl:grid-cols-2 px-4 sm:px-8 lg:px-16">
               <ShopCTA />
               <CommunityCallout />

@@ -106,7 +106,7 @@ export default async function MediaRecipeDetailPage({
             href={editUrl}
             className="
               fixed bottom-5 right-6 sm:right-24
-              bg-[var(--future-lime)] hover:bg-lime-500
+              bg-future-lime hover:bg-lime-500
               text-black font-medium shadow-lg rounded-full
               px-6 py-3
               transition-colors duration-300

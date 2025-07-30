@@ -77,9 +77,7 @@ export default function AdminLogsPage() {
 
   return (
     <div className="max-w-7xl mx-auto p-8">
-      <h1 className="text-2xl font-bold mb-6 text-[var(--moss-shadow)]">
-        Logs
-      </h1>
+      <h1 className="text-2xl font-bold mb-6 text-moss-shadow">Logs</h1>
 
       {/* Tabs */}
       <div className="flex space-x-4 mb-6">
@@ -90,8 +88,8 @@ export default function AdminLogsPage() {
             className={`px-4 py-2 rounded-lg font-medium transition
               ${
                 tab === t
-                  ? "bg-[var(--psybeam-purple)] text-white shadow-md"
-                  : "bg-[var(--spore-grey)] text-[var(--moss-shadow)] hover:bg-[var(--milk-bio)]"
+                  ? " bg-psybeam-purple text-white shadow-md"
+                  : "bg-spore-grey text-moss-shadow hover:bg-milk-bio"
               }
             `}
           >
@@ -101,14 +99,14 @@ export default function AdminLogsPage() {
       </div>
 
       {loading && (
-        <div className="mb-4 text-[var(--psybeam-purple)] animate-pulse">
+        <div className="mb-4  text-psybeam-purple animate-pulse">
           Loading...
         </div>
       )}
 
       {tab === "contamination" && (
         <div className="rounded-xl overflow-hidden shadow">
-          <table className="min-w-full border border-[var(--spore-grey)]">
+          <table className="min-w-full border border-spore-grey">
             <thead className="bg-gradient-to-r from-[var(--psybeam-purple)] to-[var(--organic-amber)] text-white">
               <tr>
                 <th className="px-4 py-2 text-left">Date</th>
@@ -119,11 +117,11 @@ export default function AdminLogsPage() {
                 <th className="px-4 py-2 text-left">User</th>
               </tr>
             </thead>
-            <tbody className="bg-[var(--milk-bio)]">
+            <tbody className="bg-milk-bio">
               {contaminationLogs.map((log) => (
                 <tr
                   key={log.id}
-                  className="border-t border-[var(--spore-grey)] hover:bg-[var(--organic-amber-light)]"
+                  className="border-t border-spore-grey hover:bg-organic-amber-light"
                 >
                   <td className="px-4 py-2">{formatDate(log.log_date)}</td>
                   <td>{log.plant_species}</td>
@@ -139,7 +137,7 @@ export default function AdminLogsPage() {
           {contaminationLogs.length >= (contamPage + 1) * PAGE_SIZE && (
             <button
               onClick={() => setContamPage((p) => p + 1)}
-              className="w-full py-3 bg-[var(--psybeam-purple)] text-white hover:bg-[var(--organic-amber)] transition"
+              className="w-full py-3  bg-psybeam-purple text-white hover:bg-organic-amber transition"
             >
               Load More
             </button>
@@ -149,7 +147,7 @@ export default function AdminLogsPage() {
 
       {tab === "transfer" && (
         <div className="rounded-xl overflow-hidden shadow">
-          <table className="min-w-full border border-[var(--spore-grey)]">
+          <table className="min-w-full border border-spore-grey">
             <thead className="bg-gradient-to-r from-[var(--psybeam-purple)] to-[var(--organic-amber)] text-white">
               <tr>
                 <th className="px-4 py-2 text-left">Transfer Date</th>
@@ -160,11 +158,11 @@ export default function AdminLogsPage() {
                 <th className="px-4 py-2 text-left">Created At</th>
               </tr>
             </thead>
-            <tbody className="bg-[var(--milk-bio)]">
+            <tbody className="bg-milk-bio">
               {transferLogs.map((log) => (
                 <tr
                   key={log.id}
-                  className="border-t border-[var(--spore-grey)] hover:bg-[var(--organic-amber-light)]"
+                  className="border-t border-spore-grey hover:bg-organic-amber-light"
                 >
                   <td className="px-4 py-2">
                     {new Date(log.transfer_date).toLocaleDateString()}
@@ -193,7 +191,7 @@ export default function AdminLogsPage() {
           {transferLogs.length >= (transferPage + 1) * PAGE_SIZE && (
             <button
               onClick={() => setTransferPage((p) => p + 1)}
-              className="w-full py-3 bg-[var(--psybeam-purple)] text-white hover:bg-[var(--organic-amber)] transition"
+              className="w-full py-3  bg-psybeam-purple text-white hover:bg-organic-amber transition"
             >
               Load More
             </button>
