@@ -1,4 +1,5 @@
 import LegalPage from "@/layouts/LegalPage";
+import Link from "next/link";
 
 export default function PrivacyPolicy() {
   return (
@@ -95,8 +96,12 @@ export default function PrivacyPolicy() {
       <p>
         If you have any questions about this policy or how we handle your data,
         you can reach us at{" "}
-        <a href="mailto:team@shmaplex.com">team@shmaplex.com</a> or call us at{" "}
-        <a href="tel:+8201042012407">&#43;82&nbsp;10&#8209;4201&#8209;2407</a>.
+        <Link href="mailto:team@shmaplex.com">team@shmaplex.com</Link> or call
+        us at{" "}
+        <Link href="tel:+8201042012407">
+          &#43;82&nbsp;10&#8209;4201&#8209;2407
+        </Link>
+        .
       </p>
     </LegalPage>
   );

@@ -1,4 +1,5 @@
 import LegalPage from "@/layouts/LegalPage";
+import Link from "next/link";
 
 export default function ShippingPolicy() {
   return (
@@ -86,9 +87,12 @@ export default function ShippingPolicy() {
       <p>
         If you have any questions or need help with your order, feel free to
         contact us at{" "}
-        <a href="mailto:contact@shmaplex.com">contact@shmaplex.com</a> or call
-        us at{" "}
-        <a href="tel:+821042012407">&#43;82&nbsp;10&#8209;4201&#8209;2407</a>.
+        <Link href="mailto:contact@shmaplex.com">contact@shmaplex.com</Link> or
+        call us at{" "}
+        <Link href="tel:+821042012407">
+          &#43;82&nbsp;10&#8209;4201&#8209;2407
+        </Link>
+        .
       </p>
     </LegalPage>
   );

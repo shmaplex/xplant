@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import Link from "next/link";
 
 export interface FAQItem {
   q: string;
@@ -129,9 +130,9 @@ const faqs: FAQItem[] = [
     a: (
       <>
         Reach out anytime at{" "}
-        <a href="mailto:hello@xplant.kr" className="underline">
+        <Link href="mailto:hello@xplant.kr" className="underline">
           hello@shmaplex.com
-        </a>
+        </Link>
         .
       </>
     ),

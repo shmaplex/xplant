@@ -117,12 +117,12 @@ export default async function PlantCultureDashboard() {
                 <PlantList plants={plantsWithStages} />
               </div>
               <div className="text-right bg-milk-bio/80 px-6 py-4 rounded-b-3xl border-t border-gray-300">
-                <a
+                <Link
                   href="/dashboard/plants"
                   className="text-sm text-green-900 hover:text-green-700 font-semibold transition-colors"
                 >
                   See all plants in the logbook →
-                </a>
+                </Link>
               </div>
             </div>
 
@@ -183,12 +183,12 @@ export default async function PlantCultureDashboard() {
               </div>
 
               <div className="bg-milk-bio/80 px-6 py-3 rounded-b-3xl border-t border-gray-200 text-right">
-                <a
+                <Link
                   href="/dashboard/contamination"
                   className="inline-block text-sm text-red-700 hover:text-red-800 font-medium transition"
                 >
                   View all reports →
-                </a>
+                </Link>
               </div>
             </div>
           </div>
