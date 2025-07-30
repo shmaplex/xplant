@@ -68,8 +68,7 @@ function PropagationKitsContent() {
   const fromIntro = params.get("fromIntro") === "1";
 
   return (
-    <main className="flex-1 max-w-5xl mx-auto px-6 sm:px-10 py-12 space-y-20">
-      {/* Page header */}
+    <main className="flex-1 max-w-5xl mx-auto px-6 sm:px-10 py-12 space-y-16">
       <header className="text-left">
         {fromIntro && (
           <Link
@@ -80,11 +79,10 @@ function PropagationKitsContent() {
             Back to Intro to Tissue Culture
           </Link>
         )}
-
-        <h1 className="text-4xl sm:text-5xl font-extrabold mb-4 text-moss-shadow">
+        <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">
           Propagation Kits
         </h1>
-        <p className="text-lg sm:text-xl text-biochar-black">
+        <p className="text-lg sm:text-xl text-[#4A4A4A]">
           A practical, beginner-friendly way to start your plant tissue culture
           journey. These kits come with everything you need—no lab required.
         </p>

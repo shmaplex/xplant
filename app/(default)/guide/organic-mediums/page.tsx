@@ -14,7 +14,7 @@ function OrganicMediumsContent() {
   const fromIntro = params.get("fromIntro") === "1";
 
   return (
-    <main className="flex-1 max-w-4xl mx-auto px-6 sm:px-10 py-12 space-y-16">
+    <main className="flex-1 max-w-5xl mx-auto px-6 sm:px-10 py-12 space-y-16">
       <header className="text-left">
         {fromIntro && (
           <Link

@@ -127,16 +127,18 @@ export default function BestFitBoxPage() {
   const organicMedia = mediaTypes.slice(0, 15);
 
   return (
-    <main className="flex-1 max-w-7xl mx-auto px-6 py-16">
-      <h1 className="text-4xl font-extrabold mb-12">
-        XPlant Tissue Culture Media Guide
-      </h1>
-      <p className="mb-12 max-w-prose leading-relaxed text-moss-shadow">
-        Inspired by proven lab protocols and refined through our own organic
-        methods, this guide outlines 15 core media types that support clean,
-        reliable plant tissue culture. The “best fit box” philosophy lets the
-        plant lead, adapting these recipes across genera and genotypes.
-      </p>
+    <main className="flex-1 max-w-7xl mx-auto px-6 py-16 space-y-16">
+      <header className="text-left">
+        <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">
+          XPlant Tissue Culture Media Guide
+        </h1>
+        <p className="text-lg sm:text-xl text-[#4A4A4A]">
+          Inspired by proven lab protocols and refined through our own organic
+          methods, this guide outlines 15 core media types that support clean,
+          reliable plant tissue culture. The “best fit box” philosophy lets the
+          plant lead, adapting these recipes across genera and genotypes.
+        </p>
+      </header>
 
       <KeyTerms />
 

@@ -94,7 +94,7 @@ export default function OrganicAlternativesPage() {
   };
 
   return (
-    <main className="flex-1 max-w-6xl mx-auto px-6 py-16">
+    <main className="flex-1 max-w-5xl mx-auto px-6 sm:px-10 py-12 space-y-16">
       <h1 className="text-3xl sm:text-5xl font-extrabold mb-8 leading-tight max-w-3xl">
         Natural &amp; Organic Alternatives to Conventional Lab Inputs
       </h1>
