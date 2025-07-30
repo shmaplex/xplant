@@ -1,10 +1,13 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import Link from "next/link";
+import { FiAlertCircle, FiCheckSquare } from "react-icons/fi";
 
 import DashboardHero from "@/components/dashboard/DashboardHero";
 import QuickActions from "@/components/dashboard/QuickActions";
 import PlantList from "@/components/dashboard/PlantList";
 import TaskList from "@/components/dashboard/TaskList";
+import UpcomingFeatures from "@/components/dashboard/UpcomingFeatures";
 
 export default async function PlantCultureDashboard() {
   const supabase = await createClient();
@@ -106,17 +109,17 @@ export default async function PlantCultureDashboard() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {/* Plants */}
-            <div className="relative rounded-2xl shadow bg-gradient-to-br from-white to-milk-bio flex flex-col">
+            <div className="relative rounded-3xl shadow-xl bg-gradient-to-br from-white to-milk-bio flex flex-col max-w-xl">
               <div className="p-6 flex-1">
-                <h3 className="font-semibold text-moss-shadow mb-3">
+                <h3 className="font-semibold text-moss-shadow mb-5 text-lg tracking-wide">
                   Your Cultured Plants
                 </h3>
                 <PlantList plants={plantsWithStages} />
               </div>
-              <div className="bg-milk-bio/70 px-6 py-3 rounded-b-2xl border-t border-gray-200">
+              <div className="text-right bg-milk-bio/80 px-6 py-4 rounded-b-3xl border-t border-gray-300">
                 <a
                   href="/dashboard/plants"
-                  className="text-sm text-green-800 hover:text-green-600 font-medium"
+                  className="text-sm text-green-900 hover:text-green-700 font-semibold transition-colors"
                 >
                   See all plants in the logbook →
                 </a>
@@ -124,14 +127,16 @@ export default async function PlantCultureDashboard() {
             </div>
 
             {/* Tasks */}
-            <div className="relative rounded-2xl shadow bg-gradient-to-br from-white to-milk-bio flex flex-col">
+            <div className="relative rounded-3xl shadow-xl bg-gradient-to-br from-white to-milk-bio flex flex-col max-w-xl">
               <div className="p-6 flex-1">
-                <h3 className="font-semibold text-moss-shadow mb-3">
+                <h3 className="font-bold text-green-800 text-lg mb-4 flex items-center">
+                  <FiCheckSquare className="w-5 h-5 mr-2 text-green-700" />
                   Reminders & Tasks
                 </h3>
+
                 <TaskList tasks={tasks ?? []} />
               </div>
-              <div className="bg-milk-bio/70 px-6 py-3 rounded-b-2xl border-t border-gray-200">
+              <div className="text-right bg-milk-bio/70 px-6 py-3 rounded-b-2xl border-t border-gray-200">
                 <a
                   href="/dashboard/tasks"
                   className="text-sm text-green-800 hover:text-green-600 font-medium"
@@ -141,29 +146,32 @@ export default async function PlantCultureDashboard() {
               </div>
             </div>
 
-            {/* Contamination Reports */}
-            <div className="relative rounded-2xl shadow bg-gradient-to-br from-white to-milk-bio flex flex-col overflow-hidden">
-              <div className="p-6 flex-1 overflow-y-auto">
-                <h3 className="font-semibold text-moss-shadow mb-3">
+            <div className="relative rounded-3xl shadow-lg bg-gradient-to-br from-white to-milk-bio flex flex-col overflow-hidden">
+              <div className="p-6 flex-1">
+                <h3 className="font-bold text-red-700 text-lg mb-4 flex items-center">
+                  <FiAlertCircle className="w-5 h-5 mr-2 text-red-600" />
                   Recent Contamination Reports
                 </h3>
+
                 {contaminationLogs && contaminationLogs.length > 0 ? (
-                  <ul className="space-y-3 max-h-56 overflow-auto">
+                  <ul className="space-y-3 max-h-56 overflow-auto pr-1">
                     {contaminationLogs.map((log) => (
-                      <li
-                        key={log.id}
-                        className="border border-spore-grey rounded p-3 bg-white shadow-sm"
-                      >
-                        <p className="text-sm font-medium text-moss-shadow">
-                          {log.plant_species || "Unknown Plant"}
-                        </p>
-                        <p className="text-sm text-gray-700 truncate">
-                          {log.issue}
-                        </p>
-                        <p className="text-xs text-gray-500 mt-1">
-                          Reported on{" "}
-                          {new Date(log.log_date).toLocaleDateString()}
-                        </p>
+                      <li key={log.id}>
+                        <Link
+                          href={`/dashboard/contamination/${log.id}`}
+                          className="block border border-red-100 rounded-xl p-4 bg-white shadow-sm hover:shadow-md hover:border-red-200 hover:bg-red-50/40 transition group"
+                        >
+                          <p className="text-sm font-semibold text-red-700 group-hover:text-red-800">
+                            {log.plant_species || "Unknown Plant"}
+                          </p>
+                          <p className="text-sm text-gray-700 truncate">
+                            {log.issue}
+                          </p>
+                          <p className="text-xs text-gray-500 mt-1">
+                            Reported on{" "}
+                            {new Date(log.log_date).toLocaleDateString()}
+                          </p>
+                        </Link>
                       </li>
                     ))}
                   </ul>
@@ -173,12 +181,13 @@ export default async function PlantCultureDashboard() {
                   </p>
                 )}
               </div>
-              <div className="bg-milk-bio/70 px-6 py-3 rounded-b-2xl border-t border-gray-200 text-right">
+
+              <div className="bg-milk-bio/80 px-6 py-3 rounded-b-3xl border-t border-gray-200 text-right">
                 <a
                   href="/dashboard/contamination"
-                  className="text-sm text-green-800 hover:text-green-600 font-medium"
+                  className="inline-block text-sm text-red-700 hover:text-red-800 font-medium transition"
                 >
-                  View all contamination reports →
+                  View all reports →
                 </a>
               </div>
             </div>
@@ -186,33 +195,7 @@ export default async function PlantCultureDashboard() {
         </section>
 
         {/* Future Tools */}
-        <section>
-          <h2 className="text-2xl font-bold mb-4 text-moss-shadow">
-            Upcoming Tools
-          </h2>
-          <ul className="list-disc pl-5 text-gray-700 space-y-2">
-            <li>
-              <strong>Transfer Cycle Tracker</strong> &ndash; Auto reminders &
-              visual progress.
-            </li>
-            <li>
-              <strong>Cold Storage Planner</strong> &ndash; Track plants moved
-              to cold storage.
-            </li>
-            <li>
-              <strong>Contamination Log</strong> &ndash; Photo and note
-              tracking.
-            </li>
-            <li>
-              <strong>Reports & Insights</strong> &ndash; Growth charts over
-              time.
-            </li>
-            <li>
-              <strong>Community Recipes</strong> &ndash; Share and explore media
-              blends.
-            </li>
-          </ul>
-        </section>
+        <UpcomingFeatures />
 
         {/* Charts */}
         <section>

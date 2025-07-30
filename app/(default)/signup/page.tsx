@@ -2,11 +2,9 @@
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
+import SocialLoginButton from "@/components/auth/SocialLoginButton";
 
 export default function SignupPage() {
   const supabase = createClient();
@@ -20,19 +18,16 @@ export default function SignupPage() {
     e.preventDefault();
     setLoading(true);
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+    const { error } = await supabase.auth.signUp({ email, password });
 
-    if (error) setMessage(error.message);
-    else setMessage("Account created! Check your email to verify.");
-
-    setLoading(false);
-
-    if (!error) {
+    if (error) {
+      setMessage(error.message);
+    } else {
+      setMessage("Account created! Check your email to verify.");
       router.push("/login");
     }
+
+    setLoading(false);
   }
 
   return (
@@ -78,7 +73,13 @@ export default function SignupPage() {
             </button>
           </form>
 
-          {/* Subtle login link */}
+          <div className="my-6 text-center text-sm text-moss-shadow/60">
+            — or —
+          </div>
+
+          {/* Use your reusable component */}
+          <SocialLoginButton provider="google" label="Sign up with Google" />
+
           <div className="mt-6 text-center text-sm text-moss-shadow/70">
             Already have an account?{" "}
             <a

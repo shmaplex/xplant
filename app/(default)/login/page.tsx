@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import Image from "next/image";
+import SocialLoginButton from "@/components/auth/SocialLoginButton";
 
 const allowedMagicEmails = [
   "team@shmaplex.com",
@@ -145,6 +146,13 @@ export default function LoginPage() {
               </button>
             </form>
           )}
+
+          <div className="my-6 text-center text-sm text-moss-shadow/60">
+            — or —
+          </div>
+
+          <SocialLoginButton provider="google" label="Continue with Google" />
+
           <div className="mt-6 text-center text-sm text-moss-shadow/70">
             Don&apos;t have an account?{" "}
             <a

@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import type { Plant } from "@/lib/types";
+import TransferStepBar from "@/components/dashboard/transfers/TransferStepBar";
 
 type PlantListProps = {
   plants?: Plant[] | null;
@@ -8,45 +9,51 @@ type PlantListProps = {
 
 export default function PlantList({ plants }: PlantListProps) {
   if (!plants || plants.length === 0) {
-    return <p className="text-gray-600 text-sm">No plants logged yet.</p>;
+    return (
+      <p className="text-gray-500 text-sm italic mt-3">No plants logged yet.</p>
+    );
   }
 
   return (
-    <ul className="space-y-2 max-h-64 overflow-y-auto pr-2">
+    <ul className="space-y-4 max-h-72 overflow-y-auto pr-3 scrollbar-thin scrollbar-thumb-moss-shadow scrollbar-track-transparent">
       {plants.map((plant) => {
         const latestStage = plant.current_stage ?? null;
-
-        const warningLevel =
-          plant.transfer_cycle >= 12
-            ? "bg-red-100 text-red-700"
-            : plant.transfer_cycle >= 10
-            ? "bg-yellow-100 text-yellow-700"
-            : "bg-green-100 text-green-700";
 
         return (
           <li key={plant.id}>
             <Link
               href={`/dashboard/plants/${plant.id}`}
-              className={`
-                flex justify-between items-center p-3 rounded-md
-                ${warningLevel}
-                hover:bg-opacity-90 hover:shadow-md transition
+              className="
+                block rounded-xl border border-gray-200 bg-white
+                transition hover:border-future-lime
                 focus:outline-none focus:ring-2 focus:ring-future-lime
-                truncate
-              `}
+                overflow-hidden
+              "
               title={`${plant.species} — Stage: ${
                 latestStage?.stage ?? "Unknown"
               }`}
             >
-              <span className="font-semibold truncate">
-                {plant.species}{" "}
-                <span className="text-sm font-normal">
-                  ({plant.transfer_cycle}/12)
-                </span>
-              </span>
-              <span className="text-xs uppercase font-bold tracking-wider whitespace-nowrap">
-                {latestStage?.stage ?? "Unknown"}
-              </span>
+              <div className="px-4 pt-3 pb-5">
+                {/* Species name */}
+                <h4 className="text-lg font-semibold text-[var(--moss-shadow)] leading-tight mb-3 truncate">
+                  {plant.species}
+                </h4>
+
+                {/* Stage section */}
+                <div className="flex justify-between items-end">
+                  <div>
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">
+                      Stage
+                    </p>
+                    <p className="mt-0.5 text-sm font-bold text-gray-800">
+                      {latestStage?.stage ?? "Unknown"}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Progress bar */}
+              <TransferStepBar value={plant.transfer_cycle} max={12} />
             </Link>
           </li>
         );
