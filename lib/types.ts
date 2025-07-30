@@ -31,6 +31,17 @@ export type PlantStage = {
   created_at: string;
 };
 
+export type PlantWithStage = {
+  id: string;
+  species: string;
+  photo_url?: string;
+  transfer_cycle?: number;
+  current_stage?: {
+    id: string;
+    stage: string;
+  } | null;
+};
+
 export type PlantSummary = {
   id: string;
   species: string;

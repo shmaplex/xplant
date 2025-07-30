@@ -2,35 +2,73 @@ import { createClient } from "@/lib/supabase/server";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import Link from "next/link";
 import MediaRecipeNotFound from "@/components/dashboard/media/MediaRecipeNotFound";
+import PlantCard from "@/components/dashboard/plants/PlantCard";
+import { Plant, PlantWithStage } from "@/lib/types";
 
 export default async function MediaRecipeDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = params;
+  const { id } = await params;
   const supabase = await createClient();
 
-  // Fetch media recipe
+  // 1. Fetch media recipe
   const { data: recipe } = await supabase
     .from("media_recipes")
-    .select("*, linked_plant_ids")
+    .select("*")
     .eq("id", id)
     .maybeSingle();
 
   if (!recipe) return <MediaRecipeNotFound />;
 
-  // Fetch linked plants
-  const linkedPlantIds = recipe.linked_plant_ids ?? [];
-  const { data: linkedPlants } = linkedPlantIds.length
-    ? await supabase
-        .from("plants")
-        .select("id,species")
-        .in("id", linkedPlantIds)
-    : { data: [] };
+  // 2. Fetch linked plant IDs
+  const { data: linkRows, error: linkError } = await supabase
+    .from("plant_recipe_links")
+    .select("plant_id")
+    .eq("recipe_id", id);
 
-  // Decide if edit button should show
-  // TODO: Replace with permission check based on user session
+  if (linkError) {
+    console.error("Error loading linked plants:", linkError);
+  }
+
+  const plantIds = linkRows?.map((row) => row.plant_id) ?? [];
+
+  // 3. Fetch plants with current_stage joined from plant_stages via FK constraint
+  let linkedPlants: Plant[] = [];
+  const { data: plantsData, error: plantsError } = await supabase
+    .from("plants")
+    .select(
+      `
+    id,
+    user_id,
+    species,
+    source,
+    initial_n_date,
+    initial_i_date,
+    transfer_cycle,
+    photo_url,
+    notes,
+    created_at,
+    current_stage_id,
+    current_stage:plant_stages!plants_current_stage_id_fkey (
+      id,
+      stage
+    )
+  `
+    )
+    .in("id", plantIds);
+
+  console.log("plantsData", plantsData);
+  if (plantsError) {
+    console.error("Error fetching plants with stages:", plantsError);
+  } else if (plantsData) {
+    linkedPlants = plantsData.map((plant) => ({
+      ...plant,
+      current_stage: plant.current_stage ?? null,
+    }));
+  }
+
   const canEdit = true;
   const editUrl = `/dashboard/media/${id}/edit`;
 
@@ -56,14 +94,13 @@ export default async function MediaRecipeDetailPage({
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">Components</h2>
           <ul className="list-disc list-inside bg-white/70 p-4 rounded-xl shadow">
-            {recipe.components.map((c: any, idx: number) => {
+            {recipe.components?.map((c: any, idx: number) => {
               const hasProduct = !!c.product_id;
               const content = (
                 <>
                   {c.qty} &ndash; {c.name}
                 </>
               );
-
               return (
                 <li key={idx} className="text-gray-700">
                   {hasProduct ? (
@@ -82,25 +119,17 @@ export default async function MediaRecipeDetailPage({
           </ul>
         </section>
 
-        {linkedPlants && linkedPlants.length > 0 && (
+        {linkedPlants.length > 0 && (
           <section>
             <h2 className="text-2xl font-semibold mb-4">Linked Plants</h2>
-            <ul className="space-y-2">
-              {linkedPlants.map((plant: any) => (
-                <li key={plant.id}>
-                  <Link
-                    href={`/dashboard/plants/${plant.id}`}
-                    className="text-psybeam-purple hover:underline"
-                  >
-                    {plant.species}
-                  </Link>
-                </li>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {linkedPlants.map((plant) => (
+                <PlantCard key={plant.id} plant={plant} />
               ))}
-            </ul>
+            </div>
           </section>
         )}
 
-        {/* Floating Edit Recipe Button */}
         {canEdit && (
           <Link
             href={editUrl}

@@ -60,8 +60,13 @@ export default function MediaRecipeLinker() {
     setLoading(false);
 
     if (error) {
-      toast.error("Failed to link recipe.");
-      console.error(error);
+      if (error.code === "23505") {
+        // duplicate key value
+        toast.info("This plant is already linked to the selected recipe.");
+      } else {
+        toast.error("Failed to link recipe.");
+        console.error(error);
+      }
     } else {
       toast.success("Media recipe linked to plant!");
       setSelected({ plant_id: "", recipe_id: "" });
@@ -69,9 +74,13 @@ export default function MediaRecipeLinker() {
   };
 
   return (
-    <div className="space-y-5">
-      <div>
-        <label className="block text-sm font-semibold text-moss-shadow mb-1">
+    <div className="w-full mx-auto bg-white shadow rounded-2xl p-6 space-y-6 border border-gray-100">
+      <h2 className="text-xl font-semibold text-moss-shadow">
+        Link Media Recipe to Plant
+      </h2>
+
+      <div className="space-y-2">
+        <label className="block text-sm font-semibold text-moss-shadow">
           Select Plant
         </label>
         <select
@@ -79,7 +88,7 @@ export default function MediaRecipeLinker() {
           onChange={(e) =>
             setSelected({ ...selected, plant_id: e.target.value })
           }
-          className="input w-full rounded border border-spore-grey/50 p-2 focus:ring-2 focus:ring-psybeam-purple focus:outline-none"
+          className="w-full rounded-lg border border-gray-300 p-2 focus:ring-2 focus:ring-psybeam-purple focus:outline-none"
         >
           <option value="">— Choose a plant —</option>
           {plants.map((p) => (
@@ -90,8 +99,8 @@ export default function MediaRecipeLinker() {
         </select>
       </div>
 
-      <div>
-        <label className="block text-sm font-semibold text-moss-shadow mb-1">
+      <div className="space-y-2">
+        <label className="block text-sm font-semibold text-moss-shadow">
           Select Media Recipe
         </label>
         <select
@@ -99,7 +108,7 @@ export default function MediaRecipeLinker() {
           onChange={(e) =>
             setSelected({ ...selected, recipe_id: e.target.value })
           }
-          className="input w-full rounded border border-spore-grey/50 p-2 focus:ring-2 focus:ring-psybeam-purple focus:outline-none"
+          className="w-full rounded-lg border border-gray-300 p-2 focus:ring-2 focus:ring-psybeam-purple focus:outline-none"
         >
           <option value="">— Choose a recipe —</option>
           {recipes.map((r) => (
@@ -113,9 +122,9 @@ export default function MediaRecipeLinker() {
       <button
         onClick={link}
         disabled={loading}
-        className="w-full bg-psybeam-purple text-white font-semibold py-2 rounded hover:bg-psybeam-purple/90 transition disabled:opacity-50"
+        className="w-full bg-psybeam-purple text-white font-semibold py-2.5 rounded-lg hover:bg-psybeam-purple/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {loading ? "Linking..." : "Link"}
+        {loading ? "Linking…" : "Link Recipe"}
       </button>
     </div>
   );

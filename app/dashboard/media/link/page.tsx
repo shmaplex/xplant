@@ -29,12 +29,7 @@ export default function LinkMediaPage() {
           </p>
         </header>
 
-        <section className="relative overflow-hidden rounded-3xl shadow-xl bg-gradient-to-br from-milk-bio via-spore-grey/10 to-milk-bio">
-          <div className="absolute inset-0 bg-[url('/png/asfalt-light.png')] bg-repeat opacity-5 pointer-events-none"></div>
-          <div className="relative p-8">
-            <MediaRecipeLinker />
-          </div>
-        </section>
+        <MediaRecipeLinker />
       </div>
     </div>
   );
