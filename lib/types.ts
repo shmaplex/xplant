@@ -113,7 +113,6 @@ export type MediaRecipe = {
   user_id: string;
   title: string;
   components: MediaComponent[];
-  linked_plant_ids?: string[];
   origin?: "user" | "system"; // new field for recipe source
   status?: "active" | "archived"; // new field for future control
   created_at: string;
@@ -143,10 +142,16 @@ export type GuideSuggestion = {
    SHOP / PRODUCTS
 =========================================== */
 
-export interface Variant {
+export interface ProductVariant {
   id: string;
+  product_id: string;
   title: string;
   price: string;
+}
+
+export interface ProductRelated {
+  product_id: string;
+  related_product_id: string;
 }
 
 export interface Product {
@@ -162,7 +167,8 @@ export interface Product {
   features?: string[];
   specs?: Record<string, any>;
   youtube_video_id?: string; // keep as-is to match DB naming
-  variants: Variant[];
+  variants: ProductVariant[];
+  relatedProducts?: Product[];
 }
 
 export interface CategoryWithSub {

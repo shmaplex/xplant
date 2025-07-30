@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import ProductCard from "./ProductCard";
+import { useProductCartActions } from "@/hooks/useProductCartActions";
 import type { Product } from "@/lib/types";
 
 type RelatedProductsProps = {
@@ -23,6 +24,8 @@ export default function RelatedProducts({
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
   const [hoverZone, setHoverZone] = useState<"left" | "right" | null>(null);
+
+  const { addProductToCart } = useProductCartActions();
 
   const checkScroll = () => {
     const el = scrollContainerRef.current;
@@ -80,7 +83,7 @@ export default function RelatedProducts({
               key={product.id}
               product={product}
               onAddToCart={(variantId, quantity, variantTitle) => {
-                onAddToCart(product, variantId, quantity, variantTitle);
+                addProductToCart(product, variantId, quantity, variantTitle);
               }}
             />
           ))}

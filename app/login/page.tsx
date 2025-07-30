@@ -59,7 +59,7 @@ export default function LoginPage() {
 
   return (
     <main className="flex-1 flex items-center justify-center px-6 py-12 relative">
-      <div className="w-full max-w-2xl flex flex-col md:flex-row bg-white rounded-2xl shadow-lg overflow-hidden border border-spore-grey/40">
+      <div className="w-full max-w-2xl flex flex-col md:flex-row bg-white rounded-2xl shadow-lg overflow-hidden border border-[var(--spore-grey)]/40">
         {/* Left side with form */}
         <div className="flex-1 p-8 flex flex-col justify-center">
           <div className="flex flex-col items-center mb-6 md:items-start">

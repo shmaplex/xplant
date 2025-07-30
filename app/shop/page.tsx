@@ -1,92 +1,23 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { useState, useRef } from "react";
+import ShopLayout from "@/layouts/ShopLayout";
 import SearchInput from "@/components/shop/SearchInput";
 import CategorySection from "@/components/shop/CategorySection";
-import CartButton from "@/components/CartButton";
-import CartDrawer from "@/components/CartDrawer";
-import { useCart } from "@/contexts/CartContext";
 import PreOrderCallout from "@/components/shop/PreOrderCallout";
 import CategoryNav from "@/components/shop/CategoryNav";
-import { Product, CategoryWithSub } from "@/lib/types";
+import { useProducts } from "@/hooks/useProducts";
+import { useProductCartActions } from "@/hooks/useProductCartActions";
+import type { CategoryWithSub, Product } from "@/lib/types";
 
 export default function ShopPage() {
-  const [allProducts, setAllProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { products: allProducts, loading } = useProducts();
+  const { addProductToCart } = useProductCartActions();
+
   const [search, setSearch] = useState("");
-  const supabase = createClient();
-
-  const {
-    cartLines,
-    addToCart,
-    updateQuantity,
-    removeLine,
-    isOpen,
-    openCart,
-    closeCart,
-  } = useCart();
-
   const categoryRefs = useRef<Record<string, HTMLElement | null>>({});
 
-  // --- Fetch products and variants from Supabase ---
-  useEffect(() => {
-    async function fetchProducts() {
-      setLoading(true);
-      const { data: products, error } = await supabase
-        .from("products")
-        .select(
-          `
-          *,
-          product_variants (
-            id,
-            title,
-            price
-          )
-        `
-        )
-        .order("title", { ascending: true });
-
-      if (error) {
-        console.error("Error fetching products:", error);
-        setLoading(false);
-        return;
-      }
-
-      // Normalize data
-      const normalized = (products ?? []).map((p: any) => ({
-        id: p.id,
-        title: p.title,
-        image: p.image,
-        category: p.category,
-        subcategory: p.subcategory,
-        tag: p.tag,
-        description: p.description,
-        images: p.images || [],
-        features: p.features || [],
-        specs: p.specs || {},
-        youtube_video_id: p.youtube_video_id,
-        variants: p.product_variants || [],
-      }));
-
-      setAllProducts(normalized);
-      setLoading(false);
-    }
-
-    fetchProducts();
-  }, [supabase]);
-
-  function handleAddToCart(
-    variantId: string,
-    quantity: number,
-    title: string,
-    price: string,
-    variantTitle?: string
-  ) {
-    addToCart({ variantId, quantity, title, price, variantTitle });
-    openCart();
-  }
-
+  // Filter products by search
   const filtered = allProducts.filter(
     (p) =>
       p.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -95,7 +26,7 @@ export default function ShopPage() {
         p.subcategory.toLowerCase().includes(search.toLowerCase()))
   );
 
-  // Group filtered products by category and subcategory
+  // Group by category and subcategory
   const grouped = filtered.reduce<Record<string, Record<string, Product[]>>>(
     (acc, product) => {
       const cat = product.category || "Uncategorized";
@@ -110,6 +41,7 @@ export default function ShopPage() {
     {}
   );
 
+  // Build categories array
   const categories: CategoryWithSub[] = Object.entries(grouped).map(
     ([cat, subcats]) => ({
       name: cat,
@@ -117,6 +49,7 @@ export default function ShopPage() {
     })
   );
 
+  // Unique filtered categories for nav highlighting
   const filteredCategories: string[] = Array.from(
     new Set(
       filtered.flatMap((p) =>
@@ -125,28 +58,6 @@ export default function ShopPage() {
     )
   );
 
-  async function handleCheckout() {
-    const res = await fetch("/api/cart/create", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        lines: cartLines.map((line) => ({
-          merchandiseId: line.variantId,
-          quantity: line.quantity,
-        })),
-      }),
-    });
-
-    const data = await res.json();
-
-    if (res.ok && data.checkoutUrl) {
-      window.location.href = data.checkoutUrl;
-    } else {
-      alert("Failed to create checkout. Please try again later.");
-      console.error(data.error);
-    }
-  }
-
   function scrollToCategory(cat: string) {
     categoryRefs.current[cat]?.scrollIntoView({
       behavior: "smooth",
@@ -154,19 +65,24 @@ export default function ShopPage() {
     });
   }
 
-  return (
-    <>
-      <CartButton />
+  function handleAddToCart(
+    product: Product,
+    variantId: string,
+    quantity: number,
+    variantTitle: string
+  ) {
+    addProductToCart(product, variantId, quantity, variantTitle);
+  }
 
+  return (
+    <ShopLayout>
       <main className="flex p-8 flex-1 w-full px-12 gap-6">
-        {/* Left nav */}
         <CategoryNav
           categories={categories}
           filteredCategories={filteredCategories}
           scrollToCategory={scrollToCategory}
         />
 
-        {/* Right content */}
         <div className="flex-1 flex flex-col">
           <SearchInput value={search} onChange={setSearch} />
           <PreOrderCallout />
@@ -199,7 +115,16 @@ export default function ShopPage() {
                           mainCategory={cat}
                           subCategory={subcat}
                           products={products}
-                          onAddToCart={handleAddToCart}
+                          onAddToCart={(variantId, quantity, variantTitle) =>
+                            handleAddToCart(
+                              products.find((p) =>
+                                p.variants.some((v) => v.id === variantId)
+                              )!,
+                              variantId,
+                              quantity,
+                              variantTitle
+                            )
+                          }
                         />
                       </section>
                     ))}
@@ -210,14 +135,6 @@ export default function ShopPage() {
           )}
         </div>
       </main>
-      <CartDrawer
-        isOpen={isOpen}
-        onClose={closeCart}
-        cartLines={cartLines}
-        onCheckout={handleCheckout}
-        onUpdateQuantity={updateQuantity}
-        onRemoveLine={removeLine}
-      />
-    </>
+    </ShopLayout>
   );
 }

@@ -3,7 +3,8 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import Link from "next/link";
 import MediaRecipeNotFound from "@/components/dashboard/media/MediaRecipeNotFound";
 import PlantCard from "@/components/dashboard/plants/PlantCard";
-import { Plant, PlantWithStage } from "@/lib/types";
+import MediaLinkedProductsGrid from "@/components/dashboard/media/MediaLinkedProductsGrid";
+import { Plant } from "@/lib/types";
 
 export default async function MediaRecipeDetailPage({
   params,
@@ -22,51 +23,87 @@ export default async function MediaRecipeDetailPage({
 
   if (!recipe) return <MediaRecipeNotFound />;
 
-  // 2. Fetch linked plant IDs
-  const { data: linkRows, error: linkError } = await supabase
+  // ---- LINKED PLANTS ----
+  const { data: plantLinks, error: plantLinkError } = await supabase
     .from("plant_recipe_links")
     .select("plant_id")
     .eq("recipe_id", id);
 
-  if (linkError) {
-    console.error("Error loading linked plants:", linkError);
+  if (plantLinkError) {
+    console.error("Error loading linked plants:", plantLinkError);
   }
 
-  const plantIds = linkRows?.map((row) => row.plant_id) ?? [];
+  const plantIds = plantLinks?.map((row) => row.plant_id) ?? [];
 
-  // 3. Fetch plants with current_stage joined from plant_stages via FK constraint
   let linkedPlants: Plant[] = [];
-  const { data: plantsData, error: plantsError } = await supabase
-    .from("plants")
-    .select(
+  if (plantIds.length > 0) {
+    const { data: plantsData, error: plantsError } = await supabase
+      .from("plants")
+      .select(
+        `
+        id,
+        user_id,
+        species,
+        source,
+        initial_n_date,
+        initial_i_date,
+        transfer_cycle,
+        photo_url,
+        notes,
+        created_at,
+        current_stage_id,
+        current_stage:plant_stages!plants_current_stage_id_fkey (
+          id,
+          stage
+        )
       `
-    id,
-    user_id,
-    species,
-    source,
-    initial_n_date,
-    initial_i_date,
-    transfer_cycle,
-    photo_url,
-    notes,
-    created_at,
-    current_stage_id,
-    current_stage:plant_stages!plants_current_stage_id_fkey (
-      id,
-      stage
-    )
-  `
-    )
-    .in("id", plantIds);
+      )
+      .in("id", plantIds);
 
-  console.log("plantsData", plantsData);
-  if (plantsError) {
-    console.error("Error fetching plants with stages:", plantsError);
-  } else if (plantsData) {
-    linkedPlants = plantsData.map((plant) => ({
-      ...plant,
-      current_stage: plant.current_stage ?? null,
-    }));
+    if (plantsError) {
+      console.error("Error fetching plants with stages:", plantsError);
+    } else if (plantsData) {
+      linkedPlants = plantsData.map((plant) => ({
+        ...plant,
+        current_stage: plant.current_stage ?? null,
+        media: [], // <-- add empty media array to satisfy Plant type
+      }));
+    }
+  }
+
+  // ---- LINKED PRODUCTS ----
+  const { data: productLinks, error: productLinkError } = await supabase
+    .from("media_recipe_products")
+    .select("product_id")
+    .eq("recipe_id", id);
+
+  if (productLinkError) {
+    console.error("Error loading linked products:", productLinkError);
+  }
+
+  const productIds = productLinks?.map((row) => row.product_id) ?? [];
+
+  let linkedProducts: any[] = [];
+  if (productIds.length > 0) {
+    const { data: productsData, error: productsError } = await supabase
+      .from("products")
+      .select(
+        `
+        *,
+        variants: product_variants (
+          id,
+          title,
+          price
+        )
+      `
+      )
+      .in("id", productIds);
+
+    if (productsError) {
+      console.error("Error fetching linked products:", productsError);
+    } else if (productsData) {
+      linkedProducts = productsData;
+    }
   }
 
   const canEdit = true;
@@ -91,42 +128,35 @@ export default async function MediaRecipeDetailPage({
           </p>
         </header>
 
+        {/* Components list */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">Components</h2>
           <ul className="list-disc list-inside bg-white/70 p-4 rounded-xl shadow">
-            {recipe.components?.map((c: any, idx: number) => {
-              const hasProduct = !!c.product_id;
-              const content = (
-                <>
-                  {c.qty} &ndash; {c.name}
-                </>
-              );
-              return (
-                <li key={idx} className="text-gray-700">
-                  {hasProduct ? (
-                    <Link
-                      href={`/shop/${c.product_id}`}
-                      className="text-psybeam-purple hover:underline"
-                    >
-                      {content}
-                    </Link>
-                  ) : (
-                    content
-                  )}
-                </li>
-              );
-            })}
+            {recipe.components?.map((c: any, idx: number) => (
+              <li key={idx} className="text-gray-700">
+                {c.qty} – {c.name}
+              </li>
+            ))}
           </ul>
         </section>
 
+        {/* Linked Plants */}
         {linkedPlants.length > 0 && (
-          <section>
+          <section className="mb-12">
             <h2 className="text-2xl font-semibold mb-4">Linked Plants</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {linkedPlants.map((plant) => (
                 <PlantCard key={plant.id} plant={plant} />
               ))}
             </div>
+          </section>
+        )}
+
+        {/* Linked Products */}
+        {linkedProducts.length > 0 && (
+          <section className="mb-12">
+            <h2 className="text-2xl font-semibold mb-4">Linked Products</h2>
+            <MediaLinkedProductsGrid products={linkedProducts} />
           </section>
         )}
 

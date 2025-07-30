@@ -3,15 +3,14 @@ import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import MediaRecipeForm from "@/components/dashboard/media/MediaRecipeForm";
 import { Toaster } from "react-hot-toast";
 
-export default async function EditMediaRecipePage({
-  params,
-}: {
-  params: { id: string };
+export default async function EditMediaRecipePage(props: {
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = params;
+  const { id } = await props.params; // ✅ Await params
+
   const supabase = await createClient();
 
-  // Check that recipe exists (optional: you could skip this if the form fetches it itself)
+  // Optional: You can skip this query if the form fetches recipe details itself
   const { data: recipe, error } = await supabase
     .from("media_recipes")
     .select("id, title")
@@ -44,7 +43,6 @@ export default async function EditMediaRecipePage({
         <section className="relative overflow-hidden rounded-3xl shadow-xl bg-gradient-to-br from-milk-bio via-spore-grey/10 to-milk-bio">
           <div className="absolute inset-0 bg-[url('/png/asfalt-light.png')] bg-repeat opacity-5 pointer-events-none"></div>
           <div className="relative p-8">
-            {/* Pass just the recipeId, the form handles fetching and populating */}
             <MediaRecipeForm recipeId={id} />
           </div>
         </section>

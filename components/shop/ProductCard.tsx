@@ -3,7 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { Product } from "@/data/products";
+import type { Product } from "@/lib/types";
 
 type ProductCardProps = {
   product: Product;
@@ -12,11 +12,13 @@ type ProductCardProps = {
     quantity: number,
     variantTitle: string
   ) => void;
+  placeholderImage?: string;
 };
 
 export default function ProductCard({
   product,
   onAddToCart,
+  placeholderImage = "/placeholder.png",
 }: ProductCardProps) {
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
     product.variants?.[0]?.id || null
@@ -31,7 +33,6 @@ export default function ProductCard({
       className="group relative w-full max-w-xs transition-transform duration-300 ease-in-out hover:-translate-y-1"
       style={{ transformOrigin: "center" }}
     >
-      {/* Border wrapper with gradient on hover */}
       <div
         className="rounded-xl p-[2px]
           bg-gray-200
@@ -41,10 +42,8 @@ export default function ProductCard({
           group-hover:to-[var(--future-lime)]
           transition-all duration-300 ease-in-out"
       >
-        {/* Inner card */}
         <div className="relative flex flex-col justify-between h-full bg-white rounded-xl overflow-hidden">
           <Link key={product.id} href={`/shop/${product.id}`}>
-            {/* Tag */}
             {product.tag && (
               <div className="absolute top-3 left-3 z-20 group">
                 <div
@@ -69,11 +68,10 @@ export default function ProductCard({
             {/* Image */}
             <div className="relative w-full aspect-square overflow-hidden">
               <Image
-                src={product.image}
+                src={product.image ?? placeholderImage}
                 alt={product.title}
-                layout="fill"
-                objectFit="cover"
-                className="transition-transform duration-300 scale-95 group-hover:scale-100"
+                fill
+                className="object-cover transition-transform duration-300 scale-95 group-hover:scale-100"
               />
             </div>
 
@@ -123,7 +121,6 @@ export default function ProductCard({
 
           {/* Add to cart */}
           <div className="relative w-full group">
-            {/* Gradient border */}
             <div
               className="absolute -inset-[2.5px] rounded-b-xl
                 bg-gradient-to-r
@@ -133,8 +130,6 @@ export default function ProductCard({
                 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0"
               aria-hidden="true"
             />
-
-            {/* Button on top */}
             <button
               onClick={() =>
                 selectedVariantId &&
