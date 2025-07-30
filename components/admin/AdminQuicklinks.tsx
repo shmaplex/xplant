@@ -64,6 +64,10 @@ export default function AdminQuicklinks() {
             hovered={hovered}
             setHovered={setHovered}
             handleInteraction={handleInteraction}
+            activeClassName="bg-blue-600 backdrop-blur border border-white/30"
+            inactiveClassName="bg-black/50 backdrop-blur hover:bg-black/70"
+            textColor="text-white"
+            tooltipBg="bg-black/80"
           />
         ))}
       </div>

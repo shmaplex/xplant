@@ -84,7 +84,10 @@ export default function UserQuicklinks() {
             hovered={hovered}
             setHovered={setHovered}
             handleInteraction={handleInteraction}
-            buttonClassName="w-10 h-10 flex items-center justify-center rounded-full bg-white/60 backdrop-blur shadow-md hover:shadow-lg text-[#333] transition hover:bg-white"
+            activeClassName="bg-white backdrop-blur"
+            inactiveClassName="bg-white/20 backdrop-blur hover:bg-white"
+            textColor="text-[#333]"
+            tooltipBg="bg-black/80"
           />
         ))}
 
@@ -95,7 +98,10 @@ export default function UserQuicklinks() {
           setHovered={setHovered}
           handleInteraction={handleInteraction}
           onClick={handleLogout}
-          buttonClassName="w-10 h-10 flex items-center justify-center rounded-full bg-white/60 backdrop-blur shadow-md hover:shadow-lg text-gray-700 transition hover:bg-white hover:text-red-600"
+          activeClassName="bg-white backdrop-blur"
+          inactiveClassName="bg-white/60 backdrop-blur hover:bg-white"
+          textColor="text-gray-700 hover:text-red-600"
+          tooltipBg="bg-black/80"
         />
       </div>
     </nav>
