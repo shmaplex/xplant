@@ -34,19 +34,19 @@ const CategoryNav: FC<Props> = ({
               onClick={() => scrollToCategory(name)}
               className="
                 relative z-10
-                text-left text-sm font-medium text-[var(--color-moss-shadow)] hover:text-[var(--color-psybeam-purple)]
+                text-left text-sm font-medium text-[var(--moss-shadow)] hover:text-[var(--psybeam-purple)]
                 px-[2px] py-[2px] rounded-full
                 transition
-                bg-[var(--color-milk-bio)]
+                bg-[var(--milk-bio)]
                 before:absolute before:inset-0 before:rounded-full before:z-[-1]
-                before:bg-gradient-to-r before:from-[var(--color-future-lime)] before:to-[var(--color-psybeam-purple)]
+                before:bg-gradient-to-r before:from-[var(--future-lime)] before:to-[var(--psybeam-purple)]
                 before:opacity-0 hover:before:opacity-100
                 before:p-[1px] before:transition-opacity
                 ease-in-out duration-300
               "
               type="button"
             >
-              <span className="block bg-[var(--color-milk-bio)] hover:bg-white uppercase rounded-full px-4 py-0.5 transition ease-in-out duration-300">
+              <span className="block bg-[var(--milk-bio)] hover:bg-white uppercase rounded-full px-4 py-0.5 transition ease-in-out duration-300">
                 {name}
               </span>
             </button>
@@ -62,8 +62,8 @@ const CategoryNav: FC<Props> = ({
                       className="
             group
             text-left text-xs font-medium
-            text-[var(--color-moss-shadow)]
-            hover:text-[var(--color-psybeam-purple)]
+            text-[var(--moss-shadow)]
+            hover:text-[var(--psybeam-purple)]
             transition-colors duration-300
             rounded-full
           "
@@ -73,7 +73,7 @@ const CategoryNav: FC<Props> = ({
                         className="
               inline-block
               px-3 py-1
-              bg-[var(--color-milk-bio)]
+              bg-[var(--milk-bio)]
               rounded-full
               group-hover:bg-white
               transition-colors duration-300
