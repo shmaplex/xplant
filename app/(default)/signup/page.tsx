@@ -18,15 +18,29 @@ export default function SignupPage() {
     e.preventDefault();
     setLoading(true);
 
-    const { error } = await supabase.auth.signUp({ email, password });
+    const { data, error } = await supabase.auth.signUp({ email, password });
 
     if (error) {
       setMessage(error.message);
-    } else {
-      setMessage("Account created! Check your email to verify.");
-      router.push("/login");
+      setLoading(false);
+      return;
     }
 
+    // Grab user id
+    const userId = data.user?.id;
+    if (userId) {
+      // Call your function to seed data
+      const { error: seedError } = await supabase.rpc("seed_new_user", {
+        user_uuid: userId,
+      });
+
+      if (seedError) {
+        console.error("Seeding failed:", seedError);
+      }
+    }
+
+    setMessage("Account created! Check your email to verify.");
+    router.push("/login");
     setLoading(false);
   }
 
