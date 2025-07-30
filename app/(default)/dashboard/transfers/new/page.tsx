@@ -1,14 +1,15 @@
 "use client";
 
+import NewTransferForm from "@/components/dashboard/transfers/NewTransferForm";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { PlantBasic } from "@/lib/types";
-import NewTransferForm from "@/components/dashboard/transfers/NewTransferForm";
+import { Suspense } from "react";
 
-export default function NewTransferPage() {
+function TransferPageClient() {
   const searchParams = useSearchParams();
-  const transferId = searchParams?.get("id") ?? undefined;
+  const transferId = searchParams.get("id") ?? undefined;
 
   const [plants, setPlants] = useState<PlantBasic[]>([]);
   const supabase = createClient();
@@ -39,5 +40,13 @@ export default function NewTransferPage() {
         <NewTransferForm plants={plants} transferId={transferId} />
       </div>
     </div>
+  );
+}
+
+export default function NewTransferPage() {
+  return (
+    <Suspense fallback="Loading...">
+      <TransferPageClient />
+    </Suspense>
   );
 }

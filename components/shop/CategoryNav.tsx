@@ -60,24 +60,24 @@ const CategoryNav: FC<Props> = ({
                       key={subcat}
                       onClick={() => scrollToCategory(subcat)}
                       className="
-            group
-            text-left text-xs font-medium
-            text-[var(--moss-shadow)]
-            hover:text-[var(--psybeam-purple)]
-            transition-colors duration-300
-            rounded-full
-          "
+                        group
+                        text-left text-xs font-medium
+                        text-[var(--moss-shadow)]
+                        hover:text-[var(--psybeam-purple)]
+                        transition-colors duration-300
+                        rounded-full
+                      "
                       type="button"
                     >
                       <span
                         className="
-              inline-block
-              px-3 py-1
-              bg-[var(--milk-bio)]
-              rounded-full
-              group-hover:bg-white
-              transition-colors duration-300
-            "
+                          inline-block
+                          px-3 py-1
+                          bg-[var(--milk-bio)]
+                          rounded-full
+                          group-hover:bg-white
+                          transition-colors duration-300
+                        "
                       >
                         {subcat}
                       </span>
