@@ -84,73 +84,75 @@ function extractBaseColor(color: string) {
 export default function TissueCultureIntroPage() {
   return (
     <>
-      <main className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-16">
-        {/* Diagram first on mobile */}
-        <div className="w-full h-full flex items-center justify-center order-1 lg:order-2">
-          <TissueCultureDiagram />
-        </div>
+      <main className="flex flex-col space-y-2 max-w-6xl mx-auto pt-8">
+        <header className="text-left">
+          <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">
+            Intro to Plant Tissue Culture
+          </h1>
+          <p className="text-lg sm:text-xl text-[#4A4A4A]">
+            A beginner-friendly guide to starting your journey with{" "}
+            <strong>organic plant tissue culture</strong>. Learn how to
+            propagate plants in a clean, sustainable way—from setting up a
+            workstation to seeing your first plantlets grow.
+          </p>
+        </header>
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-16 mx-auto">
+          {/* Diagram first on mobile */}
+          <div className="basis-1/2 w-full h-full flex items-center justify-center order-1 lg:order-2">
+            <TissueCultureDiagram />
+          </div>
 
-        {/* Guide Content */}
-        <div className="max-w-prose space-y-16 px-6 sm:px-10 sm:py-12 order-2 lg:order-1">
-          <header className="text-left">
-            <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">
-              Intro to Plant Tissue Culture
-            </h1>
-            <p className="text-lg sm:text-xl text-[#4A4A4A]">
-              A beginner-friendly guide to starting your journey with{" "}
-              <strong>organic plant tissue culture</strong>. Learn how to
-              propagate plants in a clean, sustainable way—from setting up a
-              workstation to seeing your first plantlets grow.
-            </p>
-          </header>
+          {/* Guide Content */}
+          <div className="basis-1/2 space-y-16  sm:py-12 order-2 lg:order-1">
+            <section className="space-y-10">
+              <h2 className="text-2xl font-bold">Step-by-Step Starter Guide</h2>
+              <ol className="space-y-6 list-none">
+                {coreStages.map((stage, idx) => {
+                  const bgColor = extractBaseColor(stage.color);
+                  return (
+                    <li key={stage.key} className="flex items-start gap-4">
+                      <span
+                        className="flex-shrink-0 rounded-full w-8 h-8 flex items-center justify-center font-bold text-white"
+                        style={{ backgroundColor: bgColor }}
+                      >
+                        {idx + 1}
+                      </span>
+                      <div className="text-base sm:text-lg leading-relaxed">
+                        <strong>{stage.label}:</strong> {stage.description}
+                        {stage.key === "observe" && (
+                          <div className="mt-2">
+                            <Link
+                              href="/guide/tissue-culture-basics?fromIntro=1"
+                              className="inline-block text-sm font-medium text-[#5C5138] bg-[#ECE7DB] px-3 py-1 rounded-md hover:bg-[#e0d9c6] transition-colors"
+                            >
+                              <FiArrowRight className="mt-[1px] inline-block -translate-y-[2px]" />{" "}
+                              Learn more about culture media & conditions
+                            </Link>
+                          </div>
+                        )}
+                      </div>
+                    </li>
+                  );
+                })}
+              </ol>
+            </section>
 
-          <section className="space-y-10">
-            <h2 className="text-2xl font-bold">Step-by-Step Starter Guide</h2>
-            <ol className="space-y-6 list-none">
-              {coreStages.map((stage, idx) => {
-                const bgColor = extractBaseColor(stage.color);
-                return (
-                  <li key={stage.key} className="flex items-start gap-4">
-                    <span
-                      className="flex-shrink-0 rounded-full w-8 h-8 flex items-center justify-center font-bold text-white"
-                      style={{ backgroundColor: bgColor }}
-                    >
-                      {idx + 1}
-                    </span>
-                    <div className="text-base sm:text-lg leading-relaxed">
-                      <strong>{stage.label}:</strong> {stage.description}
-                      {stage.key === "observe" && (
-                        <div className="mt-2">
-                          <Link
-                            href="/guide/tissue-culture-basics?fromIntro=1"
-                            className="inline-block text-sm font-medium text-[#5C5138] bg-[#ECE7DB] px-3 py-1 rounded-md hover:bg-[#e0d9c6] transition-colors"
-                          >
-                            <FiArrowRight className="mt-[1px] inline-block -translate-y-[2px]" />{" "}
-                            Learn more about culture media & conditions
-                          </Link>
-                        </div>
-                      )}
-                    </div>
-                  </li>
-                );
-              })}
-            </ol>
-          </section>
-
-          <section className="p-6 bg-lime-100 border-l-4 border-future-lime rounded-md shadow-sm">
-            <h3 className="text-lg font-semibold text-green-900 mb-2">
-              🌱 Pro Tip
-            </h3>
-            <p className="text-green-800 text-base leading-relaxed">
-              <strong>Small, clean, and patient:</strong> Start with just a few
-              jars, keep everything clean, and avoid overhandling your cultures.
-              Simplicity and hygiene are more important than fancy equipment.
-            </p>
-          </section>
+            <section className="p-6 bg-lime-100 border-l-4 border-future-lime rounded-md shadow-sm">
+              <h3 className="text-lg font-semibold text-green-900 mb-2">
+                🌱 Pro Tip
+              </h3>
+              <p className="text-green-800 text-base leading-relaxed">
+                <strong>Small, clean, and patient:</strong> Start with just a
+                few jars, keep everything clean, and avoid overhandling your
+                cultures. Simplicity and hygiene are more important than fancy
+                equipment.
+              </p>
+            </section>
+          </div>
         </div>
       </main>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+      <div className="max-w-6xl mx-auto">
         <CommunityCallout />
 
         <ShopCTA />
