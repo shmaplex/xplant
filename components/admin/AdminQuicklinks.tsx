@@ -64,14 +64,6 @@ export default function AdminQuicklinks() {
             hovered={hovered}
             setHovered={setHovered}
             handleInteraction={handleInteraction}
-            buttonClassName={`
-              w-10 h-10 flex items-center justify-center rounded-full shadow-md hover:shadow-lg text-white transition
-              ${
-                pathname?.startsWith(href)
-                  ? "bg-blue-600 backdrop-blur border border-white/30"
-                  : "bg-black/50 backdrop-blur hover:bg-black/70"
-              }
-            `}
           />
         ))}
       </div>
