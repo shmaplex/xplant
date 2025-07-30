@@ -1,11 +1,11 @@
 import { PlantTransfer } from "@/lib/types";
 import { formatDate } from "@/lib/date";
-import { ClipboardList } from "lucide-react"; // you can use react-icons too
+import { FiClipboard } from "react-icons/fi";
 
 export default function TransferHistory({
   transfers,
 }: {
-  transfers: PlantTransfer[];
+  transfers: (PlantTransfer & { stage?: { name: string } })[];
 }) {
   const hasTransfers = transfers.length > 0;
 
@@ -17,7 +17,7 @@ export default function TransferHistory({
 
       {!hasTransfers ? (
         <div className="flex flex-col items-center justify-center py-16 bg-spore-grey/10 rounded-xl text-center">
-          <ClipboardList className="w-12 h-12 text-gray-400 mb-4" />
+          <FiClipboard className="w-12 h-12 text-gray-400 mb-4" />
           <p className="text-gray-500 text-lg font-medium">
             No transfer records found
           </p>
@@ -34,7 +34,7 @@ export default function TransferHistory({
             >
               <p className="font-medium">{formatDate(t.transfer_date)}</p>
               <p className="text-sm text-gray-700">
-                Stage: {t.stage}
+                Stage: {t.stage?.name ?? "Unknown"}
                 {t.notes && (
                   <>
                     <br />

@@ -7,11 +7,12 @@ export type Profile = {
   bio?: string;
   phone?: string;
   locale?: string;
+  role?: string;
   is_premium?: boolean;
   is_banned?: boolean;
   metadata?: Record<string, any>;
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
 };
 
 export type User = {
@@ -61,8 +62,7 @@ export type PlantTransfer = {
   id: string;
   plant_id: string;
   transfer_date: string;
-  transfer_number: number;
-  stage: string;
+  transfer_cycle: number;
   notes?: string;
   plant?: {
     species: string;

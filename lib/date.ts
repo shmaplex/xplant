@@ -12,6 +12,11 @@ export function formatDate(dateString?: string) {
   }
 }
 
+export function formatDateSafe(dateStr?: string) {
+  if (!dateStr) return "-";
+  return new Date(dateStr).toLocaleString();
+}
+
 export function getCurrentMonday(): Date {
   const now = new Date();
   const day = now.getDay(); // 0 (Sun) - 6 (Sat)

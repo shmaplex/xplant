@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { Profile } from "@/lib/types";
-import { Eye, EyeOff } from "lucide-react"; // You can install lucide-react or use any icon library
+import { FiEye, FiEyeOff } from "react-icons/fi"; // react-icons replacement
+import { formatDateSafe } from "@/lib/date";
 
 export default function AdminUsersPage() {
   const supabase = createClient();
@@ -14,7 +15,7 @@ export default function AdminUsersPage() {
   const [revealedEmails, setRevealedEmails] = useState<Record<string, boolean>>(
     {}
   );
-  // Similarly for ids, if you want
+  // Similarly for ids
   const [revealedIds, setRevealedIds] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
@@ -109,12 +110,12 @@ export default function AdminUsersPage() {
                     >
                       {revealedIds[u.id] ? (
                         <>
-                          <EyeOff size={16} />
+                          <FiEyeOff size={16} />
                           <span>{u.id}</span>
                         </>
                       ) : (
                         <>
-                          <Eye size={16} />
+                          <FiEye size={16} />
                           <span>••••••••••••</span>
                         </>
                       )}
@@ -137,9 +138,9 @@ export default function AdminUsersPage() {
                         <span className="select-none">••••••••••••</span>
                       )}
                       {revealedEmails[u.id] ? (
-                        <EyeOff size={16} className="ml-2" />
+                        <FiEyeOff size={16} className="ml-2" />
                       ) : (
-                        <Eye size={16} className="ml-2" />
+                        <FiEye size={16} className="ml-2" />
                       )}
                     </button>
                   </td>
@@ -150,7 +151,7 @@ export default function AdminUsersPage() {
                     {u.role || "user"}
                   </td>
                   <td className="px-6 py-4 text-gray-600">
-                    {new Date(u.created_at).toLocaleString()}
+                    {formatDateSafe(u.created_at)}
                   </td>
                 </tr>
               ))}

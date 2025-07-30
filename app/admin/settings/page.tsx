@@ -2,7 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { Eye, EyeOff, Trash2, RefreshCw, PlusCircle } from "lucide-react";
+import {
+  FiEye,
+  FiEyeOff,
+  FiTrash2,
+  FiRefreshCw,
+  FiPlusCircle,
+} from "react-icons/fi";
 
 export default function AdminSettingsPage() {
   const supabase = createClient();
@@ -82,7 +88,6 @@ export default function AdminSettingsPage() {
     // optimistic update
     setSettings((prev) => ({ ...prev, [key]: newValue }));
 
-    // Build the payload dynamically
     const payload: any = {
       key,
       value: newValue,
@@ -98,21 +103,17 @@ export default function AdminSettingsPage() {
     if (error) console.error("Failed to update setting:", error);
   }
 
-  // Extract current setting values with safe defaults
   const maintenanceEnabled = settings["maintenance_mode"]?.enabled || false;
   const defaultTimezone = settings["default_timezone"]?.value || "UTC";
   const allowSignups = settings["allow_signups"]?.enabled ?? true;
 
-  // Feature flags object, e.g. { newUI: true, betaFeature: false }
   const featureFlags: Record<string, boolean> = settings["feature_flags"] || {};
 
-  // Toggle an existing feature flag
   function toggleFeatureFlag(flagKey: string, value: boolean) {
     const updatedFlags = { ...featureFlags, [flagKey]: value };
     updateSetting("feature_flags", updatedFlags, userId);
   }
 
-  // Add a new feature flag (default enabled = false)
   function addFeatureFlag() {
     const trimmed = newFlagName.trim();
     if (!trimmed) return;
@@ -127,7 +128,7 @@ export default function AdminSettingsPage() {
 
   return (
     <>
-      {/* Fixed prominent toggles */}
+      {/* Fixed quick toggles */}
       <div
         className="fixed top-4 left-4 bg-green-50 border border-green-300 rounded-xl p-6 shadow-lg max-w-xs z-50"
         style={{ minWidth: 240 }}
@@ -172,9 +173,7 @@ export default function AdminSettingsPage() {
           Admin Settings
         </h1>
 
-        {/* Layout: Use grid for main content */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* General settings */}
           <section className="bg-white rounded-xl shadow p-6 space-y-4">
             <h2 className="text-xl font-semibold">General App Settings</h2>
             {loadingSettings ? (
@@ -202,17 +201,16 @@ export default function AdminSettingsPage() {
             )}
           </section>
 
-          {/* Feature flags */}
           <section className="bg-white rounded-xl shadow p-6 space-y-4">
             <h2 className="text-xl font-semibold flex items-center justify-between">
               Feature Flags
               <button
                 onClick={addFeatureFlag}
                 disabled={!newFlagName.trim()}
-                className={`flex items-center gap-1 text-green-600 hover:text-green-800 disabled:opacity-50 disabled:cursor-not-allowed`}
+                className="flex items-center gap-1 text-green-600 hover:text-green-800 disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Add new feature flag"
               >
-                <PlusCircle size={20} /> Add
+                <FiPlusCircle size={20} /> Add
               </button>
             </h2>
             {loadingSettings ? (
@@ -256,7 +254,6 @@ export default function AdminSettingsPage() {
           </section>
         </div>
 
-        {/* User signup moved here for better layout */}
         <section className="bg-white rounded-xl shadow p-6 max-w-md mx-auto">
           <h2 className="text-xl font-semibold mb-4">User Signup</h2>
           {loadingSettings ? (
@@ -280,7 +277,6 @@ export default function AdminSettingsPage() {
           )}
         </section>
 
-        {/* User management */}
         <section className="bg-white rounded-xl shadow p-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-semibold">Users</h2>
@@ -288,7 +284,7 @@ export default function AdminSettingsPage() {
               onClick={() => setShowEmails((prev) => !prev)}
               className="flex items-center gap-2 px-3 py-1 rounded bg-gray-100 hover:bg-gray-200"
             >
-              {showEmails ? <EyeOff size={16} /> : <Eye size={16} />}
+              {showEmails ? <FiEyeOff size={16} /> : <FiEye size={16} />}
               {showEmails ? "Hide emails" : "Show emails"}
             </button>
           </div>
@@ -331,12 +327,11 @@ export default function AdminSettingsPage() {
           )}
         </section>
 
-        {/* Plant management */}
         <section className="bg-white rounded-xl shadow p-6 space-y-4">
           <h2 className="text-xl font-semibold">Plant Management</h2>
           <div className="flex flex-wrap gap-4">
             <button className="flex items-center gap-2 px-4 py-2 bg-red-100 text-red-600 rounded hover:bg-red-200">
-              <Trash2 size={16} /> Delete All Plants
+              <FiTrash2 size={16} /> Delete All Plants
             </button>
             <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded hover:bg-gray-200">
               Export Plants CSV
@@ -344,7 +339,6 @@ export default function AdminSettingsPage() {
           </div>
         </section>
 
-        {/* Media recipes */}
         <section className="bg-white rounded-xl shadow p-6 space-y-4">
           <h2 className="text-xl font-semibold">Media Recipes</h2>
           <div className="flex flex-wrap gap-4">
@@ -357,12 +351,11 @@ export default function AdminSettingsPage() {
           </div>
         </section>
 
-        {/* System diagnostics */}
         <section className="bg-white rounded-xl shadow p-6 space-y-4">
           <h2 className="text-xl font-semibold">System Diagnostics</h2>
           <div className="flex flex-col gap-4">
             <button className="flex items-center gap-2 px-4 py-2 bg-gray-100 rounded hover:bg-gray-200">
-              <RefreshCw size={16} /> Clear Cache
+              <FiRefreshCw size={16} /> Clear Cache
             </button>
             <p className="text-gray-600 text-sm">Storage usage: Coming soon…</p>
           </div>

@@ -19,18 +19,21 @@ export default async function PlantCultureDashboard() {
   }
   if (!session) redirect("/login");
 
-  // 1. Fetch plants only (no join)
+  const userId = session.user.id;
+  const userEmail = session.user.email;
+
+  // 1. Fetch plants
   const { data: plants, error: plantsError } = await supabase
     .from("plants")
     .select("*")
-    .eq("user_id", session.user.id)
+    .eq("user_id", userId)
     .order("created_at", { ascending: false });
 
   if (plantsError) {
     console.error("Error fetching plants:", plantsError);
   }
 
-  // 2. Fetch latest stage for each plant separately (RLS friendly)
+  // 2. Fetch latest stage for each plant
   const plantsWithStages = plants
     ? await Promise.all(
         plants.map(async (plant) => {
@@ -60,7 +63,7 @@ export default async function PlantCultureDashboard() {
   const { data: tasks, error: tasksError } = await supabase
     .from("tasks")
     .select("*")
-    .eq("user_id", session.user.id)
+    .eq("user_id", userId)
     .eq("is_completed", false)
     .gte("due_date", new Date().toISOString().split("T")[0])
     .order("due_date", { ascending: true })
@@ -68,6 +71,18 @@ export default async function PlantCultureDashboard() {
 
   if (tasksError) {
     console.error("Error fetching tasks:", tasksError);
+  }
+
+  // 4. Fetch recent contamination logs
+  const { data: contaminationLogs, error: contaminationError } = await supabase
+    .from("contamination_logs_with_user")
+    .select("*")
+    .eq("user_email", userEmail)
+    .order("log_date", { ascending: false })
+    .limit(10);
+
+  if (contaminationError) {
+    console.error("Error fetching contamination logs:", contaminationError);
   }
 
   return (
@@ -88,6 +103,7 @@ export default async function PlantCultureDashboard() {
           </div>
         </div>
       </div>
+
       <div className="max-w-7xl mx-auto px-6 py-16 space-y-16">
         <QuickActions />
 
@@ -133,22 +149,44 @@ export default async function PlantCultureDashboard() {
               </div>
             </div>
 
-            {/* Media Recipes */}
-            <div className="relative rounded-2xl shadow bg-gradient-to-br from-white to-milk-bio flex flex-col">
-              <div className="p-6 flex-1">
+            {/* Contamination Reports */}
+            <div className="relative rounded-2xl shadow bg-gradient-to-br from-white to-milk-bio flex flex-col overflow-hidden">
+              <div className="p-6 flex-1 overflow-y-auto">
                 <h3 className="font-semibold text-moss-shadow mb-3">
-                  Media Recipes
+                  Recent Contamination Reports
                 </h3>
-                <p className="text-gray-600 text-sm">
-                  Save recipes using our organic products or custom inputs.
-                </p>
+                {contaminationLogs && contaminationLogs.length > 0 ? (
+                  <ul className="space-y-3 max-h-56 overflow-auto">
+                    {contaminationLogs.map((log) => (
+                      <li
+                        key={log.id}
+                        className="border border-spore-grey rounded p-3 bg-white shadow-sm"
+                      >
+                        <p className="text-sm font-medium text-moss-shadow">
+                          {log.plant_species || "Unknown Plant"}
+                        </p>
+                        <p className="text-sm text-gray-700 truncate">
+                          {log.issue}
+                        </p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          Reported on{" "}
+                          {new Date(log.log_date).toLocaleDateString()}
+                        </p>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p className="text-gray-500 text-sm">
+                    No contamination reports found.
+                  </p>
+                )}
               </div>
-              <div className="bg-milk-bio/70 px-6 py-3 rounded-b-2xl border-t border-gray-200">
+              <div className="bg-milk-bio/70 px-6 py-3 rounded-b-2xl border-t border-gray-200 text-right">
                 <a
-                  href="/dashboard/media"
+                  href="/dashboard/contamination"
                   className="text-sm text-green-800 hover:text-green-600 font-medium"
                 >
-                  Browse all recipes →
+                  View all contamination reports →
                 </a>
               </div>
             </div>
@@ -162,21 +200,23 @@ export default async function PlantCultureDashboard() {
           </h2>
           <ul className="list-disc pl-5 text-gray-700 space-y-2">
             <li>
-              <strong>Transfer Cycle Tracker</strong> – Auto reminders & visual
-              progress.
+              <strong>Transfer Cycle Tracker</strong> &ndash; Auto reminders &
+              visual progress.
             </li>
             <li>
-              <strong>Cold Storage Planner</strong> – Track plants moved to cold
-              storage.
+              <strong>Cold Storage Planner</strong> &ndash; Track plants moved
+              to cold storage.
             </li>
             <li>
-              <strong>Contamination Log</strong> – Photo and note tracking.
+              <strong>Contamination Log</strong> &ndash; Photo and note
+              tracking.
             </li>
             <li>
-              <strong>Reports & Insights</strong> – Growth charts over time.
+              <strong>Reports & Insights</strong> &ndash; Growth charts over
+              time.
             </li>
             <li>
-              <strong>Community Recipes</strong> – Share and explore media
+              <strong>Community Recipes</strong> &ndash; Share and explore media
               blends.
             </li>
           </ul>
