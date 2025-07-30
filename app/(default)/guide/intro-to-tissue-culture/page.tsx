@@ -98,7 +98,7 @@ export default function TissueCultureIntroPage() {
         </header>
         <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-0 mx-auto">
           {/* Diagram first on mobile */}
-          <div className="w-full h-full flex items-center justify-center order-1 lg:order-2">
+          <div className="hidden lg:flex w-full h-full items-center justify-center order-1 lg:order-2">
             <TissueCultureDiagram />
           </div>
 
