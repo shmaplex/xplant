@@ -47,8 +47,6 @@ export async function POST(req: NextRequest) {
     const response = await client.request(mutation, { variables });
     const data = response.data;
 
-    console.log("Cart create response:", data);
-
     if (data.cartCreate.userErrors.length > 0) {
       return NextResponse.json(
         { error: data.cartCreate.userErrors },

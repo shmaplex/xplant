@@ -1,5 +1,7 @@
 "use client";
 
+import React from "react";
+
 type MediaComponentRowProps = {
   id: string;
   name: string;
@@ -8,6 +10,9 @@ type MediaComponentRowProps = {
   onRemove: (id: string) => void;
   disableRemove: boolean;
   suggestions: string[];
+  InputComponent?: React.ComponentType<
+    React.InputHTMLAttributes<HTMLInputElement>
+  >; // optional custom input component
 };
 
 export default function MediaComponentRow({
@@ -18,12 +23,13 @@ export default function MediaComponentRow({
   onRemove,
   disableRemove,
   suggestions,
+  InputComponent = (props) => <input {...props} />, // default to normal input
 }: MediaComponentRowProps) {
   const listId = `component-suggestions-${id}`;
 
   return (
     <div className="flex items-center gap-3" aria-label="Recipe component row">
-      <input
+      <InputComponent
         type="text"
         placeholder="Component name (e.g. Sucrose)"
         value={name}
@@ -37,7 +43,7 @@ export default function MediaComponentRow({
         ))}
       </datalist>
 
-      <input
+      <InputComponent
         type="text"
         placeholder="Qty (e.g. 20g)"
         value={qty}

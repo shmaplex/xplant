@@ -219,7 +219,23 @@ body {
     background-position: 0% 50%;
   }
 }
+
 .animate-gradient-slow {
   background-size: 200% 200%;
   animation: gradient-slow 20s ease infinite;
+}
+
+.dashboard-hero-colored {
+  background: white;
+  border-bottom: 4px solid transparent;
+  border-image-slice: 1;
+  border-style: solid;
+  border-image-source: linear-gradient(to right, #d3a8f9, #b7ef48, #d3a8f9);
+  color: var(--moss-shadow);
+}
+
+.border-image-border-gradient {
+  border-image-slice: 1;
+  border-image-source: linear-gradient(to right, #d3a8f9, #b7ef48, #d3a8f9);
+  border-style: solid;
 }

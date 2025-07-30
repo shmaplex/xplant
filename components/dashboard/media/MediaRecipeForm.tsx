@@ -1,11 +1,23 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MediaComponentRow from "./MediaComponentRow";
 import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+
+import {
+  fetchMediaRecipeById,
+  fetchRecipeLinkedProducts,
+  fetchAllComponentNames,
+  fetchProducts,
+  saveMediaRecipe,
+  updateRecipeProductLinks,
+} from "@/api/media";
+
+import Input from "@/components/ui/Input";
+import MediaProductLinkSelector from "@/components/dashboard/media/MediaProductLinkSelector";
 
 type ComponentItem = {
   id: string;
@@ -24,97 +36,50 @@ export default function MediaRecipeForm({ recipeId }: { recipeId?: string }) {
   const [products, setProducts] = useState<any[]>([]);
   const [linkedProductIds, setLinkedProductIds] = useState<string[]>([]);
 
-  // Initialize empty components if creating new
   useEffect(() => {
     if (!recipeId) {
       setRecipeComponents([{ id: crypto.randomUUID(), name: "", qty: "" }]);
     }
   }, [recipeId]);
 
-  // Fetch recipe details and linked products if editing
   useEffect(() => {
     if (!recipeId) return;
 
     const loadRecipe = async () => {
-      // Fetch recipe
-      const { data, error } = await supabase
-        .from("media_recipes")
-        .select("title, components")
-        .eq("id", recipeId)
-        .maybeSingle();
+      try {
+        const data = await fetchMediaRecipeById(recipeId);
+        if (data) {
+          setTitle(data.title || "");
+          setRecipeComponents(
+            (data.components || []).map((c: any) => ({
+              id: crypto.randomUUID(),
+              name: c.name,
+              qty: c.qty,
+            }))
+          );
+        }
 
-      if (error) {
-        console.error("Failed to fetch recipe:", error);
-        return;
-      }
-
-      if (data) {
-        setTitle(data.title || "");
-        setRecipeComponents(
-          (data.components || []).map((c: any) => ({
-            id: crypto.randomUUID(),
-            name: c.name,
-            qty: c.qty,
-          }))
-        );
-      }
-
-      // Fetch linked product IDs
-      const { data: links, error: linkErr } = await supabase
-        .from("media_recipe_products")
-        .select("product_id")
-        .eq("recipe_id", recipeId);
-
-      if (linkErr) {
-        console.error("Failed to fetch linked products:", linkErr);
-      } else {
-        setLinkedProductIds(links.map((row) => row.product_id));
+        const links = await fetchRecipeLinkedProducts(recipeId);
+        setLinkedProductIds(links);
+      } catch (err) {
+        console.error("Failed to fetch recipe:", err);
       }
     };
 
     loadRecipe();
-  }, [recipeId, supabase]);
+  }, [recipeId]);
 
-  // Fetch all unique component names for suggestions
   useEffect(() => {
-    const fetchComponents = async () => {
-      const { data, error } = await supabase
-        .from("media_recipes")
-        .select("components");
-      if (error) {
-        console.error(error);
-        return;
-      }
+    fetchAllComponentNames()
+      .then(setAllComponentNames)
+      .catch((err) => console.error("Failed to fetch component names:", err));
+  }, []);
 
-      const names = new Set<string>();
-      data?.forEach((recipe) => {
-        if (Array.isArray(recipe.components)) {
-          recipe.components.forEach((c: any) => {
-            if (c.name) names.add(c.name);
-          });
-        }
-      });
-      setAllComponentNames(Array.from(names).sort());
-    };
-    fetchComponents();
-  }, [supabase]);
-
-  // Fetch product list
   useEffect(() => {
-    async function fetchProducts() {
-      const { data, error } = await supabase
-        .from("products")
-        .select("id,title")
-        .order("title");
-
-      if (error) {
-        console.error("Error loading products:", error);
-        return;
-      }
-      setProducts(data || []);
-    }
-    fetchProducts();
-  }, [supabase]);
+    fetchProducts()
+      .then(setProducts)
+      .catch((err) => console.error("Error loading products:", err));
+  }, []);
 
   const toggleLinkedProduct = (id: string) => {
     setLinkedProductIds((prev) =>
@@ -173,66 +138,26 @@ export default function MediaRecipeForm({ recipeId }: { recipeId?: string }) {
       return;
     }
 
-    // Step 1: Upsert the recipe (without linked_product_ids)
-    const { data: saved, error } = await supabase
-      .from("media_recipes")
-      .upsert(
-        [
-          {
-            id: recipeId,
-            user_id: session.user.id,
-            title,
-            components: cleanComponents,
-          },
-        ],
-        { onConflict: "id" }
-      )
-      .select("id")
-      .single();
+    try {
+      const recipe_id = await saveMediaRecipe({
+        recipeId,
+        userId: session.user.id,
+        title,
+        components: cleanComponents,
+      });
 
-    if (error || !saved?.id) {
-      setLoading(false);
+      await updateRecipeProductLinks(recipe_id, linkedProductIds);
+
+      toast.success("Media recipe saved!");
+      setTimeout(() => {
+        router.push(`/dashboard/media/${recipe_id}`);
+      }, 1000);
+    } catch (err) {
+      console.error("Failed to save recipe:", err);
       toast.error("Failed to save recipe.");
-      console.error(error);
-      return;
+    } finally {
+      setLoading(false);
     }
-
-    const recipe_id = saved.id;
-
-    // Step 2: Update the join table
-    // Remove old links
-    const { error: delError } = await supabase
-      .from("media_recipe_products")
-      .delete()
-      .eq("recipe_id", recipe_id);
-
-    if (delError) {
-      console.error("Failed to clear old product links:", delError);
-    }
-
-    // Insert new links
-    if (linkedProductIds.length > 0) {
-      const { error: insertError } = await supabase
-        .from("media_recipe_products")
-        .insert(
-          linkedProductIds.map((product_id) => ({
-            recipe_id,
-            product_id,
-          }))
-        );
-
-      if (insertError) {
-        console.error("Failed to insert product links:", insertError);
-      }
-    }
-
-    setLoading(false);
-    toast.success("Media recipe saved!");
-
-    // Redirect after save
-    setTimeout(() => {
-      router.push(`/dashboard/media/${recipe_id}`);
-    }, 1000);
   };
 
   if (recipeComponents.length === 0) return null;
@@ -243,13 +168,13 @@ export default function MediaRecipeForm({ recipeId }: { recipeId?: string }) {
         <label className="block text-sm font-semibold text-moss-shadow mb-1">
           Recipe Title
         </label>
-        <input
+        <Input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className="input w-full rounded border border-spore-grey/50 focus:ring-2 focus:ring-psybeam-purple focus:outline-none p-2"
           placeholder="Enter recipe title"
           required
+          className="w-full"
         />
       </div>
 
@@ -267,6 +192,7 @@ export default function MediaRecipeForm({ recipeId }: { recipeId?: string }) {
             onRemove={removeComponent}
             disableRemove={recipeComponents.length === 1}
             suggestions={allComponentNames}
+            InputComponent={Input} // pass down the input component if your MediaComponentRow supports it
           />
         ))}
 
@@ -279,40 +205,11 @@ export default function MediaRecipeForm({ recipeId }: { recipeId?: string }) {
         </button>
       </fieldset>
 
-      <fieldset className="space-y-3">
-        <legend className="text-sm font-semibold text-moss-shadow mb-2">
-          Link to Products
-        </legend>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-h-64 overflow-y-auto">
-          {products.map((p) => {
-            const selected = linkedProductIds.includes(p.id);
-            return (
-              <div
-                key={p.id}
-                onClick={() => toggleLinkedProduct(p.id)}
-                className={`
-                  cursor-pointer border rounded-lg p-3 text-sm transition
-                  ${
-                    selected
-                      ? "border-psybeam-purple bg-psybeam-purple/10 shadow-sm"
-                      : "border-gray-200 hover:border-psybeam-purple"
-                  }
-                `}
-              >
-                <div className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={selected}
-                    onChange={() => toggleLinkedProduct(p.id)}
-                    className="accent-psybeam-purple cursor-pointer"
-                  />
-                  <span className="font-medium">{p.title}</span>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </fieldset>
+      <MediaProductLinkSelector
+        products={products}
+        linkedProductIds={linkedProductIds}
+        toggleLinkedProduct={toggleLinkedProduct}
+      />
 
       <button
         type="submit"

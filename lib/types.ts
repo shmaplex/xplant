@@ -64,6 +64,12 @@ export interface Plant {
   plant_stages?: PlantStage[];
 }
 
+export type PlantRecipeLink = {
+  recipe_id: string;
+  linked_at: string;
+  media_recipes: MediaRecipe;
+};
+
 export type PlantBasic = {
   id: string;
   species: string;
@@ -92,13 +98,21 @@ export type Task = {
   created_at: string;
 };
 
+export type ContaminationLogInput = {
+  plant_id: string;
+  type: ContaminationLog["type"];
+  issue: string;
+  description?: string;
+  media_url?: string;
+};
+
 export type ContaminationLog = {
   id: string;
   plant_id: string;
   type: "mold" | "bacteria" | "hyperhydricity" | "other";
   issue: string;
   description?: string;
-  photo_url?: string;
+  media_url?: string;
   log_date: string;
   created_at: string;
 };

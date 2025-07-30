@@ -1,30 +1,31 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { fetchContaminationLogs } from "@/api/contamination";
 import type { ContaminationLogWithRelations } from "@/lib/types";
+import ContaminationMedia from "./ContaminationMedia"; // adjust the import path as needed
+import { getMediaType } from "@/lib/media";
 
 export default function ContaminationList() {
   const [logs, setLogs] = useState<ContaminationLogWithRelations[]>([]);
-  const supabase = createClient();
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchLogs = async () => {
-      const { data, error } = await supabase
-        .from("contamination_logs_with_user")
-        .select("*")
-        .order("log_date", { ascending: false });
-
-      if (error) {
-        console.error("Error fetching contamination logs:", error);
-        return;
+    const loadLogs = async () => {
+      try {
+        const data = await fetchContaminationLogs();
+        setLogs(data);
+      } catch (err) {
+        setError("Error fetching contamination logs.");
+        console.error(err);
       }
-
-      if (data) setLogs(data);
     };
+    loadLogs();
+  }, []);
 
-    fetchLogs();
-  }, [supabase]);
+  if (error) {
+    return <p className="text-red-500">{error}</p>;
+  }
 
   return (
     <div className="bg-milk-bio p-6 rounded-3xl shadow-xl">
@@ -33,6 +34,12 @@ export default function ContaminationList() {
       </h2>
 
       <div className="grid gap-6 sm:grid-cols-2">
+        {logs.length === 0 && (
+          <p className="text-center text-gray-500 mt-6">
+            No contamination reports yet.
+          </p>
+        )}
+
         {logs.map((log) => (
           <div
             key={log.id}
@@ -60,12 +67,15 @@ export default function ContaminationList() {
                 <p className="text-sm text-gray-700">{log.description}</p>
               )}
 
-              {log.photo_url && (
+              {/* Use ContaminationMedia for photo/video */}
+              {log.media_url && (
                 <div className="mt-2">
-                  <img
-                    src={`https://your-supabase-project.supabase.co/storage/v1/object/public/contamination-photos/${log.photo_url}`}
-                    alt="Contamination"
-                    className="rounded-xl max-h-48 w-full object-cover"
+                  <ContaminationMedia
+                    src={log.media_url}
+                    type={getMediaType(log.media_url)}
+                    alt={`Contamination media for ${
+                      log.plant_species || "plant"
+                    }`}
                   />
                 </div>
               )}
@@ -73,12 +83,6 @@ export default function ContaminationList() {
           </div>
         ))}
       </div>
-
-      {logs.length === 0 && (
-        <p className="text-center text-gray-500 mt-6">
-          No contamination reports yet.
-        </p>
-      )}
     </div>
   );
 }

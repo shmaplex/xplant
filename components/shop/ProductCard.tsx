@@ -18,7 +18,7 @@ type ProductCardProps = {
 export default function ProductCard({
   product,
   onAddToCart,
-  placeholderImage = "/placeholder.png",
+  placeholderImage = "/png/placeholder-product.png",
 }: ProductCardProps) {
   const [selectedVariantId, setSelectedVariantId] = useState<string | null>(
     product.variants?.[0]?.id || null

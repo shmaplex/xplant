@@ -3,7 +3,11 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { createClient } from "@/lib/supabase/client";
+import {
+  fetchPlants,
+  fetchMediaRecipeOptions,
+  linkPlantToRecipe,
+} from "@/api/media";
 
 type PlantOption = {
   id: string;
@@ -16,7 +20,6 @@ type RecipeOption = {
 };
 
 export default function MediaRecipeLinker() {
-  const supabase = createClient();
   const [plants, setPlants] = useState<PlantOption[]>([]);
   const [recipes, setRecipes] = useState<RecipeOption[]>([]);
   const [selected, setSelected] = useState({ plant_id: "", recipe_id: "" });
@@ -24,27 +27,20 @@ export default function MediaRecipeLinker() {
 
   useEffect(() => {
     const load = async () => {
-      const { data: p, error: pError } = await supabase
-        .from("plants")
-        .select("id, species");
-      const { data: r, error: rError } = await supabase
-        .from("media_recipes")
-        .select("id, title");
-
-      if (pError) {
-        console.error("Error loading plants:", pError);
-        toast.error("Failed to load plants.");
+      try {
+        const [plantsData, recipesData] = await Promise.all([
+          fetchPlants(),
+          fetchMediaRecipeOptions(),
+        ]);
+        setPlants(plantsData);
+        setRecipes(recipesData);
+      } catch (err) {
+        console.error("Failed to load plants or recipes:", err);
+        toast.error("Failed to load data.");
       }
-      if (rError) {
-        console.error("Error loading recipes:", rError);
-        toast.error("Failed to load recipes.");
-      }
-      if (p) setPlants(p);
-      if (r) setRecipes(r);
     };
-
     load();
-  }, [supabase]);
+  }, []);
 
   const link = async () => {
     if (!selected.plant_id || !selected.recipe_id) {
@@ -53,15 +49,14 @@ export default function MediaRecipeLinker() {
     }
 
     setLoading(true);
-    const { error } = await supabase
-      .from("plant_recipe_links")
-      .insert([{ plant_id: selected.plant_id, recipe_id: selected.recipe_id }]);
-
+    const { error } = await linkPlantToRecipe(
+      selected.plant_id,
+      selected.recipe_id
+    );
     setLoading(false);
 
     if (error) {
       if (error.code === "23505") {
-        // duplicate key value
         toast.info("This plant is already linked to the selected recipe.");
       } else {
         toast.error("Failed to link recipe.");

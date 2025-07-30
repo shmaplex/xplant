@@ -1,30 +1,37 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { createClient } from "@/lib/supabase/client";
-import { ContaminationLog } from "@/lib/types";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import type { ContaminationLog } from "@/lib/types";
+import {
+  insertContaminationLog,
+  updateContaminationLog,
+  uploadContaminationMedia,
+} from "@/api/contamination";
 
 interface ContaminationFormProps {
-  initial?: ContaminationLog; // pass this when editing
-  onSuccess?: () => void; // optional callback on successful submit
+  initial?: ContaminationLog;
+  onSuccess?: () => void;
+  placeholderImageUrl?: string;
 }
 
 export default function ContaminationForm({
   initial,
   onSuccess,
+  placeholderImageUrl,
 }: ContaminationFormProps) {
   const [form, setForm] = useState({
     plant_id: "",
-    type: "mold",
+    type: "mold" as ContaminationLog["type"],
     issue: "",
     description: "",
-    photo: null as File | null,
+    mediaFile: null as File | null,
   });
-
   const [uploading, setUploading] = useState(false);
-  const supabase = createClient();
+  const router = useRouter();
 
-  // Pre-fill the form if `initial` is provided (editing)
   useEffect(() => {
     if (initial) {
       setForm({
@@ -32,7 +39,7 @@ export default function ContaminationForm({
         type: initial.type || "mold",
         issue: initial.issue || "",
         description: initial.description || "",
-        photo: null,
+        mediaFile: null,
       });
     }
   }, [initial]);
@@ -41,100 +48,92 @@ export default function ContaminationForm({
     e.preventDefault();
     setUploading(true);
 
-    let imageUrl: string | null = initial?.photo_url ?? null;
+    let mediaPath: string | null = initial?.media_url ?? null;
 
-    // Upload new photo if selected
-    if (form.photo) {
-      const { data, error } = await supabase.storage
-        .from("contamination-photos")
-        .upload(`contamination/${Date.now()}-${form.photo.name}`, form.photo, {
-          cacheControl: "3600",
-          upsert: true,
-        });
-
-      if (error) {
-        console.error("Upload failed:", error);
-        setUploading(false);
-        return;
+    try {
+      if (form.mediaFile) {
+        mediaPath = await uploadContaminationMedia(form.mediaFile);
       }
-      imageUrl = data?.path ?? null;
-    }
 
-    // If editing, update instead of insert
-    if (initial?.id) {
-      const { error } = await supabase
-        .from("contamination_logs")
-        .update({
-          plant_id: form.plant_id,
-          type: form.type,
-          issue: form.issue,
-          description: form.description,
-          photo_url: imageUrl,
-        })
-        .eq("id", initial.id);
+      const payload = {
+        plant_id: form.plant_id,
+        type: form.type,
+        issue: form.issue,
+        description: form.description,
+        media_url: mediaPath ?? undefined,
+      };
 
-      setUploading(false);
+      let savedLog: ContaminationLog;
 
-      if (!error) {
-        alert("Contamination log updated.");
-        onSuccess?.();
+      if (initial?.id) {
+        savedLog = await updateContaminationLog(initial.id, payload);
+        toast.success("Contamination log updated.");
       } else {
-        console.error("Update failed:", error);
+        savedLog = await insertContaminationLog(payload);
+        toast.success("Contamination logged.");
       }
-    } else {
-      // Otherwise, create new
-      const { error } = await supabase.from("contamination_logs").insert([
-        {
-          plant_id: form.plant_id,
-          type: form.type,
-          issue: form.issue,
-          description: form.description,
-          photo_url: imageUrl,
-        },
-      ]);
 
+      onSuccess?.();
+      router.push(`/contamination/${savedLog.id}`);
+    } catch (error: any) {
+      console.error("Error submitting contamination log:", error);
+      toast.error(error?.message || "Failed to submit contamination log.");
+    } finally {
       setUploading(false);
-
-      if (!error) {
-        alert("Contamination logged.");
-        setForm({
-          plant_id: "",
-          type: "mold",
-          issue: "",
-          description: "",
-          photo: null,
-        });
-        onSuccess?.();
-      } else {
-        console.error("Insert failed:", error);
-      }
     }
   };
+
+  // Brand colors
+  const mossShadow = "text-[#42594D]";
+  const borderGray = "border-[#DAD7D2]";
+  const accentGreen = "focus:ring-[#B7EF48]";
+  const accentGreenBg = "bg-[#B7EF48]";
+  const accentGreenBgHover = "hover:bg-[#a2db3e]";
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white p-6 shadow rounded-xl space-y-4"
+      className="space-y-6 mx-auto bg-white p-6 rounded-xl shadow"
     >
-      <h2 className="text-xl font-semibold text-moss-shadow">
+      <h2 className={`text-2xl font-semibold ${mossShadow}`}>
         {initial ? "Edit Contamination Log" : "Log Contamination"}
       </h2>
 
-      <input
-        type="text"
-        placeholder="Plant ID"
-        value={form.plant_id}
-        onChange={(e) => setForm({ ...form, plant_id: e.target.value })}
-        className="w-full border p-2 rounded"
-        required
-      />
+      <div>
+        <label
+          htmlFor="plant_id"
+          className={`block mb-1 font-semibold ${mossShadow}`}
+        >
+          Plant ID <span className="text-red-500">*</span>
+        </label>
+        <input
+          id="plant_id"
+          type="text"
+          placeholder="Enter plant ID"
+          value={form.plant_id}
+          onChange={(e) => setForm({ ...form, plant_id: e.target.value })}
+          required
+          className={`w-full rounded border ${borderGray} px-3 py-2 focus:outline-none focus:ring-2 ${accentGreen} focus:border-[#42594D] transition`}
+        />
+      </div>
 
       <div>
-        <label className="block mb-1 font-medium">Type</label>
+        <label
+          htmlFor="type"
+          className={`block mb-1 font-semibold ${mossShadow}`}
+        >
+          Type
+        </label>
         <select
+          id="type"
           value={form.type}
-          onChange={(e) => setForm({ ...form, type: e.target.value })}
-          className="w-full border p-2 rounded"
+          onChange={(e) =>
+            setForm({
+              ...form,
+              type: e.target.value as ContaminationLog["type"],
+            })
+          }
+          className={`w-full rounded border ${borderGray} px-3 py-2 focus:outline-none focus:ring-2 ${accentGreen} focus:border-[#42594D] transition`}
         >
           <option value="mold">Mold</option>
           <option value="bacteria">Bacteria</option>
@@ -144,36 +143,73 @@ export default function ContaminationForm({
       </div>
 
       {form.type !== "other" && (
-        <input
-          type="text"
-          placeholder="Issue"
-          value={form.issue}
-          onChange={(e) => setForm({ ...form, issue: e.target.value })}
-          className="w-full border p-2 rounded"
-          required
-        />
+        <div>
+          <label
+            htmlFor="issue"
+            className={`block mb-1 font-semibold ${mossShadow}`}
+          >
+            Issue <span className="text-red-500">*</span>
+          </label>
+          <input
+            id="issue"
+            type="text"
+            placeholder="Describe the issue"
+            value={form.issue}
+            onChange={(e) => setForm({ ...form, issue: e.target.value })}
+            required
+            className={`w-full rounded border ${borderGray} px-3 py-2 focus:outline-none focus:ring-2 ${accentGreen} focus:border-[#42594D] transition`}
+          />
+        </div>
       )}
 
-      <textarea
-        placeholder="Description (optional)"
-        value={form.description}
-        onChange={(e) => setForm({ ...form, description: e.target.value })}
-        className="w-full border p-2 rounded"
-      />
+      <div>
+        <label
+          htmlFor="description"
+          className={`block mb-1 font-semibold ${mossShadow}`}
+        >
+          Description (optional)
+        </label>
+        <textarea
+          id="description"
+          placeholder="Additional details..."
+          value={form.description}
+          onChange={(e) => setForm({ ...form, description: e.target.value })}
+          rows={4}
+          className={`w-full rounded border ${borderGray} px-3 py-2 resize-y focus:outline-none focus:ring-2 ${accentGreen} focus:border-[#42594D] transition`}
+        />
+      </div>
 
-      <input
-        type="file"
-        accept="image/*"
-        onChange={(e) =>
-          setForm({ ...form, photo: e.target.files?.[0] ?? null })
-        }
-        className="block"
-      />
+      <div>
+        <label
+          htmlFor="mediaFile"
+          className={`block mb-1 font-semibold ${mossShadow}`}
+        >
+          Photo / Video (optional)
+        </label>
+        <input
+          id="mediaFile"
+          type="file"
+          accept="image/*,video/mp4,video/quicktime"
+          onChange={(e) =>
+            setForm({ ...form, mediaFile: e.target.files?.[0] ?? null })
+          }
+          className="block w-full text-gray-600"
+        />
+        {form.mediaFile ? (
+          <p className="mt-2 text-sm text-gray-600">{form.mediaFile.name}</p>
+        ) : placeholderImageUrl ? (
+          <img
+            src={placeholderImageUrl}
+            alt="Placeholder"
+            className="mt-2 rounded-lg max-h-48 w-full object-cover"
+          />
+        ) : null}
+      </div>
 
       <button
         type="submit"
-        className="bg-moss-shadow text-white px-4 py-2 rounded disabled:opacity-50"
         disabled={uploading}
+        className={`w-full py-3 rounded-lg font-semibold text-white ${accentGreenBg} ${accentGreenBgHover} transition disabled:opacity-50 disabled:cursor-not-allowed`}
       >
         {uploading
           ? initial

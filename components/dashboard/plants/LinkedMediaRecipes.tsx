@@ -1,4 +1,7 @@
+"use client";
+
 import { MediaRecipe } from "@/lib/types";
+import MediaRecipeCard from "@/components/dashboard/media/MediaRecipeCard";
 import { BookOpen } from "lucide-react";
 
 export default function LinkedMediaRecipes({
@@ -25,16 +28,11 @@ export default function LinkedMediaRecipes({
           </p>
         </div>
       ) : (
-        <ul className="space-y-2 text-sm text-gray-700">
-          {recipes.map((r) => (
-            <li
-              key={r.id}
-              className="bg-[var(--spore-grey)]/20 rounded-lg p-3 hover:bg-[var(--spore-grey)]/40 transition"
-            >
-              {r.title}
-            </li>
+        <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {recipes.map((recipe) => (
+            <MediaRecipeCard key={recipe.id} recipe={recipe} />
           ))}
-        </ul>
+        </div>
       )}
     </section>
   );

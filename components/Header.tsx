@@ -9,6 +9,7 @@ import MobileMenu from "@/components/nav/MobileMenu";
 import AdminQuicklinks from "@/components/admin/AdminQuicklinks";
 import UserQuicklinks from "@/components/dashboard/UserQuicklinks";
 import { createClient } from "@/lib/supabase/client";
+import { useShopLayoutContext } from "@/contexts/ShopLayoutContext";
 
 interface HeaderProps {
   showAdminQuicklinks?: boolean;
@@ -24,9 +25,11 @@ export default function Header({
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState<string | null>(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const pathname = usePathname();
   const router = useRouter();
   const supabase = createClient();
+
+  // Get from context if inside ShopLayout
+  const { isShopPage } = useShopLayoutContext();
 
   useEffect(() => {
     const handleResize = () => setIsDesktop(window.innerWidth >= 640);
@@ -47,7 +50,6 @@ export default function Header({
 
   const closeNav = () => setNavOpen(false);
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
-  const isShopPage = pathname?.startsWith("/shop");
 
   const handleLogout = async () => {
     await supabase.auth.signOut();

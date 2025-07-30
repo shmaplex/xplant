@@ -1,30 +1,44 @@
+"use client";
+
 type MediaComponent = {
   name: string;
   qty: string;
 };
 
 type Props = {
-  components?: MediaComponent[]; // optional, just in case
+  components?: MediaComponent[];
 };
 
 export default function MediaComponentDisplay({ components = [] }: Props) {
-  console.log("components passed:", components);
-
-  if (components.length === 0) {
-    return <p className="text-sm text-gray-500">No components listed.</p>;
+  if (!components || components.length === 0) {
+    return (
+      <p className="text-sm text-gray-500 italic">
+        No components listed for this recipe.
+      </p>
+    );
   }
 
   return (
-    <div className="flex flex-wrap gap-2">
-      {components.map((comp, idx) => (
-        <span
-          key={`${comp.name}-${idx}`}
-          className="bg-psybeam-purple/10 text-psybeam-purple px-2 py-1 rounded-full text-xs font-medium"
-          aria-label={`${comp.name} quantity ${comp.qty}`}
-        >
-          {comp.name} ({comp.qty})
-        </span>
-      ))}
+    <div className="rounded-xl bg-white shadow p-6">
+      {/* Header labels */}
+      <div className="flex items-center justify-between mb-4 text-xs font-semibold uppercase tracking-wide text-gray-500">
+        <span>Component</span>
+        <span>Quantity</span>
+      </div>
+
+      <div className="space-y-3">
+        {components.map((c, idx) => (
+          <div
+            key={`${c.name}-${idx}`}
+            className="flex items-center justify-between border-b last:border-none border-gray-100 pb-2 last:pb-0"
+          >
+            <span className="text-gray-800 font-medium">{c.name}</span>
+            <span className="text-psybeam-purple font-semibold bg-psybeam-purple/10 px-3 py-1 rounded-lg">
+              {c.qty}
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -2,7 +2,7 @@
 
 import React from "react";
 import ProductCard from "@/components/shop/ProductCard";
-import { Product } from "@/data/products";
+import { Product } from "@/lib/types";
 import { useProductCartActions } from "@/hooks/useProductCartActions";
 
 type Props = {

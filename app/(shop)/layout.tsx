@@ -2,7 +2,7 @@
 
 import React from "react";
 import Header from "@/components/Header";
-import ShopLayoutContext from "@/contexts/ShopLayoutContext"; // adjust path accordingly
+import ShopLayoutContext from "@/contexts/ShopLayoutContext";
 import CartButton from "@/components/CartButton";
 import CartDrawer from "@/components/CartDrawer";
 import { useCart } from "@/contexts/CartContext";

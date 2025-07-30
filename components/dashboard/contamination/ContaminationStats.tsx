@@ -10,28 +10,30 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from "recharts";
-import { createClient } from "@/lib/supabase/client";
+import { fetchContaminationStats } from "@/api/contamination";
 
 export default function ContaminationStats() {
   const [data, setData] = useState<any[]>([]);
-  const supabase = createClient();
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchStats = async () => {
-      const { data, error } = await supabase.rpc("contamination_by_date");
-
-      if (error) {
-        console.error("Error fetching contamination stats:", error);
-        return;
+    const loadStats = async () => {
+      try {
+        const stats = await fetchContaminationStats();
+        setData(stats);
+      } catch (err) {
+        setError("Error fetching contamination stats.");
+        console.error(err);
       }
-
-      if (data) setData(data);
     };
-
-    fetchStats();
-  }, [supabase]);
+    loadStats();
+  }, []);
 
   const hasData = data && data.length > 0;
+
+  if (error) {
+    return <p className="text-red-500 text-center">{error}</p>;
+  }
 
   return (
     <div className="bg-milk-bio p-6 rounded-3xl shadow-xl">

@@ -6,12 +6,16 @@ import { HiOutlineStar } from "react-icons/hi";
 
 interface MediaRecipeCardProps {
   recipe: MediaRecipe;
+  linkedPlants?: { id: string; species: string }[]; // fetched separately
 }
 
-export default function MediaRecipeCard({ recipe }: MediaRecipeCardProps) {
+export default function MediaRecipeCard({
+  recipe,
+  linkedPlants = [],
+}: MediaRecipeCardProps) {
   return (
     <div className="relative bg-white rounded-2xl shadow border border-spore-grey/30 hover:shadow-lg transition overflow-hidden flex flex-col">
-      {/* Subtle badge for system recipes */}
+      {/* Badge for system recipes */}
       {recipe.origin === "system" && (
         <div
           className="absolute top-0 right-0 z-10
@@ -47,25 +51,24 @@ export default function MediaRecipeCard({ recipe }: MediaRecipeCardProps) {
       </Link>
 
       {/* Footer: Linked Plants */}
-      {Array.isArray(recipe.linked_plant_ids) &&
-        recipe.linked_plant_ids.length > 0 && (
-          <div className="border-t border-gray-100 px-5 py-3 bg-gray-50">
-            <p className="text-xs font-semibold text-psybeam-purple mb-2">
-              Linked Plants
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {recipe.linked_plant_ids.map((pid) => (
-                <Link
-                  key={pid}
-                  href={`/dashboard/plants/${pid}`}
-                  className="bg-future-lime text-biochar-black text-xs px-2 py-1 rounded hover:underline"
-                >
-                  {pid.slice(0, 6)}...
-                </Link>
-              ))}
-            </div>
+      {linkedPlants.length > 0 && (
+        <div className="border-t border-gray-100 px-5 py-3 bg-gray-50">
+          <p className="text-xs font-semibold text-psybeam-purple mb-2">
+            Linked Plants
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {linkedPlants.map((plant) => (
+              <Link
+                key={plant.id}
+                href={`/dashboard/plants/${plant.id}`}
+                className="bg-future-lime text-biochar-black text-xs px-2 py-1 rounded hover:underline"
+              >
+                {plant.species}
+              </Link>
+            ))}
           </div>
-        )}
+        </div>
+      )}
     </div>
   );
 }

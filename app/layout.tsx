@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Patrick_Hand } from "next/font/google";
 
 import "./globals.css";
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { CartProvider } from "@/contexts/CartContext";
 import FloatingUserMenu from "@/components/dashboard/FloatingUserMenu";
@@ -42,7 +41,6 @@ export default function RootLayout({
         <FloatingUserMenu />
         <CartProvider>
           <div className="w-full font-sans bg-milk-bio text-biochar-black min-h-screen flex flex-col">
-            <Header showUserQuicklinks showAdminQuicklinks />
             {children}
             <Footer />
           </div>
