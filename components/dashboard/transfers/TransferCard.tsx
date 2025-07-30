@@ -6,7 +6,7 @@ export default function TransferCard({
 }: {
   transfer: PlantTransfer;
 }) {
-  const approachingLimit = transfer.transfer_number >= 10;
+  const approachingLimit = transfer.transfer_cycle >= 10;
 
   return (
     <div
@@ -20,12 +20,11 @@ export default function TransferCard({
       <h3 className="font-semibold text-[var(--moss-shadow)]">
         {transfer.plant?.species ?? "Unnamed Plant"}
       </h3>
-      <p className="text-sm text-gray-600">Stage: {transfer.stage}</p>
       <p className="text-xs">
-        Transfer {transfer.transfer_number}/12{" "}
+        Transfer {transfer.transfer_cycle}/12{" "}
         {approachingLimit && (
           <span className="ml-1 text-yellow-600 font-semibold">
-            ⚠ Consider restarting line
+            &#9888; Consider restarting line
           </span>
         )}
       </p>

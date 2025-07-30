@@ -13,7 +13,7 @@ import {
 type TimelinePoint = {
   date: string;
   plant: string;
-  transferNumber: number;
+  transferCycle: number;
 };
 
 export default function TransferTimeline({
@@ -25,7 +25,7 @@ export default function TransferTimeline({
   const timelineData: TimelinePoint[] = transfers.map((t) => ({
     date: new Date(t.transfer_date).toLocaleDateString("en-US"),
     plant: t.plant?.species ?? "Unnamed Plant",
-    transferNumber: t.transfer_number || 0,
+    transferCycle: t.transfer_cycle || 0,
   }));
 
   return (
@@ -56,7 +56,7 @@ export default function TransferTimeline({
             <Tooltip formatter={(val: any) => [`${val}`, "Transfer #"]} />
             <Line
               type="monotone"
-              dataKey="transferNumber"
+              dataKey="transferCycle"
               stroke="#82ca9d"
               name="Transfer #"
               dot={{ r: 4 }}
