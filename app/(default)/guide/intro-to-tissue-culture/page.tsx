@@ -84,7 +84,7 @@ function extractBaseColor(color: string) {
 export default function TissueCultureIntroPage() {
   return (
     <>
-      <main className="flex flex-col space-y-2 max-w-6xl mx-auto pt-8">
+      <main className="flex-1 max-w-5xl mx-auto px-6 sm:px-10 py-12 space-y-16">
         <header className="text-left">
           <h1 className="text-4xl sm:text-5xl font-extrabold mb-4">
             Intro to Plant Tissue Culture
@@ -96,14 +96,14 @@ export default function TissueCultureIntroPage() {
             workstation to seeing your first plantlets grow.
           </p>
         </header>
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-16 mx-auto">
+        <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-0 mx-auto">
           {/* Diagram first on mobile */}
-          <div className="basis-1/2 w-full h-full flex items-center justify-center order-1 lg:order-2">
+          <div className="w-full h-full flex items-center justify-center order-1 lg:order-2">
             <TissueCultureDiagram />
           </div>
 
           {/* Guide Content */}
-          <div className="basis-1/2 space-y-16  sm:py-12 order-2 lg:order-1">
+          <div className="space-y-16 order-2 lg:order-1">
             <section className="space-y-10">
               <h2 className="text-2xl font-bold">Step-by-Step Starter Guide</h2>
               <ol className="space-y-6 list-none">
@@ -152,7 +152,7 @@ export default function TissueCultureIntroPage() {
         </div>
       </main>
 
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <CommunityCallout />
 
         <ShopCTA />
