@@ -64,6 +64,23 @@ export interface Plant {
   plant_stages?: PlantStage[];
 }
 
+export type PlantMediaLog = {
+  id: string;
+  plant_id: string;
+  contamination_log_id: string | null;
+  type: "photo" | "video" | "annotation";
+  media_url: string; // internal storage path, e.g. "plantId/timestamp-filename.jpg"
+  original_name: string; // original file name from upload
+  file_type: string; // MIME type, e.g. "image/png"
+  description?: string | null;
+  captured_at?: string | null; // ISO date string when media was captured
+  labels: string[]; // tags or labels for annotations
+  annotated: boolean; // whether annotated or not
+  is_public: boolean; // public or private flag
+  uploaded_by?: string | null; // user id who uploaded
+  created_at: string; // ISO date string when inserted
+};
+
 export type PlantRecipeLink = {
   recipe_id: string;
   linked_at: string;

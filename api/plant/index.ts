@@ -1,6 +1,6 @@
 // lib/api/plants/index.ts
 import { createClient } from "@/lib/supabase/server";
-import type { Plant } from "@/lib/types";
+import type { Plant, PlantMediaLog } from "@/lib/types";
 
 export async function getCurrentUser() {
   const supabase = await createClient();
@@ -91,4 +91,56 @@ export async function fetchPlantRecipes(plantId: string) {
     `
     )
     .eq("plant_id", plantId);
+}
+
+export async function insertPlantMediaRecord({
+  plantId,
+  mediaUrl,
+  originalName,
+  fileType,
+  uploadedBy,
+  type,
+}: {
+  plantId: string;
+  mediaUrl: string;
+  originalName: string;
+  fileType: string;
+  uploadedBy: string | null;
+  type: "photo" | "video" | "annotation";
+}) {
+  const supabase = await createClient();
+
+  const { error } = await supabase.from("plant_media_logs").insert({
+    plant_id: plantId,
+    contamination_log_id: null,
+    type,
+    media_url: mediaUrl,
+    original_name: originalName,
+    file_type: fileType || "other",
+    description: null,
+    captured_at: null,
+    labels: [],
+    annotated: false,
+    is_public: false,
+    uploaded_by: uploadedBy,
+  });
+
+  if (error) {
+    throw error;
+  }
+}
+
+export async function fetchPlantMediaLogs(
+  plantId: string
+): Promise<PlantMediaLog[]> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("plant_media_logs")
+    .select("*")
+    .eq("plant_id", plantId)
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return data || [];
 }
