@@ -59,7 +59,7 @@ export default function Header({
 
   return (
     <>
-      <header className="w-full shadow-md relative flex flex-col">
+      <header className="w-full shadow-md relative flex flex-col print:hidden">
         <div className="w-full py-4 px-6 sm:px-10 bg-milk-bio flex items-center justify-between border-b border-spore-grey">
           <HeaderLogo />
 

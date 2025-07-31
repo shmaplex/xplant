@@ -40,6 +40,7 @@ export default async function PlantsPage({
         recipes={recipes}
         canEdit={user.id === plantData.user_id}
         editUrl={`/dashboard/plants/${id}/edit`}
+        printUrl={`/dashboard/plants/${id}/label`}
       />
     );
   } catch (err) {

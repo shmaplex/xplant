@@ -19,6 +19,7 @@ export default function PlantDetail({
   recipes,
   canEdit,
   editUrl,
+  printUrl,
 }: {
   plant: Plant & { plant_stages?: PlantStage[] };
   transfers: PlantTransfer[];
@@ -26,12 +27,17 @@ export default function PlantDetail({
   recipes: MediaRecipe[];
   canEdit: boolean;
   editUrl: string;
+  printUrl?: string;
 }) {
   const currentStage = plant.plant_stages?.[0];
 
   return (
     <div className="max-w-6xl mx-auto p-6 sm:p-10 space-y-12">
-      <PlantHero plant={plant} currentStage={currentStage} />
+      <PlantHero
+        plant={plant}
+        currentStage={currentStage}
+        printUrl={printUrl}
+      />
 
       {plant.plant_stages && plant.plant_stages.length > 0 && (
         <StageHistory stages={plant.plant_stages} />

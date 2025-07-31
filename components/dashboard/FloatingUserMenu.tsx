@@ -36,7 +36,7 @@ export default function FloatingUserMenu() {
   if (!userId) return null;
 
   return (
-    <div className="fixed bottom-4 right-4 z-50">
+    <div className="fixed bottom-4 right-4 z-50 print:hidden">
       <div className="relative">
         <button
           onClick={toggleMenu}

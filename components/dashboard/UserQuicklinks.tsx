@@ -48,7 +48,7 @@ export default function UserQuicklinks() {
 
   return (
     <nav
-      className="fixed top-[64px] right-0 flex flex-col items-end gap-4 z-50"
+      className="fixed top-[64px] right-0 flex flex-col items-end gap-4 z-50 print:hidden"
       aria-label="User Quicklinks"
       onMouseMove={handleInteraction}
       onMouseEnter={handleInteraction}

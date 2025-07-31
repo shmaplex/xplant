@@ -30,7 +30,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-[#F7F2EC] text-[#1A1A1A] text-sm px-6 sm:px-10 py-12 border-t border-[#DAD7D2]">
+    <footer className="bg-[#F7F2EC] text-[#1A1A1A] text-sm px-6 sm:px-10 py-12 border-t border-[#DAD7D2] print:hidden">
       <div className="max-w-6xl mx-auto grid gap-8 sm:grid-cols-6 text-center sm:text-left mb-8">
         <div className="sm:col-span-1">
           <Image

@@ -27,7 +27,7 @@ export default function AdminQuicklinks() {
 
   return (
     <nav
-      className="fixed bottom-32 right-0 flex flex-col items-end gap-4 z-50"
+      className="fixed bottom-32 right-0 flex flex-col items-end gap-4 z-50 print:hidden"
       aria-label="Admin Quicklinks"
       onMouseMove={handleInteraction}
       onMouseEnter={handleInteraction}

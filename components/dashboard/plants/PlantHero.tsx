@@ -4,13 +4,17 @@ import { Plant, PlantStage } from "@/lib/types";
 import { formatDate } from "@/lib/date";
 import CurrentStage from "@/components/dashboard/plants/CurrentStage";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import { FaPrint } from "react-icons/fa";
+import Link from "next/link";
 
 export default function PlantHero({
   plant,
   currentStage,
+  printUrl,
 }: {
   plant: Plant & { plant_stages?: PlantStage[] };
   currentStage?: PlantStage;
+  printUrl?: string;
 }) {
   const breadcrumbItems = [
     { label: "Plants", href: "/dashboard/plants" },
@@ -44,7 +48,20 @@ export default function PlantHero({
 
       <div className="flex flex-col justify-center space-y-8">
         <div>
-          <Breadcrumbs items={breadcrumbItems} />
+          <div className="flex items-center justify-between">
+            <Breadcrumbs items={breadcrumbItems} />
+            {printUrl && (
+              <Link
+                href={printUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-xs text-white bg-biochar-black hover:bg-future-lime/90 hover:text-biochar-black duration-500 ease-in-out px-3 py-2 rounded-md shadow-sm transition"
+              >
+                <FaPrint className="w-3 h-3" />
+                Print Label
+              </Link>
+            )}
+          </div>
 
           <h1 className="text-4xl font-bold text-gray-900 mb-3">
             {plant.species}
