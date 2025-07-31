@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Patrick_Hand } from "next/font/google";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "react-phone-number-input/style.css";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import { CartProvider } from "@/contexts/CartContext";

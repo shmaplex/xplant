@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { toast, Toaster } from "react-hot-toast";
+import { toast } from "react-toastify";
 import { createClient } from "@/lib/supabase/client";
 
 import TaskForm from "@/components/dashboard/tasks/TaskForm";

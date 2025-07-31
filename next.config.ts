@@ -12,8 +12,8 @@ const nextConfig: NextConfig = {
     ],
     dangerouslyAllowSVG: true, // ⚠ Only use if you trust the image source
     contentSecurityPolicy: "default-src 'self'; img-src *; media-src *",
+    domains: ["hszzfxhmyzsjoawlqsdo.supabase.co"],
   },
-  domains: ["hszzfxhmyzsjoawlqsdo.supabase.co"],
 };
 
 export default nextConfig;

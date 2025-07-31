@@ -36,7 +36,7 @@ export default function ContaminationStats() {
   }
 
   return (
-    <div className="bg-milk-bio p-6 rounded-3xl shadow-xl">
+    <div className="">
       <h2 className="text-xl font-semibold text-moss-shadow mb-4">
         Contamination Over Time
       </h2>

@@ -1,6 +1,7 @@
 import { PlantTransfer, PlantStage } from "@/lib/types";
 import Link from "next/link";
 import TransferStepBar from "@/components/dashboard/transfers/TransferStepBar";
+import TransferNotFound from "./TransferNotFound";
 
 export default function TransferDetail({
   transfer,
@@ -13,7 +14,7 @@ export default function TransferDetail({
   canEdit: boolean;
   editUrl: string;
 }) {
-  if (!transfer) return <p>Transfer not found</p>;
+  if (!transfer) return <TransferNotFound />;
 
   const transferCycle = transfer.transfer_cycle ?? 0;
   const transferDate = transfer.transfer_date

@@ -4,15 +4,12 @@ import ContaminationForm from "@/components/dashboard/contamination/Contaminatio
 import ContaminationList from "@/components/dashboard/contamination/ContaminationList";
 import ContaminationStats from "@/components/dashboard/contamination/ContaminationStats";
 import ContaminationActions from "@/components/dashboard/contamination/ContaminationActions";
-import { Toaster } from "react-hot-toast";
 
 const ACCENT_COLOR = "text-[#5b3fa8]";
 
 export default function ContaminationPage() {
   return (
     <div className="w-full min-h-screen bg-spore-gray">
-      <Toaster position="top-right" />
-
       <div className="max-w-6xl mx-auto px-6 py-12 space-y-10">
         {/* Page Header */}
         <header className="space-y-3 text-center sm:text-left">

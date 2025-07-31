@@ -65,6 +65,15 @@ button:hover .arrow-icon {
   animation: slideLeftBack 0.6s ease forwards;
 }
 
+/* Example Tailwind compatible style overrides */
+.phone-input input {
+  @apply w-full rounded p-2;
+}
+
+.phone-input input:focus {
+  @apply outline-none ring-2 ring-future-lime;
+}
+
 @keyframes slideLeftBack {
   0% {
     transform: translateX(0);

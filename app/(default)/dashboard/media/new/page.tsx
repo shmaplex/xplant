@@ -2,15 +2,12 @@
 
 import MediaRecipeForm from "@/components/dashboard/media/MediaRecipeForm";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
-import { Toaster } from "react-hot-toast";
 
 const ACCENT_COLOR = "text-[#5b3fa8]";
 
 export default function NewMediaRecipePage() {
   return (
     <div className="w-full p-8 bg-spore-gray">
-      <Toaster position="top-right" />
-
       <div className="max-w-4xl mx-auto min-h-screen bg-white/40 p-12 rounded-2xl">
         {/* Breadcrumbs */}
         <Breadcrumbs

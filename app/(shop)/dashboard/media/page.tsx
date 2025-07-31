@@ -1,7 +1,6 @@
 "use client";
 
 import MediaRecipeList from "@/components/dashboard/media/MediaRecipeList";
-import { Toaster } from "react-hot-toast";
 import Link from "next/link";
 import { FiLink, FiPlus } from "react-icons/fi";
 
@@ -40,8 +39,6 @@ function MediaActions() {
 export default function MediaPage() {
   return (
     <div className="w-full p-8 bg-spore-gray">
-      <Toaster position="top-right" />
-
       <div className="max-w-6xl mx-auto space-y-12 min-h-screen bg-white/40 p-12 rounded-2xl">
         {/* Page Header */}
         <header className="space-y-4 text-center sm:text-left">

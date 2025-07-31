@@ -1,7 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import MediaRecipeForm from "@/components/dashboard/media/MediaRecipeForm";
-import { Toaster } from "react-hot-toast";
 
 export default async function EditMediaRecipePage(props: {
   params: Promise<{ id: string }>;
@@ -23,8 +22,6 @@ export default async function EditMediaRecipePage(props: {
 
   return (
     <div className="w-full p-8 bg-spore-grey">
-      <Toaster position="top-right" />
-
       <div className="max-w-4xl mx-auto min-h-screen bg-white/40 p-12 rounded-2xl">
         <Breadcrumbs
           items={[
