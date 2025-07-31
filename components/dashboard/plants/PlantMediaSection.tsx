@@ -15,10 +15,10 @@ export default function PlantMediaSection({
   plantId?: string;
 }) {
   return (
-    <section className="bg-white dark:bg-gray-900 shadow-lg rounded-xl p-6 sm:p-8 max-w-6xl mx-auto space-y-8">
+    <section className="bg-white shadow-lg rounded-xl p-6 sm:p-8 max-w-6xl mx-auto space-y-8">
       {title && (
         <h2
-          className={`text-2xl font-extrabold text-biochar-black dark:text-white flex items-center gap-3 ${
+          className={`text-2xl font-extrabold text-biochar-black flex items-center gap-3 ${
             showUploader ? "mb-4" : ""
           }`}
         >

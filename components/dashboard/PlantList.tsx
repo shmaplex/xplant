@@ -53,7 +53,9 @@ export default function PlantList({ plants }: PlantListProps) {
               </div>
 
               {/* Progress bar */}
-              <TransferStepBar value={plant.transfer_cycle} max={12} />
+              <div className="mb-2 px-2">
+                <TransferStepBar value={plant.transfer_cycle} max={12} />
+              </div>
             </Link>
           </li>
         );

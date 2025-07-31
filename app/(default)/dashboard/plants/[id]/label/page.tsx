@@ -1,6 +1,7 @@
 import PrintPlantLabel from "@/components/dashboard/plants/PrintPlantLabel";
 import PlantNotFoundClient from "../../PlantNotFoundClient";
-import { getCurrentUser, fetchPlantById, fetchPlantStages } from "@/api/plant";
+import { fetchPlantById, fetchPlantStages } from "@/api/plant";
+import { getCurrentUser } from "@/api/user";
 
 export default async function PrintLabelPage({
   params,

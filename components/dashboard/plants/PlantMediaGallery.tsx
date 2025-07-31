@@ -57,7 +57,8 @@ export default function PlantMediaGallery({
 
   if (loading) return <p>Loading media...</p>;
   if (error) return <p className="text-red-600">{error}</p>;
-  if (mediaLogs.length === 0) return <p>No media uploaded yet.</p>;
+  if (mediaLogs.length === 0)
+    return <p className="text-black">No media uploaded yet.</p>;
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">

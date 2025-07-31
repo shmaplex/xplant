@@ -1,11 +1,11 @@
 import PlantNotFoundClient from "../PlantNotFoundClient";
 import PlantDetail from "@/components/dashboard/plants/PlantDetail";
 import {
-  getCurrentUser,
   fetchPlantById,
   fetchPlantStages,
   fetchPlantRelatedData,
 } from "@/api/plant";
+import { getCurrentUser } from "@/api/user";
 
 export default async function PlantsPage({
   params,

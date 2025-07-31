@@ -95,6 +95,7 @@ export type PlantBasic = {
 export type PlantTransfer = {
   id: string;
   plant_id: string;
+  user_id: string;
   transfer_date: string;
   transfer_cycle: number;
   notes?: string;

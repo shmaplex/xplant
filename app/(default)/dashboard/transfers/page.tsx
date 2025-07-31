@@ -14,14 +14,12 @@ export default function TransfersPage() {
     const fetchTransfers = async () => {
       const res = await fetch("/api/transfers");
       const json = await res.json();
-
       if (res.ok) {
         setTransfers(json.data ?? []);
       } else {
         console.error(json.error || "Failed to load transfers");
       }
     };
-
     fetchTransfers();
   }, []);
 
@@ -39,41 +37,51 @@ export default function TransfersPage() {
     : transfers;
 
   return (
-    <div className="px-6 mx-auto w-full py-10 max-w-6xl bg-[var(--milk-bio)] min-h-screen">
-      <h1 className="text-3xl font-bold text-[var(--moss-shadow)] mb-6">
+    <div className="px-4 sm:px-6 lg:px-10 mx-auto max-w-7xl py-10 min-h-screen bg-[var(--milk-bio)]">
+      <h1 className="text-3xl font-bold text-[var(--moss-shadow)] mb-8">
         Transfer Cycle Tracker
       </h1>
 
-      <div className="mb-6">
-        <label className="block mb-2 text-[var(--moss-shadow)] font-semibold">
-          Select Plant:
-        </label>
-        <select
-          value={selectedPlantId || ""}
-          onChange={(e) => setSelectedPlantId(e.target.value)}
-          className="w-full sm:w-1/2 p-2 rounded border border-[var(--spore-grey)] bg-white"
-        >
-          <option value="">All Plants</option>
-          {uniquePlants.map((plant) => (
-            <option key={plant.id} value={plant.id}>
-              {plant.species} – {plant.current_stage?.stage ?? "No stage"}
-            </option>
-          ))}
-        </select>
-      </div>
+      <div className="grid lg:grid-cols-3 gap-8">
+        {/* Left column */}
+        <div className="lg:col-span-1 space-y-6">
+          {/* Filter */}
+          <div className="bg-white rounded-2xl shadow-sm border border-spore-grey/10 p-5">
+            <label className="block mb-2 text-[var(--moss-shadow)] font-semibold">
+              Filter by Plant
+            </label>
+            <select
+              value={selectedPlantId || ""}
+              onChange={(e) => setSelectedPlantId(e.target.value)}
+              className="w-full p-2 rounded-lg border border-[var(--spore-grey)] bg-white focus:ring-2 focus:ring-future-lime"
+            >
+              <option value="">All Plants</option>
+              {uniquePlants.map((plant) => (
+                <option key={plant.id} value={plant.id}>
+                  {plant.species} – {plant.current_stage?.stage ?? "No stage"}
+                </option>
+              ))}
+            </select>
+          </div>
 
-      {selectedPlant && (
-        <div className="my-6">
-          <TransferWarning plant={selectedPlant} />
+          {/* Warning */}
+          {selectedPlant && (
+            <div className="bg-white rounded-2xl shadow-sm border border-yellow-200 p-5">
+              <TransferWarning plant={selectedPlant} />
+            </div>
+          )}
         </div>
-      )}
 
-      <div className="my-6">
-        <TransferTimeline transfers={filteredTransfers} />
-      </div>
+        {/* Right column */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="bg-white rounded-2xl shadow-sm border border-spore-grey/10 p-5">
+            <TransferTimeline transfers={filteredTransfers} />
+          </div>
 
-      <div className="my-6">
-        <TransferList transfers={filteredTransfers} />
+          <div className="bg-white rounded-2xl shadow-sm border border-spore-grey/10 p-5">
+            <TransferList transfers={filteredTransfers} />
+          </div>
+        </div>
       </div>
     </div>
   );

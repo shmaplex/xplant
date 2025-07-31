@@ -7,7 +7,6 @@ import {
   Tooltip,
   CartesianGrid,
   ResponsiveContainer,
-  Label,
 } from "recharts";
 
 type TimelinePoint = {
@@ -15,6 +14,32 @@ type TimelinePoint = {
   plant: string;
   transferCycle: number;
 };
+
+function CustomTooltip({
+  active,
+  payload,
+  label,
+}: {
+  active?: boolean;
+  payload?: any[];
+  label?: string;
+}) {
+  if (active && payload && payload.length) {
+    const point = payload[0].payload as TimelinePoint;
+    return (
+      <div className="rounded-xl shadow-md bg-white p-3 border border-gray-100 text-sm">
+        <p className="font-semibold text-moss-shadow mb-1">{point.plant}</p>
+        <p className="text-gray-600">
+          <span className="font-medium">Date:</span> {label}
+        </p>
+        <p className="text-gray-600">
+          <span className="font-medium">Cycle:</span> {point.transferCycle}
+        </p>
+      </div>
+    );
+  }
+  return null;
+}
 
 export default function TransferTimeline({
   transfers,
@@ -28,37 +53,49 @@ export default function TransferTimeline({
   }));
 
   return (
-    <div className="bg-white p-4 rounded-xl shadow mt-6">
+    <div>
       <h2 className="text-xl font-semibold text-moss-shadow mb-4">
         Transfer Timeline
       </h2>
+
       {timelineData.length === 0 ? (
         <p className="text-sm text-gray-500">No transfer data available.</p>
       ) : (
-        <ResponsiveContainer width="100%" height={300}>
+        <ResponsiveContainer width="100%" height={320}>
           <LineChart
             data={timelineData}
-            margin={{ top: 10, right: 30, left: 0, bottom: 40 }}
+            margin={{ top: 10, right: 20, left: 0, bottom: 40 }}
           >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" angle={-45} textAnchor="end" height={60}>
-              <Label value="Date" offset={30} position="insideBottom" />
-            </XAxis>
+            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+            <XAxis
+              dataKey="date"
+              angle={-45}
+              textAnchor="end"
+              height={60}
+              tick={{ fontSize: 12, fill: "#6b7280" }}
+            />
             <YAxis
+              tick={{ fontSize: 12, fill: "#6b7280" }}
               label={{
                 value: "Transfer #",
                 angle: -90,
                 position: "insideLeft",
+                style: { fontSize: 12, fill: "#6b7280" },
               }}
             />
-            <Tooltip formatter={(val) => [`${val}`, "Transfer #"]} />
+            <Tooltip content={<CustomTooltip />} />
             <Line
               type="monotone"
               dataKey="transferCycle"
-              stroke="#82ca9d"
-              name="Transfer #"
-              dot={{ r: 4 }}
-              activeDot={{ r: 6 }}
+              stroke="var(--future-lime)"
+              strokeWidth={2}
+              dot={{
+                r: 5,
+                strokeWidth: 2,
+                fill: "#fff",
+                stroke: "var(--future-lime)",
+              }}
+              activeDot={{ r: 7 }}
             />
           </LineChart>
         </ResponsiveContainer>

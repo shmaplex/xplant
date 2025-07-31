@@ -11,23 +11,16 @@ export async function fetchTransferByIdWithRelations(
     .from("plant_transfers")
     .select(
       `
+    *,
+    plant:plants(
       *,
-      plant:plants(
-        *,
-        plant_stages (
-          id,
-          stage,
-          room,
-          entered_on,
-          notes,
-          created_at
-        )
-      )
-    `
+      plant_stages!plant_stages_plant_id_fkey(*)
+    )
+  `
     )
     .eq("id", transferId)
     .eq("user_id", userId)
-    .maybeSingle();
+    .single();
 
   if (error) {
     console.error("Error fetching transfer by id:", error);
