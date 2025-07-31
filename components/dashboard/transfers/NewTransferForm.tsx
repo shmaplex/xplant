@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import type { PlantBasic, PlantTransfer } from "@/lib/types";
@@ -32,28 +31,39 @@ export default function NewTransferForm({
     transferId ? (initialData as PlantTransfer) : null
   );
 
-  const supabase = createClient();
   const router = useRouter();
 
-  // When a plant is selected in create mode, fetch last cycle
+  // Fetch last cycle when plant changes and not editing
   useEffect(() => {
-    if (!plantId || editingTransfer) return; // don't auto-fetch when editing
-    const fetchLastCycle = async () => {
-      const { data, error } = await supabase
-        .from("plant_transfers")
-        .select("transfer_cycle")
-        .eq("plant_id", plantId)
-        .order("transfer_cycle", { ascending: false })
-        .limit(1);
+    if (!plantId || editingTransfer) return;
 
-      if (!error && data && data.length > 0) {
-        setCycle((data[0].transfer_cycle ?? 0) + 1);
-      } else {
+    const fetchLastCycle = async () => {
+      try {
+        const res = await fetch(`/api/transfers?plantId=${plantId}`);
+        if (!res.ok) {
+          throw new Error("Failed to fetch last cycle");
+        }
+        const json = await res.json();
+
+        // json.data is an array of transfers, sorted by your API or unsorted
+        const transfers = json.data ?? [];
+
+        if (transfers.length > 0) {
+          // find max transfer_cycle among all returned transfers just in case
+          const maxCycle = Math.max(
+            ...transfers.map((t: any) => t.transfer_cycle ?? 0)
+          );
+          setCycle(maxCycle + 1);
+        } else {
+          setCycle(1);
+        }
+      } catch (error) {
         setCycle(1);
       }
     };
+
     fetchLastCycle();
-  }, [plantId, editingTransfer, supabase]);
+  }, [plantId, editingTransfer]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,36 +85,40 @@ export default function NewTransferForm({
       notes,
       transfer_date: transferDate,
       transfer_cycle: Number(cycle),
+      ...(editingTransfer ? { id: editingTransfer.id } : {}),
     };
 
-    if (editingTransfer) {
-      const { error } = await supabase
-        .from("plant_transfers")
-        .update(payload)
-        .eq("id", editingTransfer.id);
+    try {
+      const res = await fetch("/api/transfers", {
+        method: editingTransfer ? "PUT" : "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+      const json = await res.json();
 
-      if (error) {
-        toast.error("Error updating transfer.");
-      } else {
-        toast.success("Transfer updated!");
-        onSuccess ? onSuccess() : router.push("/dashboard/transfers");
+      if (!res.ok) {
+        throw new Error(json.error || "Unknown error");
       }
-    } else {
-      const { error } = await supabase.from("plant_transfers").insert(payload);
 
-      if (error) {
-        toast.error("Error saving transfer.");
+      toast.success(
+        editingTransfer ? "Transfer updated!" : "Transfer recorded!"
+      );
+
+      if (onSuccess) {
+        onSuccess();
       } else {
-        toast.success("Transfer recorded!");
-        setPlantId("");
-        setNotes("");
-        setCycle("");
-        setTransferDate(new Date().toISOString().split("T")[0]);
-        onSuccess && onSuccess();
+        router.push("/dashboard/transfers");
       }
+    } catch (error: any) {
+      toast.error(
+        error.message ||
+          (editingTransfer
+            ? "Error updating transfer."
+            : "Error saving transfer.")
+      );
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   const handleDelete = async () => {
@@ -112,16 +126,29 @@ export default function NewTransferForm({
     const confirmed = confirm("Are you sure you want to delete this transfer?");
     if (!confirmed) return;
 
-    const { error } = await supabase
-      .from("plant_transfers")
-      .delete()
-      .eq("id", editingTransfer.id);
+    setLoading(true);
 
-    if (error) {
-      toast.error("Error deleting transfer.");
-    } else {
+    try {
+      const res = await fetch(`/api/transfers?id=${editingTransfer.id}`, {
+        method: "DELETE",
+      });
+      const json = await res.json();
+
+      if (!res.ok) {
+        throw new Error(json.error || "Unknown error");
+      }
+
       toast.success("Transfer deleted.");
-      onSuccess ? onSuccess() : router.push("/dashboard/transfers");
+
+      if (onSuccess) {
+        onSuccess();
+      } else {
+        router.push("/dashboard/transfers");
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Error deleting transfer.");
+    } finally {
+      setLoading(false);
     }
   };
 

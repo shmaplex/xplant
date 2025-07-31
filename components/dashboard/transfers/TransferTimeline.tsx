@@ -21,7 +21,6 @@ export default function TransferTimeline({
 }: {
   transfers: PlantTransfer[];
 }) {
-  // Prepare timeline data
   const timelineData: TimelinePoint[] = transfers.map((t) => ({
     date: new Date(t.transfer_date).toLocaleDateString("en-US"),
     plant: t.plant?.species ?? "Unnamed Plant",
@@ -33,7 +32,6 @@ export default function TransferTimeline({
       <h2 className="text-xl font-semibold text-moss-shadow mb-4">
         Transfer Timeline
       </h2>
-
       {timelineData.length === 0 ? (
         <p className="text-sm text-gray-500">No transfer data available.</p>
       ) : (
@@ -53,7 +51,7 @@ export default function TransferTimeline({
                 position: "insideLeft",
               }}
             />
-            <Tooltip formatter={(val: any) => [`${val}`, "Transfer #"]} />
+            <Tooltip formatter={(val) => [`${val}`, "Transfer #"]} />
             <Line
               type="monotone"
               dataKey="transferCycle"

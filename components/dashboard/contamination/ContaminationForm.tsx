@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+
 import type { ContaminationLog } from "@/lib/types";
 import {
   insertContaminationLog,

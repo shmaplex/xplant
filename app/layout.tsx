@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Patrick_Hand } from "next/font/google";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import { CartProvider } from "@/contexts/CartContext";
@@ -38,6 +39,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${handwriting.variable} antialiased`}
       >
+        <ToastContainer />
         <FloatingUserMenu />
         <CartProvider>
           <div className="w-full font-sans bg-milk-bio print:bg-white text-biochar-black min-h-screen flex flex-col">

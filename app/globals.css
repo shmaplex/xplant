@@ -239,3 +239,16 @@ body {
   border-image-source: linear-gradient(to right, #d3a8f9, #b7ef48, #d3a8f9);
   border-style: solid;
 }
+
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 3s linear infinite;
+}

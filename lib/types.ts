@@ -98,9 +98,7 @@ export type PlantTransfer = {
   transfer_date: string;
   transfer_cycle: number;
   notes?: string;
-  plant?: {
-    species: string;
-  };
+  plant?: Plant;
   created_at: string;
 };
 

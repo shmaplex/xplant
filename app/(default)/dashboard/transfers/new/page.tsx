@@ -5,13 +5,15 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import type { PlantBasic } from "@/lib/types";
-import { Suspense } from "react";
+import { toast } from "react-toastify";
+import PlantLoader from "@/components/dashboard/plants/PlantLoader";
 
 function TransferPageClient() {
   const searchParams = useSearchParams();
   const transferId = searchParams.get("id") ?? undefined;
 
   const [plants, setPlants] = useState<PlantBasic[]>([]);
+  const [loading, setLoading] = useState(true);
   const supabase = createClient();
 
   useEffect(() => {
@@ -19,10 +21,19 @@ function TransferPageClient() {
       const { data, error } = await supabase
         .from("plants")
         .select("id,species");
-      if (!error) setPlants(data || []);
+      if (error) {
+        toast.error("Failed to load plants.");
+      } else {
+        setPlants(data || []);
+      }
+      setLoading(false);
     };
     fetchPlants();
   }, [supabase]);
+
+  if (loading) {
+    return <PlantLoader />;
+  }
 
   return (
     <div className="min-h-screen bg-[var(--milk-bio)] py-16 px-6 flex flex-col items-center">
@@ -43,10 +54,4 @@ function TransferPageClient() {
   );
 }
 
-export default function NewTransferPage() {
-  return (
-    <Suspense fallback="Loading...">
-      <TransferPageClient />
-    </Suspense>
-  );
-}
+export default TransferPageClient;
