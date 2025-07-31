@@ -9,6 +9,18 @@ export async function getCurrentUser() {
   return data.user;
 }
 
+export async function fetchPlants(userId: string): Promise<Plant[]> {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("plants")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
+
+  if (error) throw error;
+  return data || [];
+}
+
 export async function fetchPlantById(id: string, userId: string) {
   const supabase = await createClient();
 

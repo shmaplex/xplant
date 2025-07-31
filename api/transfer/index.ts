@@ -1,6 +1,42 @@
 import { createClient } from "@/lib/supabase/server";
 import type { PlantTransfer } from "@/lib/types";
 
+export async function fetchTransferByIdWithRelations(
+  transferId: string,
+  userId: string
+): Promise<PlantTransfer | null> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("plant_transfers")
+    .select(
+      `
+      *,
+      plant:plants(
+        *,
+        plant_stages (
+          id,
+          stage,
+          room,
+          entered_on,
+          notes,
+          created_at
+        )
+      )
+    `
+    )
+    .eq("id", transferId)
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Error fetching transfer by id:", error);
+    return null;
+  }
+
+  return data ?? null;
+}
+
 export async function fetchTransfers(
   plantId?: string
 ): Promise<{ data?: PlantTransfer[]; error?: any }> {
@@ -16,15 +52,50 @@ export async function fetchTransfers(
   return { data: data ?? undefined, error };
 }
 
+export async function fetchTransferById(
+  id: string
+): Promise<PlantTransfer | null> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("plant_transfers")
+    .select(
+      `
+      *,
+      plant:plants(
+        *,
+        plant_stages!plants_current_stage_id_fkey(*)
+      )
+    `
+    )
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) {
+    throw error;
+  }
+  return data;
+}
+
 export async function fetchTransfersWithPlantDetails(
   userId: string
 ): Promise<PlantTransfer[]> {
   const supabase = await createClient();
+
   const { data, error } = await supabase
     .from("plant_transfers")
-    .select("*, plant:plants(*, current_stage:plant_stages(*))")
+    .select(
+      `
+      *,
+      plant:plants(
+        *,
+        plant_stages!plants_current_stage_id_fkey(*)
+      )
+    `
+    )
     .eq("user_id", userId)
-    .order("transfer_date", { ascending: true });
+    .order("transfer_date", { ascending: false })
+    .limit(10);
 
   if (error) throw error;
   return data as PlantTransfer[];

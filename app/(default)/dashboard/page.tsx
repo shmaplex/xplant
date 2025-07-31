@@ -1,69 +1,75 @@
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 import { FiAlertCircle, FiCheckSquare } from "react-icons/fi";
+
+import { fetchTransfersWithPlantDetails } from "@/api/transfer";
+import { fetchPlants, fetchPlantStages } from "@/api/plant";
 
 import DashboardHero from "@/components/dashboard/DashboardHero";
 import QuickActions from "@/components/dashboard/QuickActions";
 import PlantList from "@/components/dashboard/PlantList";
 import TaskList from "@/components/dashboard/TaskList";
+import RecentTransfers from "@/components/dashboard/transfers/RecentTransfers";
 import UpcomingFeatures from "@/components/dashboard/UpcomingFeatures";
+
+import { PlantTransfer, Plant } from "@/lib/types";
+
+import { createClient } from "@/lib/supabase/server";
 
 export default async function PlantCultureDashboard() {
   const supabase = await createClient();
 
-  // Get user session
   const {
     data: { session },
     error: sessionError,
   } = await supabase.auth.getSession();
 
-  if (sessionError) {
-    console.error("Error fetching session:", sessionError);
-  }
+  if (sessionError) console.error("Error fetching session:", sessionError);
   if (!session) redirect("/login");
 
   const userId = session.user.id;
   const userEmail = session.user.email;
 
-  // 1. Fetch plants
-  const { data: plants, error: plantsError } = await supabase
-    .from("plants")
-    .select("*")
-    .eq("user_id", userId)
-    .order("created_at", { ascending: false });
+  let recentTransfers: PlantTransfer[] = [];
 
-  if (plantsError) {
-    console.error("Error fetching plants:", plantsError);
+  try {
+    if (!userId) {
+      throw new Error("User ID is missing");
+    }
+    recentTransfers = await fetchTransfersWithPlantDetails(userId);
+  } catch (err) {
+    console.error(
+      "Failed to fetch recent transfers:",
+      err instanceof Error ? err.message : err
+    );
+    recentTransfers = [];
   }
 
-  // 2. Fetch latest stage for each plant
-  const plantsWithStages = plants
-    ? await Promise.all(
-        plants.map(async (plant) => {
-          const { data: stageData, error: stageError } = await supabase
-            .from("plant_stages")
-            .select("*")
-            .eq("plant_id", plant.id)
-            .order("entered_on", { ascending: false })
-            .limit(1);
+  let plants: Plant[] = [];
+  try {
+    plants = await fetchPlants(userId);
+  } catch (err) {
+    console.error("Error fetching plants", err);
+  }
 
-          if (stageError) {
-            console.error(
-              `Error fetching stage for plant ${plant.id}`,
-              stageError
-            );
-          }
+  // Get current stages per plant
+  const plantsWithStages = await Promise.all(
+    plants.map(async (plant) => {
+      let stageData = null;
+      try {
+        const stages = await fetchPlantStages(plant.id);
+        stageData = stages?.[0] ?? null; // latest stage
+      } catch (err) {
+        console.error(`Error fetching stage for plant ${plant.id}`, err);
+      }
+      return {
+        ...plant,
+        current_stage: stageData,
+      };
+    })
+  );
 
-          return {
-            ...plant,
-            current_stage: stageData?.[0] || null,
-          };
-        })
-      )
-    : [];
-
-  // 3. Fetch tasks
+  // Fetch tasks - You can move this to an API method too if desired
   const { data: tasks, error: tasksError } = await supabase
     .from("tasks")
     .select("*")
@@ -73,11 +79,9 @@ export default async function PlantCultureDashboard() {
     .order("due_date", { ascending: true })
     .limit(5);
 
-  if (tasksError) {
-    console.error("Error fetching tasks:", tasksError);
-  }
+  if (tasksError) console.error("Error fetching tasks:", tasksError);
 
-  // 4. Fetch recent contamination logs
+  // Contamination logs - Consider moving this to an API interface as well
   const { data: contaminationLogs, error: contaminationError } = await supabase
     .from("contamination_logs_with_user")
     .select("*")
@@ -85,9 +89,8 @@ export default async function PlantCultureDashboard() {
     .order("log_date", { ascending: false })
     .limit(10);
 
-  if (contaminationError) {
+  if (contaminationError)
     console.error("Error fetching contamination logs:", contaminationError);
-  }
 
   return (
     <div className="bg-milk-bio min-h-screen">
@@ -137,15 +140,16 @@ export default async function PlantCultureDashboard() {
                 <TaskList tasks={tasks ?? []} />
               </div>
               <div className="text-right bg-milk-bio/70 px-6 py-3 rounded-b-2xl border-t border-gray-200">
-                <a
+                <Link
                   href="/dashboard/tasks"
                   className="text-sm text-green-800 hover:text-green-600 font-medium"
                 >
                   View all tasks →
-                </a>
+                </Link>
               </div>
             </div>
 
+            {/* Contamination */}
             <div className="relative rounded-3xl shadow-lg bg-gradient-to-br from-white to-milk-bio flex flex-col overflow-hidden">
               <div className="p-6 flex-1">
                 <h3 className="font-bold text-red-700 text-lg mb-4 flex items-center">
@@ -193,6 +197,9 @@ export default async function PlantCultureDashboard() {
             </div>
           </div>
         </section>
+
+        {/* Recent Transfers Section */}
+        <RecentTransfers transfers={recentTransfers} />
 
         {/* Future Tools */}
         <UpcomingFeatures />

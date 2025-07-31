@@ -2,7 +2,7 @@ import Hero from "@/components/Hero";
 import Vision from "@/components/Vision";
 import HowItWorks from "@/components/HowItWorks";
 import Impact from "@/components/Impact";
-import Stats from "@/components/Stats";
+// import Stats from "@/components/Stats";
 import CommunityCallout from "@/components/CommunityCallout";
 import Testimonials from "@/components/Testimonials";
 
