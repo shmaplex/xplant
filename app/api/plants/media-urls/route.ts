@@ -1,9 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { fetchPlantMediaLogs } from "@/lib/api/plant";
+import { getCurrentUser } from "@/lib/api/user";
 
 export async function GET(req: NextRequest) {
   const supabase = await createClient();
+  const user = await getCurrentUser();
+  if (!user)
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const { searchParams } = new URL(req.url);
   const plantId = searchParams.get("plantId");
@@ -14,7 +18,7 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const mediaLogs = await fetchPlantMediaLogs(plantId);
+    const mediaLogs = await fetchPlantMediaLogs(plantId, user.id);
 
     const mediaUrls: Record<string, string> = {};
 

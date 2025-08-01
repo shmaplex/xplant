@@ -21,11 +21,14 @@ export async function GET(
   const { searchParams } = new URL(req.url);
   const useSignedUrls = searchParams.get("useSignedUrls") === "true";
 
-  console.log("useSignedUrls", useSignedUrls);
-
   try {
     // 1. Get media logs using shared helper
     const mediaLogs = await fetchPlantMediaLogs(plantId, user.id);
+
+    // If no logs, return an empty list with 200
+    if (!mediaLogs.length) {
+      return NextResponse.json({ mediaLogs: [], mediaUrls: {} });
+    }
 
     // 2. Generate URLs (signed or public)
     const mediaUrls: Record<string, string> = {};

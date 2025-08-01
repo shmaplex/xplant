@@ -194,6 +194,11 @@ export async function fetchPlantMediaLogs(
     .eq("id", plantId)
     .single();
 
+  // PGRST116 = The result contains 0 rows
+  if (plantError && plantError.code === "PGRST116") {
+    return [];
+  }
+
   if (plantError) throw plantError;
   if (!plant || plant.user_id !== userId) {
     // Not authorized or plant doesn't exist
@@ -207,6 +212,7 @@ export async function fetchPlantMediaLogs(
     .eq("plant_id", plantId)
     .order("created_at", { ascending: false });
 
+  console.log("error", error);
   if (error) throw error;
   return data || [];
 }

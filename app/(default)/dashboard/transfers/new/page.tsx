@@ -16,6 +16,7 @@ export default function NewTransferPage() {
     async function fetchPlants() {
       try {
         const res = await fetch("/api/plants");
+        console.log("res", res);
         const json = await res.json();
         const data = json.data ?? json.plants ?? json; // support both shapes
 

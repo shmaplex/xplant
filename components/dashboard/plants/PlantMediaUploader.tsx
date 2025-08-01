@@ -8,9 +8,11 @@ import { toast } from "react-toastify";
 export default function PlantMediaUploader({
   plantId,
   userId,
+  onUploaded,
 }: {
   plantId: string;
   userId: string;
+  onUploaded?: () => void; // Callback to trigger refresh
 }) {
   const supabase = createClient();
   const [file, setFile] = useState<File | null>(null);
@@ -69,8 +71,15 @@ export default function PlantMediaUploader({
       }
 
       toast.success("Upload successful!");
+
+      // Reset the file input
       setFile(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
+
+      // Trigger gallery refresh
+      if (onUploaded) {
+        onUploaded();
+      }
     } catch (err) {
       console.error(err);
       toast.error("Unexpected error during upload");

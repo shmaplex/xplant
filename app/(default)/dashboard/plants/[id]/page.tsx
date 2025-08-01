@@ -1,4 +1,3 @@
-import PlantNotFoundClient from "../PlantNotFoundClient";
 import PlantDetail from "@/components/dashboard/plants/PlantDetail";
 import NotLoggedIn from "@/components/ui/NotLoggedIn";
 import {
@@ -7,6 +6,7 @@ import {
   fetchPlantRelatedData,
 } from "@/lib/api/plant";
 import { getCurrentUser } from "@/lib/api/user";
+import { notFound } from "next/navigation";
 
 export default async function PlantsPage({
   params,
@@ -21,7 +21,9 @@ export default async function PlantsPage({
     }
 
     const plantData = await fetchPlantById(id, user.id);
-    if (!plantData) return <PlantNotFoundClient />;
+    if (!plantData) {
+      return notFound();
+    }
 
     const stages = await fetchPlantStages(id);
     const current_stage = stages?.[0] ?? null;
@@ -48,6 +50,6 @@ export default async function PlantsPage({
     );
   } catch (err) {
     console.error("Unexpected error in PlantsPage:", err);
-    return <PlantNotFoundClient />;
+    return notFound();
   }
 }

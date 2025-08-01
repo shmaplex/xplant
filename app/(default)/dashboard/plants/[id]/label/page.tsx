@@ -1,7 +1,7 @@
 import PrintPlantLabel from "@/components/dashboard/plants/PrintPlantLabel";
-import PlantNotFoundClient from "../../PlantNotFoundClient";
 import { fetchPlantById, fetchPlantStages } from "@/lib/api/plant";
 import { getCurrentUser } from "@/lib/api/user";
+import { notFound } from "next/navigation";
 
 export default async function PrintLabelPage({
   params,
@@ -21,7 +21,7 @@ export default async function PrintLabelPage({
     }
 
     const plant = await fetchPlantById(id, user.id);
-    if (!plant) return <PlantNotFoundClient />;
+    if (!plant) return notFound();
 
     const stages = await fetchPlantStages(id);
     const current_stage = stages?.[0] ?? null;
@@ -33,6 +33,6 @@ export default async function PrintLabelPage({
     );
   } catch (err) {
     console.error("Label print page error:", err);
-    return <PlantNotFoundClient />;
+    return notFound();
   }
 }

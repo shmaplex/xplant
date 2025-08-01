@@ -16,7 +16,7 @@ export async function POST(req: Request) {
       notes,
       stage = "Mother Block",
       room = null,
-      entered_on = new Date().toISOString(),
+      entered_on = new Date().toISOString().split("T")[0], // date only
       stage_notes = "",
     } = body;
 
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
       );
     }
 
-    // Insert plant
+    // Insert plant (make sure insertPlant returns full inserted row with id)
     const plant = await insertPlant({
       userId,
       species,
@@ -37,22 +37,53 @@ export async function POST(req: Request) {
       notes,
     });
 
-    // Insert initial stage with user data
-    const { error: stageError } = await supabase.from("plant_stages").insert([
-      {
-        plant_id: plant.id,
-        stage,
-        room,
-        entered_on,
-        notes: stage_notes,
-      },
-    ]);
-
-    if (stageError) {
-      return NextResponse.json({ error: stageError.message }, { status: 500 });
+    if (!plant || !plant.id) {
+      return NextResponse.json(
+        { error: "Failed to create plant" },
+        { status: 500 }
+      );
     }
 
-    return NextResponse.json(plant, { status: 201 });
+    // Insert initial stage and get the inserted stage row
+    const { data: stageData, error: stageError } = await supabase
+      .from("plant_stages")
+      .insert([
+        {
+          plant_id: plant.id,
+          stage,
+          room,
+          entered_on,
+          notes: stage_notes,
+        },
+      ])
+      .select()
+      .single();
+
+    if (stageError || !stageData) {
+      return NextResponse.json(
+        { error: stageError?.message || "Failed to create stage" },
+        { status: 500 }
+      );
+    }
+
+    // Update plant with current_stage_id
+    const { error: updatePlantError } = await supabase
+      .from("plants")
+      .update({ current_stage_id: stageData.id })
+      .eq("id", plant.id);
+
+    if (updatePlantError) {
+      return NextResponse.json(
+        { error: updatePlantError.message },
+        { status: 500 }
+      );
+    }
+
+    // Return the plant data, optionally you could merge the stage info if needed
+    return NextResponse.json(
+      { ...plant, current_stage_id: stageData.id },
+      { status: 201 }
+    );
   } catch (err: any) {
     return NextResponse.json(
       { error: err.message || "Internal server error" },

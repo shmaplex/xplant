@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
@@ -20,12 +20,17 @@ export default function NewPlantPage() {
     entered_on: new Date().toISOString().split("T")[0], // default to today
     stage_notes: "",
   });
-
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [plantId, setPlantId] = useState<string | null>(null);
-
-  const router = useRouter();
   const supabase = createClient();
+  const [userId, setUserId] = useState<string>("");
+
+  useEffect(() => {
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user) setUserId(data.user.id);
+    });
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -112,7 +117,7 @@ export default function NewPlantPage() {
               onSubmit={handleSubmit}
               updating={loading}
               showStageFields={true}
-              showMediaUpload={false}
+              userId={userId}
             />
           </div>
         </section>

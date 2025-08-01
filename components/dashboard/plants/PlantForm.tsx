@@ -1,7 +1,6 @@
 "use client";
 
 import { FiSave, FiLoader } from "react-icons/fi";
-import PlantMediaUploader from "./PlantMediaUploader";
 
 export interface PlantFormProps {
   form: {
@@ -30,7 +29,6 @@ export interface PlantFormProps {
   >;
   onSubmit: (e: React.FormEvent) => Promise<void>;
   updating: boolean;
-  showMediaUpload?: boolean;
   showStageFields?: boolean;
   plantId?: string;
   userId: string;
@@ -41,10 +39,7 @@ export default function PlantForm({
   setForm,
   onSubmit,
   updating,
-  showMediaUpload = false,
   showStageFields = false,
-  plantId,
-  userId,
 }: PlantFormProps) {
   return (
     <form onSubmit={onSubmit} className="space-y-8">
@@ -197,15 +192,6 @@ export default function PlantForm({
           className="w-full rounded-lg border border-spore-grey p-3 text-base focus:outline-none focus:ring-2 focus:ring-future-lime resize-none"
         />
       </div>
-
-      {showMediaUpload && plantId && (
-        <section className="mt-8">
-          <h3 className="text-lg font-semibold text-biochar-black mb-4">
-            Media Upload
-          </h3>
-          <PlantMediaUploader plantId={plantId} userId={userId} />
-        </section>
-      )}
 
       {/* Submit */}
       <div>
