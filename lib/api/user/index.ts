@@ -48,12 +48,35 @@ export async function getUserProfileByUsername(
   let contamination_reports: any[] = [];
 
   if (options?.include?.includes("plants")) {
-    const { data } = await supabase
+    // 1. Fetch all plants for the user
+    const { data: plantData } = await supabase
       .from("plants")
       .select("*")
       .eq("user_id", id)
       .order("created_at", { ascending: false });
-    plants = data || [];
+
+    plants = plantData || [];
+
+    // 2. Get the latest stage for these plants
+    if (plants.length > 0) {
+      const plantIds = plants.map((p) => p.id);
+
+      const { data: stageData } = await supabase
+        .from("plant_stages")
+        .select("*")
+        .in("plant_id", plantIds)
+        .order("entered_on", { ascending: false });
+
+      // For each plant, find its latest stage
+      plants = plants.map((plant) => {
+        const stages = stageData?.filter((s) => s.plant_id === plant.id) || [];
+        const latestStage = stages.length > 0 ? stages[0] : null;
+        return {
+          ...plant,
+          current_stage: latestStage,
+        };
+      });
+    }
   }
 
   if (options?.include?.includes("media_recipes")) {
@@ -118,18 +141,41 @@ export async function getUserProfile(
 
   if (profileError) throw profileError;
 
-  // Related data fetching
   let plants: any[] = [];
   let media_recipes: any[] = [];
   let contamination_reports: any[] = [];
 
   if (options?.include?.includes("plants")) {
-    const { data } = await supabase
+    // 1. Fetch all plants for the user
+    const { data: plantData } = await supabase
       .from("plants")
       .select("*")
       .eq("user_id", id)
       .order("created_at", { ascending: false });
-    plants = data || [];
+
+    plants = plantData || [];
+
+    console.log("plants", plants);
+    // 2. Get the latest stage for these plants
+    if (plants.length > 0) {
+      const plantIds = plants.map((p) => p.id);
+
+      const { data: stageData } = await supabase
+        .from("plant_stages")
+        .select("*")
+        .in("plant_id", plantIds)
+        .order("entered_on", { ascending: false });
+
+      // For each plant, find its latest stage
+      plants = plants.map((plant) => {
+        const stages = stageData?.filter((s) => s.plant_id === plant.id) || [];
+        const latestStage = stages.length > 0 ? stages[0] : null;
+        return {
+          ...plant,
+          current_stage: latestStage,
+        };
+      });
+    }
   }
 
   if (options?.include?.includes("media_recipes")) {
@@ -152,7 +198,6 @@ export async function getUserProfile(
 
   return {
     ...profile,
-    // If authUser info is available (e.g., current user)
     email: authUser?.email || profile.email,
     phone: authUser?.phone || profile.phone,
     display_name:
