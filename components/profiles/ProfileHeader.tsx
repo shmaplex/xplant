@@ -20,15 +20,10 @@ export default function ProfileHeader({
   isPremium = false,
 }: ProfileHeaderProps) {
   return (
-    <section
-      className="relative max-w-4xl mx-auto bg-white rounded-3xl shadow-lg flex flex-col sm:flex-row items-center sm:items-start p-10 sm:py-14 sm:pr-14 overflow-visible"
-      style={{
-        borderColor: "var(--color-spore-grey)",
-      }}
-    >
+    <section className="relative max-w-4xl mx-auto bg-white rounded-l-lg rounded-r-3xl border-spore-grey shadow-lg flex flex-col sm:flex-row items-center sm:items-start p-10 sm:py-14 sm:pr-14 overflow-visible">
       {/* Left accent bar */}
       <div
-        className="absolute left-0 top-0 bottom-0 w-2 rounded-l-3xl"
+        className="absolute left-0 top-0 bottom-0 w-2 rounded-l-4xl"
         style={{ backgroundColor: "var(--color-future-lime)" }}
       ></div>
 

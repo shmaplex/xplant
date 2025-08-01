@@ -6,9 +6,13 @@
   --milk-bio: #f7f2ec;
   --spore-grey: #dad7d2;
   --psybeam-purple: #d3a8f9;
+  --psybeam-purple-dark: #5b3fa8;
   --biochar-black: #1a1a1a;
   --organic-amber: #d9a441;
   --organic-amber-light: #f5e7b2;
+  --bio-red: #d96b6b;
+  --bio-red-light: #fbecec;
+  --bio-red-dark: #a84343;
 }
 
 @theme inline {
@@ -17,9 +21,13 @@
   --color-milk-bio: var(--milk-bio);
   --color-spore-grey: var(--spore-grey);
   --color-psybeam-purple: var(--psybeam-purple);
+  --color-psybeam-purple-dark: var(--psybeam-purple-dark);
   --color-biochar-black: var(--biochar-black);
   --color-organic-amber: var(--organic-amber);
   --color-organic-amber-light: var(--organic-amber-light);
+  --color-bio-red: var(--bio-red);
+  --color-bio-red-light: var(--bio-red-light);
+  --color-bio-red-dark: var(--bio-red-dark);
 }
 
 /* @layer base {

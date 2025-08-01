@@ -4,7 +4,7 @@ import MediaRecipeList from "@/components/dashboard/media/MediaRecipeList";
 import Link from "next/link";
 import { FiLink, FiPlus } from "react-icons/fi";
 
-const ACCENT_COLOR = "text-[#5b3fa8]"; // darker purple
+const ACCENT_COLOR = "text-psybeam-purple-dark"; // darker purple
 
 function MediaActions() {
   return (

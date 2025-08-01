@@ -74,7 +74,7 @@ export default function ContaminationDetailPage() {
   return (
     <div className="min-h-screen bg-spore-gray py-12 px-6 max-w-7xl w-full mx-auto justify-center space-y-16">
       {/* Info note */}
-      <section className="w-full bg-[#e0e7ff] border border-[#5b3fa8] rounded-xl p-4 flex items-center gap-3 text-[#4f46e5] text-sm font-medium shadow-sm">
+      <section className="w-full bg-[#e0e7ff] border border-psybeam-purple-dark rounded-xl p-4 flex items-center gap-3 text-[#4f46e5] text-sm font-medium shadow-sm">
         <FiInfo className="w-6 h-6 flex-shrink-0" />
         <p>
           Contamination report details logged on{" "}

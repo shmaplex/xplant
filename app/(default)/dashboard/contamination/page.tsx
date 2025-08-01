@@ -5,7 +5,7 @@ import ContaminationList from "@/components/dashboard/contamination/Contaminatio
 import ContaminationStats from "@/components/dashboard/contamination/ContaminationStats";
 import ContaminationActions from "@/components/dashboard/contamination/ContaminationActions";
 
-const ACCENT_COLOR = "text-[#5b3fa8]";
+const ACCENT_COLOR = "text-psybeam-purple-dark";
 
 export default function ContaminationPage() {
   return (

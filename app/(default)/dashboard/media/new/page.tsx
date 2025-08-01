@@ -3,11 +3,11 @@
 import MediaRecipeForm from "@/components/dashboard/media/MediaRecipeForm";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 
-const ACCENT_COLOR = "text-[#5b3fa8]";
+const ACCENT_COLOR = "text-psybeam-purple-dark";
 
 export default function NewMediaRecipePage() {
   return (
-    <div className="w-full p-8 bg-spore-gray">
+    <div className="w-full p-8 bg-psybeam-purple/20">
       <div className="max-w-4xl mx-auto min-h-screen bg-white/40 p-12 rounded-2xl">
         {/* Breadcrumbs */}
         <Breadcrumbs

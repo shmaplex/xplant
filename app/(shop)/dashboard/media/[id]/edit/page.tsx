@@ -33,7 +33,8 @@ export default async function EditMediaRecipePage(props: {
 
         <header className="space-y-4 text-center sm:text-left mb-12">
           <h1 className="text-4xl sm:text-5xl font-extrabold text-biochar-black">
-            Edit <span className="text-[#5b3fa8]">{recipe.title}</span>
+            Edit{" "}
+            <span className="text-psybeam-purple-dark">{recipe.title}</span>
           </h1>
         </header>
 

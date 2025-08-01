@@ -7,7 +7,7 @@ export default function StageHistory({ stages }: { stages: PlantStage[] }) {
 
   return (
     <section className="bg-white rounded-2xl p-6 shadow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 className="text-xl font-semibold text-[#5b3fa8] mb-8">
+      <h2 className="text-xl font-semibold text-psybeam-purple-dark mb-8">
         Stage History
       </h2>
 
@@ -40,7 +40,7 @@ export default function StageHistory({ stages }: { stages: PlantStage[] }) {
                 badge: "bg-psybeam-purple",
                 header: "bg-psybeam-purple/10",
                 title: "text-psybeam-purple",
-                room: "bg-psybeam-purple/50 text-[#5b3fa8]/80",
+                room: "bg-psybeam-purple/50 text-psybeam-purple-dark/80",
               }}
             />
           ))}

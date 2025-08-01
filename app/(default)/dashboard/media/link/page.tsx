@@ -3,7 +3,7 @@
 import MediaRecipeLinker from "@/components/dashboard/media/MediaRecipeLinker";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 
-const ACCENT_COLOR = "text-[#5b3fa8]";
+const ACCENT_COLOR = "text-psybeam-purple-dark";
 
 export default function LinkMediaPage() {
   return (

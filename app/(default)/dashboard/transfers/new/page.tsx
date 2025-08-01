@@ -39,7 +39,7 @@ export default function NewTransferPage() {
   }
 
   return (
-    <div className="w-full p-8 bg-spore-gray">
+    <div className="w-full p-8 bg-organic-amber-light/50">
       <div className="max-w-4xl mx-auto min-h-screen bg-white/40 p-12 rounded-2xl">
         {/* Breadcrumbs */}
         <Breadcrumbs
@@ -51,7 +51,7 @@ export default function NewTransferPage() {
 
         <header className="space-y-4 text-center sm:text-left mb-12">
           <h1 className="text-4xl sm:text-5xl font-extrabold text-biochar-black">
-            Add <span className={ACCENT_COLOR}>New Transfer</span>
+            Record <span className={ACCENT_COLOR}>Transfer</span>
           </h1>
           <p className="text-base text-moss-shadow max-w-2xl">
             Record a new plant transfer cycle and keep track of its progress.
