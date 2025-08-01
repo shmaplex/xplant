@@ -11,9 +11,10 @@ export const floatingUserMenuLinks: FloatingUserMenuLink[] = [
   { label: "Plant Logbook", href: "/dashboard/plants" },
   { label: "Tasks", href: "/dashboard/tasks" },
   { label: "Media Recipes", href: "/dashboard/media" },
+  { label: "Your Profile", href: "/profile/me" },
   {
     label: "Profile Settings",
-    href: "/dashboard/profile",
+    href: "/profile",
   },
   { label: "Log Out", action: "logout" },
 ];

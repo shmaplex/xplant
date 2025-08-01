@@ -6,10 +6,10 @@ import { fetchTransferByIdWithRelations } from "@/api/transfer";
 export default async function TransferDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   try {
-    const { id } = params;
+    const { id } = await params;
     const user = await getCurrentUser();
     if (!user) return <TransferNotFound />;
 

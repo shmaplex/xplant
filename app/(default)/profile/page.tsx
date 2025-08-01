@@ -180,7 +180,7 @@ export default function ProfilePage() {
 
       toast.success("Profile updated successfully!");
       setTimeout(() => {
-        router.push(`/dashboard/profile/${profile.id}`);
+        router.push(`/profile/${profile.username}`);
       }, 1200);
     } catch (err) {
       toast.error("Error updating profile.");
@@ -210,7 +210,9 @@ export default function ProfilePage() {
           <Image
             src={
               profile?.avatar_url ||
-              `https://api.dicebear.com/7.x/lorelei/png?seed=${profile.id}`
+              `https://api.dicebear.com/7.x/lorelei/png?seed=${
+                profile?.id ?? "default-seed"
+              }`
             }
             alt="Avatar"
             width={80}

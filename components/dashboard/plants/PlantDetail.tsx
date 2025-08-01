@@ -6,17 +6,16 @@ import {
   MediaRecipe,
 } from "@/lib/types";
 import Link from "next/link";
-import { FaPrint } from "react-icons/fa";
 
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import PlantHero from "@/components/dashboard/plants/PlantHero";
-import StageHistory from "@/components/dashboard/plants/StageHistory";
-import TransferHistory from "@/components/dashboard/plants/TransferHistory";
-import ContaminationLogs from "@/components/dashboard/plants/ContaminationLogs";
 import LinkedMediaRecipes from "@/components/dashboard/plants/LinkedMediaRecipes";
 import PlantMediaSection from "@/components/dashboard/plants/PlantMediaSection";
 import PlantMediaGallery from "@/components/dashboard/plants/PlantMediaGallery";
 import PlantMediaUploader from "@/components/dashboard/plants/PlantMediaUploader";
+import StageHistory from "@/components/dashboard/stages/StageHistory";
+import TransferHistory from "@/components/dashboard/transfers/TransferHistory";
+import ContaminationLogs from "@/components/dashboard/contamination/ContaminationLogs";
 import { PrintButton } from "@/components/ui/PrintButton";
 
 export default function PlantDetail({

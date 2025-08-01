@@ -6,16 +6,17 @@ import { getCurrentUser } from "@/api/user";
 export default async function PrintLabelPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
   try {
     const user = await getCurrentUser();
+    const { id } = await params;
     if (!user) return <PlantNotFoundClient />;
 
-    const plant = await fetchPlantById(params.id, user.id);
+    const plant = await fetchPlantById(id, user.id);
     if (!plant) return <PlantNotFoundClient />;
 
-    const stages = await fetchPlantStages(params.id);
+    const stages = await fetchPlantStages(id);
     const current_stage = stages?.[0] ?? null;
 
     return (
