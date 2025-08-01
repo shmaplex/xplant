@@ -14,9 +14,10 @@ export default function NewTransferPage() {
       try {
         const res = await fetch("/api/plants");
         const json = await res.json();
+        const { data: plants } = json;
 
         if (res.ok) {
-          setPlants(json.plants || []);
+          setPlants(plants || []);
         } else {
           console.error(json.error || "Failed to load plants");
         }
