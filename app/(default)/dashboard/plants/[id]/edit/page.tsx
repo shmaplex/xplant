@@ -6,29 +6,24 @@ import { fetchFullPlantData } from "@/lib/api/plant";
 export default async function PlantEditServerPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
+
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
-    notFound(); // or redirect("/login")
-  }
+  if (!user) notFound();
 
-  const { plant, stages, mediaLogs } = await fetchFullPlantData(
-    params.id,
-    user.id
-  );
+  const { plant, stages, mediaLogs } = await fetchFullPlantData(id, user.id);
 
-  if (!plant) {
-    notFound();
-  }
+  if (!plant) notFound();
 
   return (
     <EditPlantPage
-      id={params.id}
+      id={id}
       initialPlant={plant}
       initialStages={stages}
       initialMediaLogs={mediaLogs}

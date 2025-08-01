@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 
 export default function NotFound() {
   return (
@@ -8,12 +9,12 @@ export default function NotFound() {
         <p className="mt-4 text-xl text-spore-grey">
           Sorry, we couldn&apos;t find that plant.
         </p>
-        <a
+        <Link
           href="/dashboard/plants"
           className="mt-8 inline-block bg-future-lime text-biochar-black px-6 py-3 rounded-xl font-semibold hover:bg-future-lime/80 transition"
         >
           Back to Plants
-        </a>
+        </Link>
       </div>
     </div>
   );
