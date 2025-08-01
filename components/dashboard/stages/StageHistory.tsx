@@ -1,23 +1,23 @@
 import { PlantStage } from "@/lib/types";
 import StageCard from "@/components/ui/StageCard";
-import { History } from "lucide-react";
+import { MdHistory } from "react-icons/md";
 
 export default function StageHistory({ stages }: { stages: PlantStage[] }) {
   const hasStages = stages.length > 0;
 
   return (
-    <section className="bg-white rounded-2xl p-6 shadow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 className="text-xl font-semibold text-psybeam-purple-dark mb-8">
+    <section className="bg-white/70 rounded-3xl p-8 shadow-lg">
+      <h2 className="text-2xl font-bold text-lichen-blue-dark mb-8">
         Stage History
       </h2>
 
       {!hasStages ? (
-        <div className="flex flex-col items-center justify-center py-20 bg-spore-grey/10 w-full rounded-xl text-center mx-auto">
-          <History className="w-14 h-14 text-[var(--psybeam-purple)] mb-5" />
-          <p className="text-[var(--psybeam-purple)] text-xl font-semibold">
+        <div className="flex flex-col items-center justify-center py-20 bg-lichen-blue-light/60 w-full rounded-xl text-center">
+          <MdHistory className="w-14 h-14 text-lichen-blue mb-5" />
+          <p className="text-lichen-blue-dark text-xl font-semibold">
             No stage history found
           </p>
-          <p className="text-[var(--psybeam-purple)]/80 text-base mt-2 max-w-xs">
+          <p className="text-lichen-blue-dark/70 text-base mt-2 max-w-xs">
             No past stages are recorded for this plant.
           </p>
         </div>
@@ -28,7 +28,6 @@ export default function StageHistory({ stages }: { stages: PlantStage[] }) {
             sm:grid-cols-2
             lg:grid-cols-3
             gap-6
-            max-w-full
           "
         >
           {stages.map((stage) => (
@@ -37,10 +36,10 @@ export default function StageHistory({ stages }: { stages: PlantStage[] }) {
               stage={stage}
               label="Stage"
               colors={{
-                badge: "bg-psybeam-purple",
-                header: "bg-psybeam-purple/10",
-                title: "text-psybeam-purple",
-                room: "bg-psybeam-purple/50 text-psybeam-purple-dark/80",
+                badge: "bg-organic-amber",
+                header: "bg-organic-amber/10",
+                title: "text-organic-amber",
+                room: "bg-organic-amber-light/50 text-organic-amber/80",
               }}
             />
           ))}

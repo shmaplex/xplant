@@ -53,8 +53,8 @@ export default function TaskList({
             key={f}
             className={`px-3 py-1 rounded ${
               filter === f
-                ? "bg-moss-shadow text-white"
-                : "bg-spore-grey text-gray-700"
+                ? "bg-lichen-blue text-white"
+                : "bg-lichen-blue/20 text-gray-700"
             }`}
             onClick={() => setFilter(f as any)}
           >
@@ -73,7 +73,7 @@ export default function TaskList({
           />
         ))}
         {filteredTasks.length === 0 && (
-          <p className="text-sm text-gray-500">No tasks found.</p>
+          <p className="text-sm text-lichen-blue">No tasks found.</p>
         )}
       </ul>
     </div>

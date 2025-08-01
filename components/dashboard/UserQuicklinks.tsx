@@ -9,6 +9,7 @@ import {
   FaFlask,
   FaCalendarAlt,
   FaUserCircle,
+  FaMicroscope,
 } from "react-icons/fa";
 import { MdAddCircleOutline } from "react-icons/md";
 import { useAutoCollapse } from "@/hooks/useAutoCollapse";
@@ -43,6 +44,11 @@ export default function UserQuicklinks() {
       href: "/dashboard/media/new",
       label: "Add New Media Recipe",
       icon: <FaFlask size={18} />,
+    },
+    {
+      href: "/dashboard/stages",
+      label: "Stage & Room Tracking",
+      icon: <FaMicroscope size={18} />,
     },
   ];
 

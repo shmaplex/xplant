@@ -20,7 +20,6 @@ export default function TaskForm({ onTaskAdded }: TaskFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Get the current user
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -30,11 +29,10 @@ export default function TaskForm({ onTaskAdded }: TaskFormProps) {
     }
 
     const { title, category, due_date, notes } = form;
-
     const { error } = await supabase.from("tasks").insert({
       user_id: user.id,
       title,
-      category, // must be snake_case
+      category,
       due_date,
       notes,
       is_completed: false,
@@ -46,7 +44,6 @@ export default function TaskForm({ onTaskAdded }: TaskFormProps) {
     } else {
       toast.success("Task added!");
       setForm({ title: "", category: "media_prep", due_date: "", notes: "" });
-
       if (onTaskAdded) onTaskAdded();
     }
   };
@@ -54,49 +51,70 @@ export default function TaskForm({ onTaskAdded }: TaskFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-4 bg-white p-4 rounded-xl shadow"
+      className="space-y-6 bg-lichen-blue-light/30 p-6 rounded-2xl border border-lichen-blue-light"
     >
-      <h2 className="text-xl font-semibold">Add Task</h2>
+      <h2 className="text-2xl font-bold text-lichen-blue-dark">Add Task</h2>
 
-      <input
-        type="text"
-        placeholder="Task title"
-        value={form.title}
-        onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-        className="p-2 border rounded w-full"
-        required
-      />
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-lichen-blue-dark">
+          Title
+        </label>
+        <input
+          type="text"
+          placeholder="Enter task title"
+          value={form.title}
+          onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
+          className="p-3 rounded-lg w-full bg-white/70 border border-lichen-blue-light text-lichen-blue-dark placeholder-lichen-blue-dark/40 focus:ring-2 focus:ring-lichen-blue-dark focus:outline-none transition"
+          required
+        />
+      </div>
 
-      <select
-        value={form.category}
-        onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
-        className="p-2 border rounded w-full"
-      >
-        <option value="media_prep">Media Prep</option>
-        <option value="subculture">Subculturing</option>
-        <option value="cleaning">Cleaning</option>
-        <option value="monitoring">Monitoring</option>
-        <option value="other">Other</option>
-      </select>
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-lichen-blue-dark">
+          Category
+        </label>
+        <select
+          value={form.category}
+          onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+          className="p-3 rounded-lg w-full bg-white/70 border border-lichen-blue-light text-lichen-blue-dark focus:ring-2 focus:ring-lichen-blue-dark focus:outline-none transition"
+        >
+          <option value="media_prep">Media Prep</option>
+          <option value="subculture">Subculturing</option>
+          <option value="cleaning">Cleaning</option>
+          <option value="monitoring">Monitoring</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
 
-      <input
-        type="date"
-        value={form.due_date}
-        onChange={(e) => setForm((f) => ({ ...f, due_date: e.target.value }))}
-        className="p-2 border rounded w-full"
-        required
-      />
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-lichen-blue-dark">
+          Due Date
+        </label>
+        <input
+          type="date"
+          value={form.due_date}
+          onChange={(e) => setForm((f) => ({ ...f, due_date: e.target.value }))}
+          className="p-3 rounded-lg w-full bg-white/70 border border-lichen-blue-light text-lichen-blue-dark focus:ring-2 focus:ring-lichen-blue-dark focus:outline-none transition"
+          required
+        />
+      </div>
 
-      <textarea
-        placeholder="Notes"
-        value={form.notes}
-        onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
-        className="p-2 border rounded w-full"
-      />
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-lichen-blue-dark">
+          Notes
+        </label>
+        <textarea
+          placeholder="Additional details (optional)"
+          value={form.notes}
+          onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
+          className="p-3 rounded-lg w-full bg-white/70 border border-lichen-blue-light text-lichen-blue-dark placeholder-lichen-blue-dark/40 focus:ring-2 focus:ring-lichen-blue-dark focus:outline-none transition"
+          rows={3}
+        />
+      </div>
 
       <button
         type="submit"
-        className="bg-moss-shadow text-white px-4 py-2 rounded w-full"
+        className="bg-lichen-blue-dark hover:bg-lichen-blue text-white font-semibold px-4 py-3 rounded-lg w-full transition-colors duration-300"
       >
         Add Task
       </button>

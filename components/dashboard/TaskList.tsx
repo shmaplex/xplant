@@ -47,7 +47,15 @@ export default function TaskList({ tasks }: TaskListProps) {
   }
 
   return (
-    <ul className="space-y-3 mt-2 max-h-48 overflow-y-auto pr-1">
+    <ul
+      className="space-y-3 mt-2 max-h-48 overflow-y-auto pr-1 py-3"
+      style={{
+        WebkitMaskImage:
+          "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
+        maskImage:
+          "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
+      }}
+    >
       {upcomingTasks.map((task) => {
         const colors = getDueStatusColor(task.due_date);
         return (

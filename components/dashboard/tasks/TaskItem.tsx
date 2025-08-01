@@ -31,7 +31,7 @@ export default function TaskItem({
   return (
     <div
       className={`p-4 rounded-xl shadow flex justify-between items-center ${
-        task.is_completed ? "bg-spore-grey" : "bg-white"
+        task.is_completed ? "bg-lichen-blue-light" : "bg-white"
       }`}
     >
       <div>
@@ -54,10 +54,10 @@ export default function TaskItem({
         <button
           onClick={handleToggle}
           disabled={loading || deleting}
-          className={`text-sm px-3 py-1 rounded transition ${
+          className={`text-sm px-3 py-1 rounded transition ease-in-out duration-500 ${
             task.is_completed
-              ? "bg-psybeam-purple text-white"
-              : "bg-future-lime text-black"
+              ? "bg-psybeam-purple hover:bg-psybeam-purple-dark text-white hover:text-psybeam-purple"
+              : "bg-future-lime hover:bg-moss-shadow text-black hover:text-future-lime"
           }`}
         >
           {loading ? "Saving..." : task.is_completed ? "Undo" : "Done"}
@@ -66,7 +66,7 @@ export default function TaskItem({
         <button
           onClick={handleDelete}
           disabled={loading || deleting}
-          className="text-sm px-3 py-1 rounded bg-red-500 text-white hover:bg-red-600 transition"
+          className="text-sm px-3 py-1 rounded bg-bio-red text-white ease-in-out duration-500 hover:text-white hover:bg-bio-red-dark transition"
           title="Delete task"
         >
           {deleting ? "Deleting..." : "Delete"}

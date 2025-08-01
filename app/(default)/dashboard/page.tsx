@@ -15,6 +15,7 @@ import UpcomingFeatures from "@/components/dashboard/UpcomingFeatures";
 import { PlantTransfer, Plant } from "@/lib/types";
 
 import { createClient } from "@/lib/supabase/server";
+import { BiLeaf } from "react-icons/bi";
 
 export default async function PlantCultureDashboard() {
   const supabase = await createClient();
@@ -93,7 +94,7 @@ export default async function PlantCultureDashboard() {
     console.error("Error fetching contamination logs:", contaminationError);
 
   return (
-    <div className="bg-milk-bio min-h-screen">
+    <div className="bg-milk-bio/10 min-h-screen">
       {/* Hero */}
       <DashboardHero
         title="Plant Culture"
@@ -112,17 +113,18 @@ export default async function PlantCultureDashboard() {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
             {/* Plants */}
-            <div className="relative rounded-3xl shadow-xl bg-gradient-to-br from-white to-milk-bio flex flex-col max-w-xl">
+            <div className="relative rounded-3xl shadow-xl bg-gradient-to-br from-future-lime/50 via-future-lime/10 to-future-lime/40 flex flex-col max-w-xl">
               <div className="p-6 flex-1">
-                <h3 className="font-semibold text-moss-shadow mb-5 text-lg tracking-wide">
-                  Your Cultured Plants
+                <h3 className="font-semibold text-moss-shadow mb-5 text-lg tracking-wide flex items-center">
+                  <BiLeaf className="w-5 h-5 mr-2 text-moss-shadow" /> Your
+                  Cultured Plants
                 </h3>
                 <PlantList plants={plantsWithStages} />
               </div>
               <div className="text-right bg-milk-bio/80 px-6 py-4 rounded-b-3xl border-t border-gray-300">
                 <Link
                   href="/dashboard/plants"
-                  className="text-sm text-green-900 hover:text-green-700 font-semibold transition-colors"
+                  className="text-sm text-moss-shadow hover:text-green-700 font-semibold transition-colors"
                 >
                   See all plants in the logbook →
                 </Link>
@@ -130,10 +132,10 @@ export default async function PlantCultureDashboard() {
             </div>
 
             {/* Tasks */}
-            <div className="relative rounded-3xl shadow-xl bg-gradient-to-br from-white to-milk-bio flex flex-col max-w-xl">
+            <div className="relative rounded-3xl shadow-xl bg-gradient-to-br from-lichen-blue-light/50 via-lichen-blue/10 to-lichen-blue-light/40 flex flex-col max-w-xl">
               <div className="p-6 flex-1">
-                <h3 className="font-bold text-green-800 text-lg mb-4 flex items-center">
-                  <FiCheckSquare className="w-5 h-5 mr-2 text-green-700" />
+                <h3 className="font-bold text-lichen-blue-dark text-lg mb-4 flex items-center">
+                  <FiCheckSquare className="w-5 h-5 mr-2 text-lichen-blue-dark" />
                   Reminders & Tasks
                 </h3>
 
@@ -142,7 +144,7 @@ export default async function PlantCultureDashboard() {
               <div className="text-right bg-milk-bio/70 px-6 py-3 rounded-b-2xl border-t border-gray-200">
                 <Link
                   href="/dashboard/tasks"
-                  className="text-sm text-green-800 hover:text-green-600 font-medium"
+                  className="text-sm text-lichen-blue-dark hover:text-lichen-blue font-medium"
                 >
                   View all tasks →
                 </Link>
@@ -150,15 +152,23 @@ export default async function PlantCultureDashboard() {
             </div>
 
             {/* Contamination */}
-            <div className="relative rounded-3xl shadow-lg bg-gradient-to-br from-white to-milk-bio flex flex-col overflow-hidden">
+            <div className="relative rounded-3xl shadow-lg bg-gradient-to-br from-bio-red-light/50 via-bio-red-light/10 to-bio-red-light/40 flex flex-col overflow-hidden">
               <div className="p-6 flex-1">
-                <h3 className="font-bold text-red-700 text-lg mb-4 flex items-center">
-                  <FiAlertCircle className="w-5 h-5 mr-2 text-red-600" />
+                <h3 className="font-bold text-bio-red text-lg mb-4 flex items-center">
+                  <FiAlertCircle className="w-5 h-5 mr-2 text-bio-red" />
                   Recent Contamination Reports
                 </h3>
 
                 {contaminationLogs && contaminationLogs.length > 0 ? (
-                  <ul className="space-y-3 max-h-56 overflow-auto pr-1">
+                  <ul
+                    className="space-y-3 max-h-56 overflow-auto pr-1 py-3"
+                    style={{
+                      WebkitMaskImage:
+                        "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
+                      maskImage:
+                        "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
+                    }}
+                  >
                     {contaminationLogs.map((log) => (
                       <li key={log.id}>
                         <Link

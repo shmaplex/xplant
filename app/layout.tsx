@@ -43,7 +43,7 @@ export default function RootLayout({
         <ToastContainer />
         <FloatingUserMenu />
         <CartProvider>
-          <div className="w-full font-sans bg-milk-bio print:bg-white text-biochar-black min-h-screen flex flex-col">
+          <div className="w-full font-sans bg-milk-bio/10 print:bg-white text-biochar-black min-h-screen flex flex-col">
             {children}
             <Footer />
           </div>

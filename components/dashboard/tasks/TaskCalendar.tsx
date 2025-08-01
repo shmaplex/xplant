@@ -19,8 +19,8 @@ export default function TaskCalendar({ tasks }: { tasks: Task[] }) {
 
   const eventStyleGetter = (event: any) => {
     const style = {
-      backgroundColor: event.isCompleted ? "#6b7280" : "#84cc16", // gray if done, green if not
-      color: "white",
+      backgroundColor: event.isCompleted ? "#dad7d2" : "#b7ef48", // gray if done, green if not
+      color: "#42594d",
       borderRadius: "4px",
       border: "none",
       padding: "2px 6px",

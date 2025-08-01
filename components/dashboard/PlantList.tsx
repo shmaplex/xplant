@@ -15,7 +15,15 @@ export default function PlantList({ plants }: PlantListProps) {
   }
 
   return (
-    <ul className="space-y-4 max-h-72 overflow-y-auto pr-3 scrollbar-thin scrollbar-thumb-moss-shadow scrollbar-track-transparent">
+    <ul
+      className="space-y-4 max-h-72 overflow-y-auto pr-3 scrollbar-thin scrollbar-thumb-moss-shadow scrollbar-track-transparent py-3"
+      style={{
+        WebkitMaskImage:
+          "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
+        maskImage:
+          "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
+      }}
+    >
       {plants.map((plant) => {
         const latestStage = plant.current_stage ?? null;
 

@@ -129,7 +129,7 @@ export default function PlantForm({
               <select
                 value={form.stage || "Mother Block"}
                 onChange={(e) => setForm({ ...form, stage: e.target.value })}
-                className="w-full rounded-lg border border-spore-grey p-3 text-base"
+                className="w-full rounded-lg border border-spore-grey p-3 text-base focus:outline-none focus:ring-2 focus:ring-future-lime"
               >
                 <option value="Mother Block">Mother Block</option>
                 <option value="Acclimation">Acclimation</option>
@@ -145,7 +145,7 @@ export default function PlantForm({
                 type="text"
                 value={form.room || ""}
                 onChange={(e) => setForm({ ...form, room: e.target.value })}
-                className="w-full rounded-lg border border-spore-grey p-3 text-base"
+                className="w-full rounded-lg border border-spore-grey p-3 text-base focus:outline-none focus:ring-2 focus:ring-future-lime"
               />
             </div>
             <div>
@@ -158,7 +158,7 @@ export default function PlantForm({
                 onChange={(e) =>
                   setForm({ ...form, entered_on: e.target.value })
                 }
-                className="w-full rounded-lg border border-spore-grey p-3 text-base"
+                className="w-full rounded-lg border border-spore-grey p-3 text-base focus:outline-none focus:ring-2 focus:ring-future-lime"
               />
             </div>
             <div className="md:col-span-2">
@@ -170,7 +170,7 @@ export default function PlantForm({
                 onChange={(e) =>
                   setForm({ ...form, stage_notes: e.target.value })
                 }
-                className="w-full rounded-lg border border-spore-grey p-3 text-base"
+                className="w-full rounded-lg border border-spore-grey p-3 text-base focus:outline-none focus:ring-2 focus:ring-future-lime"
               />
             </div>
           </div>

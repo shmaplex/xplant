@@ -3,8 +3,9 @@
 import { useEffect, useState } from "react";
 import NewTransferForm from "@/components/dashboard/transfers/NewTransferForm";
 import type { PlantBasic } from "@/lib/types";
-import PlantLoader from "@/components/dashboard/plants/PlantLoader";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import Loader from "@/components/ui/Loader";
+import { GiLeafSkeleton } from "react-icons/gi";
 
 const ACCENT_COLOR = "text-organic-amber";
 
@@ -16,7 +17,6 @@ export default function NewTransferPage() {
     async function fetchPlants() {
       try {
         const res = await fetch("/api/plants");
-        console.log("res", res);
         const json = await res.json();
         const data = json.data ?? json.plants ?? json; // support both shapes
 
@@ -35,7 +35,15 @@ export default function NewTransferPage() {
   }, []);
 
   if (loading) {
-    return <PlantLoader />;
+    return (
+      <Loader
+        Icon={GiLeafSkeleton}
+        iconColor="text-organic-amber"
+        mainBgColor="bg-organic-amber/10"
+        bgColor="bg-organic-amber-light/40"
+        textColor="text-organic-amber"
+      />
+    );
   }
 
   return (

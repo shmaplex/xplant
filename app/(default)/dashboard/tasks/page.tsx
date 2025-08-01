@@ -3,11 +3,13 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { createClient } from "@/lib/supabase/client";
-
 import TaskForm from "@/components/dashboard/tasks/TaskForm";
 import TaskList from "@/components/dashboard/tasks/TaskList";
 import TaskCalendar from "@/components/dashboard/tasks/TaskCalendar";
 import { Task } from "@/lib/types";
+
+// React Icons
+import { FiList, FiCalendar } from "react-icons/fi";
 
 export default function TasksPage() {
   const supabase = createClient();
@@ -33,31 +35,33 @@ export default function TasksPage() {
   }, []);
 
   return (
-    <div className="w-full p-8 bg-milk-bio">
+    <div className="w-full p-8 bg-lichen-blue-light">
       <div className="max-w-6xl mx-auto space-y-12 min-h-screen bg-white/40 p-12 rounded-2xl">
         {/* Page Header */}
         <header className="space-y-4 text-center sm:text-left">
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-moss-shadow">
-            Manage <span className="text-future-lime">Tasks & Scheduling</span>
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-lichen-blue-dark">
+            Manage{" "}
+            <span className="text-lichen-blue-dark">Tasks & Scheduling</span>
           </h1>
-          <p className="text-base text-moss-shadow max-w-2xl">
+          <p className="text-base text-lichen-blue max-w-2xl">
             Stay on top of plant care with tasks, reminders, and a visual
             calendar.
           </p>
         </header>
 
         {/* Task List */}
-        <section className="relative overflow-hidden rounded-3xl shadow-xl transition-transform hover:-translate-y-1 hover:shadow-2xl bg-gradient-to-br from-milk-bio via-spore-grey/10 to-milk-bio">
+        <section className="relative overflow-hidden rounded-3xl shadow-xl transition-transform hover:-translate-y-1 hover:shadow-2xl bg-gradient-to-br from-lichen-blue-light via-lichen-blue/10 to-lichen-blue-light">
           <div className="absolute inset-0 bg-[url('/png/asfalt-light.png')] bg-repeat opacity-5 pointer-events-none"></div>
 
           <div className="relative p-8 space-y-6">
             <div className="flex justify-between items-center">
-              <h2 className="text-2xl font-bold text-moss-shadow">
-                🗒 Your Tasks
+              <h2 className="text-2xl font-bold text-lichen-blue-dark flex items-center gap-2">
+                <FiList className="w-6 h-6" />
+                Your Tasks
               </h2>
               <button
                 onClick={() => setShowAddForm(true)}
-                className="inline-flex items-center gap-1 text-sm text-moss-shadow hover:text-future-lime transition"
+                className="inline-flex items-center gap-1 text-sm text-lichen-blue-dark hover:text-future-lime transition"
               >
                 <svg
                   className="w-5 h-5"
@@ -82,11 +86,12 @@ export default function TasksPage() {
         </section>
 
         {/* Calendar */}
-        <section className="relative overflow-hidden rounded-3xl shadow-xl transition-transform hover:-translate-y-1 hover:shadow-2xl bg-gradient-to-br from-milk-bio via-spore-grey/10 to-milk-bio">
+        <section className="relative overflow-hidden rounded-3xl shadow-xl transition-transform hover:-translate-y-1 hover:shadow-2xl bg-gradient-to-br from-lichen-blue-light via-lichen-blue-dark/10 to-lichen-blue-light">
           <div className="absolute inset-0 bg-[url('/png/asfalt-light.png')] bg-repeat opacity-5 pointer-events-none"></div>
           <div className="relative p-8">
-            <h2 className="text-2xl font-bold text-moss-shadow mb-6">
-              📆 Task Calendar
+            <h2 className="text-2xl font-bold text-lichen-blue-dark mb-6 flex items-center gap-2">
+              <FiCalendar className="w-6 h-6" />
+              Task Calendar
             </h2>
             <TaskCalendar tasks={tasks} />
           </div>
@@ -99,7 +104,9 @@ export default function TasksPage() {
           `}
         >
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-xl font-semibold text-moss-shadow">New Task</h2>
+            <h2 className="text-xl font-semibold text-lichen-blue-dark">
+              New Task
+            </h2>
             <button
               onClick={() => setShowAddForm(false)}
               className="text-gray-400 hover:text-gray-600 transition"

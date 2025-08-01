@@ -13,6 +13,9 @@
   --bio-red: #d96b6b;
   --bio-red-light: #fbecec;
   --bio-red-dark: #a84343;
+  --lichen-blue: #6ba9d9;
+  --lichen-blue-light: #eaf4fb;
+  --lichen-blue-dark: #437aa8;
 }
 
 @theme inline {
@@ -28,8 +31,10 @@
   --color-bio-red: var(--bio-red);
   --color-bio-red-light: var(--bio-red-light);
   --color-bio-red-dark: var(--bio-red-dark);
+  --color-lichen-blue: var(--lichen-blue);
+  --color-lichen-blue-light: var(--lichen-blue-light);
+  --color-lichen-blue-dark: var(--lichen-blue-dark);
 }
-
 /* @layer base {
   body {
     @apply bg-[#F8F4EC] text-[#2F2F2F] font-sans;

@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import PlantForm from "@/components/dashboard/plants/PlantForm";
+import Loader from "@/components/ui/Loader";
+import { LuLeaf } from "react-icons/lu";
 
 export default function NewPlantPage() {
   const [form, setForm] = useState({
@@ -75,6 +77,18 @@ export default function NewPlantPage() {
     } finally {
       setLoading(false);
     }
+  }
+
+  if (loading) {
+    return (
+      <Loader
+        Icon={LuLeaf}
+        iconColor="text-moss-shadow"
+        mainBgColor="bg-moss-shadow/10"
+        bgColor="bg-future-lime/40"
+        textColor="text-moss-shadow"
+      />
+    );
   }
 
   return (

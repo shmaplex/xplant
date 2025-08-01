@@ -38,8 +38,12 @@ function MediaActions() {
 
 export default function MediaPage() {
   return (
-    <div className="w-full p-8 bg-spore-gray">
-      <div className="max-w-6xl mx-auto space-y-12 min-h-screen bg-white/40 p-12 rounded-2xl">
+    <div className="w-full p-8">
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 z-0 rounded-3xl bg-[radial-gradient(circle_at_top_right,rgba(211,168,249,0.3),transparent_70%)] blur-3xl pointer-events-none"
+      />
+      <div className="max-w-6xl mx-auto space-y-12 min-h-screen p-12 rounded-2xl">
         {/* Page Header */}
         <header className="space-y-4 text-center sm:text-left">
           <h1 className="text-4xl sm:text-5xl font-extrabold text-biochar-black">
