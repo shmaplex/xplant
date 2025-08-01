@@ -36,7 +36,7 @@ export default async function StageTrackingPage() {
         </section>
 
         {/* Stage History */}
-        <section className="relative overflow-hidden rounded-3xl shadow-xl transition hover:-translate-y-1 hover:shadow-2xl bg-gradient-to-br from-lichen-blue-light via-lichen-blue/10 to-lichen-blue-light">
+        <section className="relative overflow-hidden rounded-3xl shadow-xl transition hover:-translate-y-1 hover:shadow-2xl bg-gradient-to-br from-organic-amber via-organic-amber-light/10 to-organic-amber">
           <div className="absolute inset-0 bg-[url('/png/asfalt-light.png')] opacity-5 pointer-events-none" />
           <div className="relative p-8">
             <StageHistory stages={stages} />

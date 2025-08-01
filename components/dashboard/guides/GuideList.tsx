@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import type { Guide } from "@/lib/types";
 import { createClient } from "@/lib/supabase/client";
+import Link from "next/link";
 
 export default function GuideList() {
   const [guides, setGuides] = useState<Guide[]>([]);
@@ -23,36 +24,65 @@ export default function GuideList() {
   }, [supabase]);
 
   const filtered = guides.filter((g) =>
-    g.tags?.some((tag) => tag.toLowerCase().includes(filter.toLowerCase()))
+    filter.trim() === ""
+      ? true
+      : g.tags?.some((tag) => tag.toLowerCase().includes(filter.toLowerCase()))
   );
 
   return (
-    <div className="space-y-4">
-      <input
-        type="text"
-        placeholder="Filter by tag (e.g., orchid)"
-        value={filter}
-        onChange={(e) => setFilter(e.target.value)}
-        className="border p-2 rounded w-full"
-      />
-      <ul className="grid gap-3">
-        {filtered.map((guide) => (
-          <li key={guide.id} className="p-4 border rounded-xl bg-white">
-            <h3 className="font-semibold text-lg">{guide.title}</h3>
-            <p className="text-sm text-gray-600">{guide.summary}</p>
-            <div className="flex flex-wrap mt-2 gap-1">
-              {guide.tags?.map((tag) => (
-                <span
-                  key={tag}
-                  className="bg-spore-grey text-xs px-2 py-0.5 rounded"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </li>
-        ))}
-      </ul>
+    <div className="space-y-8 min-h-[60vh]">
+      {/* Filter */}
+      <div>
+        <label
+          htmlFor="filter"
+          className="block text-moss-shadow font-semibold mb-2"
+        >
+          Filter by tag
+        </label>
+        <input
+          id="filter"
+          type="text"
+          placeholder="e.g., orchid"
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          className="w-full border border-spore-grey rounded-lg px-4 py-3 text-biochar-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-future-lime"
+        />
+      </div>
+
+      {/* Guides grid */}
+      {filtered.length > 0 ? (
+        <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {filtered.map((guide) => (
+            <Link href={guide.url} target="_blank">
+              <li
+                key={guide.id}
+                className="bg-white rounded-2xl shadow border border-spore-grey/30 p-5 hover:shadow-md transition hover:border-future-lime"
+              >
+                <h3 className="font-bold text-lg text-biochar-black mb-2">
+                  {guide.title}
+                </h3>
+                <p className="text-sm text-gray-600 mb-4">{guide.summary}</p>
+                <div className="flex flex-wrap gap-2">
+                  {guide.tags?.map((tag) => (
+                    <span
+                      key={tag}
+                      className="bg-spore-grey/20 text-moss-shadow text-xs px-3 py-1 rounded-full"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </li>
+            </Link>
+          ))}
+        </ul>
+      ) : (
+        <p className="italic text-moss-shadow">
+          {filter
+            ? "No guides found matching that tag."
+            : "No guides available yet."}
+        </p>
+      )}
     </div>
   );
 }

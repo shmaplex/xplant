@@ -7,17 +7,17 @@ export default function StageHistory({ stages }: { stages: PlantStage[] }) {
 
   return (
     <section className="bg-white/70 rounded-3xl p-8 shadow-lg">
-      <h2 className="text-2xl font-bold text-lichen-blue-dark mb-8">
+      <h2 className="text-2xl font-bold text-organic-amber mb-8">
         Stage History
       </h2>
 
       {!hasStages ? (
-        <div className="flex flex-col items-center justify-center py-20 bg-lichen-blue-light/60 w-full rounded-xl text-center">
-          <MdHistory className="w-14 h-14 text-lichen-blue mb-5" />
-          <p className="text-lichen-blue-dark text-xl font-semibold">
+        <div className="flex flex-col items-center justify-center py-20 bg-organic-amber-light/60 w-full rounded-xl text-center">
+          <MdHistory className="w-14 h-14 text-organic-amber mb-5" />
+          <p className="text-organic-amber text-xl font-semibold">
             No stage history found
           </p>
-          <p className="text-lichen-blue-dark/70 text-base mt-2 max-w-xs">
+          <p className="text-organic-amber/70 text-base mt-2 max-w-xs">
             No past stages are recorded for this plant.
           </p>
         </div>
