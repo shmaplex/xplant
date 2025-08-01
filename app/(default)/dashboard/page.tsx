@@ -16,6 +16,7 @@ import { PlantTransfer, Plant } from "@/lib/types";
 
 import { createClient } from "@/lib/supabase/server";
 import { BiLeaf } from "react-icons/bi";
+import GuideList from "@/components/dashboard/guides/GuideList";
 
 export default async function PlantCultureDashboard() {
   const supabase = await createClient();
@@ -210,6 +211,25 @@ export default async function PlantCultureDashboard() {
 
         {/* Recent Transfers Section */}
         <RecentTransfers transfers={recentTransfers} />
+
+        {/* Guides Section */}
+        <section className="relative">
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 z-0 rounded-3xl bg-[radial-gradient(circle_at_top_left,rgba(183,239,72,0.3),transparent_70%)] blur-3xl pointer-events-none"
+          />
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-3xl font-bold text-moss-shadow">Guides</h2>
+            <Link
+              href="/dashboard/guides"
+              className="px-5 py-2 bg-future-lime text-moss-shadow hover:bg-moss-shadow hover:text-future-lime rounded-md font-semibold transition whitespace-nowrap flex items-center justify-center duration-500 ease-in-out"
+            >
+              View All
+            </Link>
+          </div>
+
+          <GuideList limit={4} />
+        </section>
 
         {/* Future Tools */}
         <UpcomingFeatures />

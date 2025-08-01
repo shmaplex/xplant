@@ -42,14 +42,14 @@ export default function UpcomingFeatures() {
               flex items-start gap-3 rounded-lg p-3 border
               ${
                 feature.completed
-                  ? "bg-green-50 border-green-200"
+                  ? "bg-future-lime/20 border-future-lime"
                   : "bg-milk-bio border-spore-grey hover:bg-milk-bio/70 transition"
               }
             `}
           >
             <div className="pt-0.5">
               {feature.completed ? (
-                <FiCheckCircle className="w-5 h-5 text-green-600" />
+                <FiCheckCircle className="w-5 h-5 text-future-lime" />
               ) : (
                 <FiCircle className="w-5 h-5 text-gray-400" />
               )}
@@ -57,12 +57,12 @@ export default function UpcomingFeatures() {
             <div className="flex-1">
               <p
                 className={`font-semibold ${
-                  feature.completed ? "text-green-700" : "text-gray-800"
+                  feature.completed ? "text-moss-shadow" : "text-gray-800"
                 }`}
               >
                 {feature.name}
               </p>
-              <p className="text-sm text-gray-600">{feature.desc}</p>
+              <p className="text-sm text-moss-shadow">{feature.desc}</p>
             </div>
           </li>
         ))}

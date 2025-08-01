@@ -5,7 +5,7 @@ import type { Guide } from "@/lib/types";
 import { createClient } from "@/lib/supabase/client";
 import Link from "next/link";
 
-export default function GuideList() {
+export default function GuideList({ limit }: { limit?: number }) {
   const [guides, setGuides] = useState<Guide[]>([]);
   const [filter, setFilter] = useState("");
 
@@ -23,14 +23,20 @@ export default function GuideList() {
     loadGuides();
   }, [supabase]);
 
-  const filtered = guides.filter((g) =>
+  // Apply filter
+  let filtered = guides.filter((g) =>
     filter.trim() === ""
       ? true
       : g.tags?.some((tag) => tag.toLowerCase().includes(filter.toLowerCase()))
   );
 
+  // Apply limit if provided
+  if (limit) {
+    filtered = filtered.slice(0, limit);
+  }
+
   return (
-    <div className="space-y-8 min-h-[60vh]">
+    <div className="relative space-y-8">
       {/* Filter */}
       <div>
         <label
@@ -51,13 +57,18 @@ export default function GuideList() {
 
       {/* Guides grid */}
       {filtered.length > 0 ? (
-        <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <ul
+          className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 max-h-[45vh] overflow-auto py-10"
+          style={{
+            WebkitMaskImage:
+              "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
+            maskImage:
+              "linear-gradient(to bottom, transparent 0%, black 10%, black 90%, transparent 100%)",
+          }}
+        >
           {filtered.map((guide) => (
-            <Link href={guide.url} target="_blank">
-              <li
-                key={guide.id}
-                className="bg-white rounded-2xl shadow border border-spore-grey/30 p-5 hover:shadow-md transition hover:border-future-lime"
-              >
+            <Link key={guide.id} href={guide.url} target="_blank">
+              <li className="bg-white rounded-2xl shadow border border-spore-grey/30 p-5 hover:shadow-md transition hover:border-future-lime">
                 <h3 className="font-bold text-lg text-biochar-black mb-2">
                   {guide.title}
                 </h3>
