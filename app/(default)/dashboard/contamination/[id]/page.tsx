@@ -7,7 +7,7 @@ import { BiLeaf } from "react-icons/bi"; // keeping BiLeaf as is, or should I re
 
 import ContaminationMedia from "@/components/dashboard/contamination/ContaminationMedia";
 import ContaminationStats from "@/components/dashboard/contamination/ContaminationStats";
-import { fetchContaminationById } from "@/api/contamination";
+import { fetchContaminationById } from "@/lib/api/contamination";
 import type { ContaminationLogWithRelations } from "@/lib/types";
 import { formatDate } from "@/lib/date";
 import { getMediaType } from "@/lib/media";

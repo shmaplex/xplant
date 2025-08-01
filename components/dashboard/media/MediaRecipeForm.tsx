@@ -13,7 +13,7 @@ import {
   fetchProducts,
   saveMediaRecipe,
   updateRecipeProductLinks,
-} from "@/api/media";
+} from "@/lib/api/media";
 
 import Input from "@/components/ui/Input";
 import MediaProductLinkSelector from "@/components/dashboard/media/MediaProductLinkSelector";

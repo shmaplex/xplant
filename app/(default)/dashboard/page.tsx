@@ -2,8 +2,8 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { FiAlertCircle, FiCheckSquare } from "react-icons/fi";
 
-import { fetchTransfersWithPlantDetails } from "@/api/transfer";
-import { fetchPlants, fetchPlantStages } from "@/api/plant";
+import { fetchTransfersWithPlantDetails } from "@/lib/api/transfer";
+import { fetchPlants, fetchPlantStages } from "@/lib/api/plant";
 
 import DashboardHero from "@/components/dashboard/DashboardHero";
 import QuickActions from "@/components/dashboard/QuickActions";

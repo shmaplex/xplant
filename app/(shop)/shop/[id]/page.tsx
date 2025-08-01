@@ -11,7 +11,7 @@ import { ShopCTA } from "@/components/ShopCTA";
 import CommunityCallout from "@/components/CommunityCallout";
 import { useProductCartActions } from "@/hooks/useProductCartActions";
 import { useProduct } from "@/hooks/useProduct";
-import { fetchRelatedProductsForProduct } from "@/api/product";
+import { fetchRelatedProductsForProduct } from "@/lib/api/product";
 import type { Product } from "@/lib/types";
 
 export default function ProductPage() {

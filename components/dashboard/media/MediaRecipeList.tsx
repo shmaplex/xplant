@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { MediaRecipe } from "@/lib/types";
 import MediaRecipeCard from "@/components/dashboard/media/MediaRecipeCard";
-import { fetchMediaRecipes } from "@/api/media";
+import { fetchMediaRecipes } from "@/lib/api/media";
 import MediaRecipeNotFound from "./MediaRecipeNotFound";
 import SearchInput from "@/components/ui/SearchInput";
 

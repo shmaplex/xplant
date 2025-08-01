@@ -1,11 +1,11 @@
 import { notFound, redirect } from "next/navigation";
-import { getUserProfile } from "@/api/user";
+import { getUserProfile } from "@/lib/api/user";
 import ProfileHeader from "@/components/profiles/ProfileHeader";
 import Link from "next/link";
 import PlantCard from "@/components/dashboard/plants/PlantCard";
 import MediaRecipeCard from "@/components/dashboard/media/MediaRecipeCard";
 import ContaminationLogs from "@/components/dashboard/contamination/ContaminationLogs";
-import { getCurrentUserId, getUserProfileByUsername } from "@/api/user";
+import { getCurrentUserId, getUserProfileByUsername } from "@/lib/api/user";
 
 export default async function ProfileView({
   params,

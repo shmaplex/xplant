@@ -1,7 +1,7 @@
 // app/api/plants/media/route.ts (Next.js 13)
 import { NextRequest, NextResponse } from "next/server";
-import { insertPlantMediaRecord } from "@/api/plant";
-import { getCurrentUser } from "@/api/user";
+import { insertPlantMediaRecord } from "@/lib/api/plant";
+import { getCurrentUser } from "@/lib/api/user";
 
 export async function POST(request: NextRequest) {
   try {

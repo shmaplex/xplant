@@ -1,4 +1,4 @@
-// @/api/user.ts
+// @/lib/api/user.ts
 import { createClient } from "@/lib/supabase/server";
 
 // Get current authenticated user from Supabase auth

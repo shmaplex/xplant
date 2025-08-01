@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchContaminationLogs } from "@/api/contamination";
+import { fetchContaminationLogs } from "@/lib/api/contamination";
 import type { ContaminationLogWithRelations } from "@/lib/types";
 import ContaminationMedia from "./ContaminationMedia"; // adjust the import path as needed
 import { getMediaType } from "@/lib/media";

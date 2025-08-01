@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { fetchAllProducts } from "@/api/product";
+import { fetchAllProducts } from "@/lib/api/product";
 import type { Product } from "@/lib/types";
 
 export function useProducts() {

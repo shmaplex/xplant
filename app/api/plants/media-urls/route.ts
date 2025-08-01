@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { fetchPlantMediaLogs } from "@/api/plant";
+import { fetchPlantMediaLogs } from "@/lib/api/plant";
 
 export async function GET(req: NextRequest) {
   const supabase = await createClient();

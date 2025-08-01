@@ -9,7 +9,7 @@ import {
   insertContaminationLog,
   updateContaminationLog,
   uploadContaminationMedia,
-} from "@/api/contamination";
+} from "@/lib/api/contamination";
 
 interface ContaminationFormProps {
   initial?: ContaminationLog;

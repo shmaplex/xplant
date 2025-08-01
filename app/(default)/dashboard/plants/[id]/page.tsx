@@ -4,8 +4,8 @@ import {
   fetchPlantById,
   fetchPlantStages,
   fetchPlantRelatedData,
-} from "@/api/plant";
-import { getCurrentUser } from "@/api/user";
+} from "@/lib/api/plant";
+import { getCurrentUser } from "@/lib/api/user";
 
 export default async function PlantsPage({
   params,

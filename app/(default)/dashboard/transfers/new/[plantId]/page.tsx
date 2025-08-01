@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import NewTransferForm from "@/components/dashboard/transfers/NewTransferForm";
 import type { PlantBasic } from "@/lib/types";
 import PlantLoader from "@/components/dashboard/plants/PlantLoader";
 
-export default function NewTransferPage() {
+export default function NewTransferPageForPlant() {
+  const { plantId } = useParams<{ plantId: string }>();
   const [plants, setPlants] = useState<PlantBasic[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -44,7 +46,10 @@ export default function NewTransferPage() {
           Fill out the form below to log a new plant transfer cycle.
         </p>
 
-        <NewTransferForm plants={plants} />
+        <NewTransferForm
+          plants={plants}
+          initialData={plantId ? { plant_id: plantId } : {}}
+        />
       </div>
     </div>
   );

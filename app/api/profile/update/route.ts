@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getCurrentUser, updateAuthUser, updateUserProfile } from "@/api/user";
+import {
+  getCurrentUser,
+  updateAuthUser,
+  updateUserProfile,
+} from "@/lib/api/user";
 
 export async function POST(request: NextRequest) {
   const user = await getCurrentUser();

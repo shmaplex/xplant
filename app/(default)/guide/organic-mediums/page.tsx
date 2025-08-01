@@ -1,7 +1,5 @@
 "use client";
 
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import Link from "next/link";
 import { FiArrowLeft } from "react-icons/fi";
 import { useSearchParams } from "next/navigation";

@@ -2,7 +2,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { fetchProductByIdOrSlug, fetchRelatedProducts } from "@/api/product";
+import {
+  fetchProductByIdOrSlug,
+  fetchRelatedProducts,
+} from "@/lib/api/product";
 import type { Product } from "@/lib/types";
 
 export function useProduct(idOrSlug: string | undefined) {

@@ -10,12 +10,15 @@ import validator from "validator";
 import { parsePhoneNumberFromString } from "libphonenumber-js";
 import PhoneInput from "react-phone-number-input";
 import { getCountryFromNavigator } from "@/lib/country";
+import type { CountryCode } from "@/lib/types";
 
 export default function ProfilePage() {
   const router = useRouter();
   const supabase = createClient();
 
-  const [detectedCountry, setDetectedCountry] = useState("KR");
+  const [detectedCountry, setDetectedCountry] = useState<
+    CountryCode | undefined
+  >("KR");
 
   const [saving, setSaving] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -38,18 +41,18 @@ export default function ProfilePage() {
         if (res.ok) {
           const { country } = await res.json();
           if (country) {
-            setDetectedCountry(country);
+            setDetectedCountry(country as CountryCode);
           } else {
             const country = getCountryFromNavigator() || "KR";
-            setDetectedCountry(country);
+            setDetectedCountry(country as CountryCode);
           }
         } else {
           const country = getCountryFromNavigator() || "KR";
-          setDetectedCountry(country);
+          setDetectedCountry(country as CountryCode);
         }
       } catch {
         const country = getCountryFromNavigator() || "KR";
-        setDetectedCountry(country);
+        setDetectedCountry(country as CountryCode);
       }
     }
     fetchCountry();

@@ -10,7 +10,7 @@ import {
   fetchMediaRecipeById,
   fetchLinkedPlantsForRecipe,
   fetchLinkedProductsForRecipe,
-} from "@/api/media";
+} from "@/lib/api/media";
 import MediaComponentDisplay from "@/components/dashboard/media/MediaComponentDisplay";
 import { formatDate } from "@/lib/date";
 

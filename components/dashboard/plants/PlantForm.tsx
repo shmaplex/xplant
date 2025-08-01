@@ -27,7 +27,7 @@ export default function PlantForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const res = await fetch("/api/plants", {
+    const res = await fetch("/api/plants/new", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

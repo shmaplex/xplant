@@ -10,7 +10,7 @@ import {
   ResponsiveContainer,
   CartesianGrid,
 } from "recharts";
-import { fetchContaminationStats } from "@/api/contamination";
+import { fetchContaminationStats } from "@/lib/api/contamination";
 
 export default function ContaminationStats() {
   const [data, setData] = useState<any[]>([]);

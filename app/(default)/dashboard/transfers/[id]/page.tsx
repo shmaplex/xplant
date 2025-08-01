@@ -1,7 +1,7 @@
 import TransferNotFound from "@/components/dashboard/transfers/TransferNotFound";
 import TransferDetail from "@/components/dashboard/transfers/TransferDetail";
-import { getCurrentUser } from "@/api/user";
-import { fetchTransferByIdWithRelations } from "@/api/transfer";
+import { getCurrentUser } from "@/lib/api/user";
+import { fetchTransferByIdWithRelations } from "@/lib/api/transfer";
 
 export default async function TransferDetailPage({
   params,

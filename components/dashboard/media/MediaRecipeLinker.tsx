@@ -6,7 +6,7 @@ import {
   fetchPlants,
   fetchMediaRecipeOptions,
   linkPlantToRecipe,
-} from "@/api/media";
+} from "@/lib/api/media";
 
 type PlantOption = {
   id: string;
