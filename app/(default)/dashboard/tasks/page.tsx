@@ -34,8 +34,6 @@ export default function TasksPage() {
 
   return (
     <div className="w-full p-8 bg-milk-bio">
-      <Toaster position="top-right" />
-
       <div className="max-w-6xl mx-auto space-y-12 min-h-screen bg-white/40 p-12 rounded-2xl">
         {/* Page Header */}
         <header className="space-y-4 text-center sm:text-left">
