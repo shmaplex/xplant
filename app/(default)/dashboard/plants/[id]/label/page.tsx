@@ -11,7 +11,14 @@ export default async function PrintLabelPage({
   try {
     const user = await getCurrentUser();
     const { id } = await params;
-    if (!user) return <PlantNotFoundClient />;
+    if (!user) {
+      return (
+        <div className="max-w-lg mx-auto text-center p-8">
+          <h2 className="text-2xl font-bold text-red-600">Not logged in</h2>
+          <p>Please log in to view your profile.</p>
+        </div>
+      );
+    }
 
     const plant = await fetchPlantById(id, user.id);
     if (!plant) return <PlantNotFoundClient />;

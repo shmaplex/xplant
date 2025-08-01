@@ -1,29 +1,36 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { getCurrentUser } from "@/lib/api/user";
 
-// GET /api/plants
-export async function GET() {
+export async function GET(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
   const supabase = await createClient();
-  const user = await getCurrentUser();
-
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
   const { data, error } = await supabase
     .from("plants")
-    .select("id,species")
-    .eq("user_id", user.id)
-    .order("created_at", { ascending: false });
+    .select("species, source, initial_n_date, initial_i_date, notes")
+    .eq("id", params.id)
+    .single();
 
-  if (error) {
-    console.error("Error fetching plants:", error);
-    return NextResponse.json(
-      { error: "Failed to fetch plants" },
-      { status: 500 }
-    );
-  }
+  if (error)
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  return NextResponse.json(data);
+}
 
-  return NextResponse.json({ data: data || [] });
+export async function PUT(
+  req: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const supabase = await createClient();
+  const body = await req.json();
+
+  const { error } = await supabase
+    .from("plants")
+    .update(body)
+    .eq("id", params.id);
+
+  if (error)
+    return NextResponse.json({ error: error.message }, { status: 500 });
+
+  return NextResponse.json({ message: "Plant updated" });
 }

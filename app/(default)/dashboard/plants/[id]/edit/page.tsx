@@ -1,18 +1,17 @@
 "use client";
 
-import React, { useEffect, useState, use } from "react";
-import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import React, { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
+import PlantForm from "@/components/dashboard/plants/PlantForm";
+import PlantMediaGallery from "@/components/dashboard/plants/PlantMediaGallery";
+import { createClient } from "@/lib/supabase/client";
 
-export default function EditPlantPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
-  const unwrappedParams = use(params);
-  const supabase = createClient();
+export default function EditPlantPage() {
+  const { id } = useParams<{ id: string }>();
   const router = useRouter();
+  const supabase = createClient();
+  const user = supabase.auth.getUser();
 
   const [form, setForm] = useState({
     species: "",
@@ -20,47 +19,94 @@ export default function EditPlantPage({
     initial_n_date: "",
     initial_i_date: "",
     notes: "",
+    stage: "Mother Block",
+    room: "",
+    entered_on: new Date().toISOString().split("T")[0],
+    stage_notes: "",
   });
 
+  // Store media logs separately (optional)
+  const [mediaLogs, setMediaLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [updating, setUpdating] = useState(false);
 
   useEffect(() => {
-    (async () => {
-      const { data, error } = await supabase
-        .from("plants")
-        .select("species, source, initial_n_date, initial_i_date, notes")
-        .eq("id", unwrappedParams.id)
-        .single();
+    async function fetchPlant() {
+      try {
+        const res = await fetch(`/api/plants/${id}`);
+        if (!res.ok) throw new Error("Failed to fetch plant data");
+        const data = await res.json();
 
-      if (data) {
+        // Extract main plant info
+        const {
+          species,
+          source,
+          initial_n_date,
+          initial_i_date,
+          notes,
+          stages = [],
+          mediaLogs = [],
+        } = data;
+
+        // Use the most recent stage (first in array) to fill stage fields
+        const latestStage = stages[0] || {};
+
         setForm({
-          species: data.species ?? "",
-          source: data.source ?? "",
-          initial_n_date: data.initial_n_date ?? "",
-          initial_i_date: data.initial_i_date ?? "",
-          notes: data.notes ?? "",
+          species: species ?? "",
+          source: source ?? "",
+          initial_n_date: initial_n_date ?? "",
+          initial_i_date: initial_i_date ?? "",
+          notes: notes ?? "",
+          stage: latestStage.stage ?? "Mother Block",
+          room: latestStage.room ?? "",
+          entered_on:
+            latestStage.entered_on ?? new Date().toISOString().split("T")[0],
+          stage_notes: latestStage.notes ?? "",
         });
-      } else if (error) {
-        console.error("Error fetching plant data:", error);
-      }
 
-      setLoading(false);
-    })();
-  }, [unwrappedParams.id, supabase]);
+        setMediaLogs(mediaLogs || []);
+      } catch (error) {
+        console.error("Error fetching plant data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchPlant();
+  }, [id]);
+
+  async function fetchMediaLogs() {
+    try {
+      const res = await fetch(`/api/plants/${id}/media`);
+      if (!res.ok) throw new Error("Failed to fetch media");
+      const data = await res.json();
+      setMediaLogs(data.mediaLogs || []);
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   async function handleUpdate(e: React.FormEvent) {
     e.preventDefault();
+    setUpdating(true);
 
-    const { error } = await supabase
-      .from("plants")
-      .update(form)
-      .eq("id", unwrappedParams.id);
+    try {
+      const res = await fetch(`/api/plants/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
 
-    if (!error) {
-      router.push(`/dashboard/plants/${unwrappedParams.id}`);
-    } else {
-      alert("Update failed.");
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Update failed");
+      }
+
+      router.push(`/dashboard/plants/${id}`);
+    } catch (error: any) {
+      alert(`Error updating plant: ${error.message || error}`);
       console.error("Update error:", error);
+    } finally {
+      setUpdating(false);
     }
   }
 
@@ -68,190 +114,49 @@ export default function EditPlantPage({
     return <p className="p-6 text-center text-spore-grey">Loading...</p>;
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-12">
-      <Breadcrumbs
-        items={[
-          { label: "Plants", href: "/dashboard/plants" },
-          {
-            label: form.species || "Plant Details",
-            href: `/dashboard/plants/${unwrappedParams.id}`,
-          },
-          { label: "Edit" },
-        ]}
-      />
+    <div className="w-full p-8 bg-future-lime/20">
+      <div className="max-w-4xl mx-auto min-h-screen bg-white/90 p-12 rounded-3xl shadow-lg">
+        <Breadcrumbs
+          items={[
+            { label: "Plants", href: "/dashboard/plants" },
+            {
+              label: form.species || "Plant Details",
+              href: `/dashboard/plants/${id}`,
+            },
+            { label: "Edit" },
+          ]}
+        />
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        {/* Form Section */}
-        <div>
-          <h1 className="text-3xl font-bold mb-6 text-biochar-black">
-            ✏️ Edit Plant
+        <header className="space-y-4 text-center sm:text-left mb-12">
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-biochar-black">
+            Edit{" "}
+            <span className="text-future-lime">{form.species || "Plant"}</span>
           </h1>
+        </header>
 
-          <form
-            onSubmit={handleUpdate}
-            className="space-y-6 bg-white shadow-xl rounded-2xl p-8"
-          >
-            {/* Species */}
-            <div>
-              <label
-                htmlFor="species"
-                className="block text-sm font-medium text-spore-grey mb-1"
-              >
-                Species <span className="text-red-500">*</span>
-              </label>
-              <input
-                id="species"
-                name="species"
-                type="text"
-                required
-                className="w-full rounded-lg border border-spore-grey p-3 text-base focus:outline-none focus:ring-2 focus:ring-future-lime"
-                placeholder="e.g. Musa acuminata"
-                value={form.species}
-                onChange={(e) => setForm({ ...form, species: e.target.value })}
-              />
-            </div>
-
-            {/* Source */}
-            <div>
-              <label
-                htmlFor="source"
-                className="block text-sm font-medium text-spore-grey mb-1"
-              >
-                Source
-              </label>
-              <input
-                id="source"
-                name="source"
-                type="text"
-                className="w-full rounded-lg border border-spore-grey p-3 text-base focus:outline-none focus:ring-2 focus:ring-future-lime"
-                placeholder="e.g. Greenhouse A, TC Vendor"
-                value={form.source}
-                onChange={(e) => setForm({ ...form, source: e.target.value })}
-              />
-            </div>
-
-            {/* Dates */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label
-                  htmlFor="initial_n_date"
-                  className="block text-sm font-medium text-spore-grey mb-1"
-                >
-                  Initial N Date
-                </label>
-                <input
-                  id="initial_n_date"
-                  name="initial_n_date"
-                  type="date"
-                  className="w-full rounded-lg border border-spore-grey p-3 text-base focus:outline-none focus:ring-2 focus:ring-future-lime"
-                  value={form.initial_n_date}
-                  onChange={(e) =>
-                    setForm({ ...form, initial_n_date: e.target.value })
-                  }
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="initial_i_date"
-                  className="block text-sm font-medium text-spore-grey mb-1"
-                >
-                  Initial I Date
-                </label>
-                <input
-                  id="initial_i_date"
-                  name="initial_i_date"
-                  type="date"
-                  className="w-full rounded-lg border border-spore-grey p-3 text-base focus:outline-none focus:ring-2 focus:ring-future-lime"
-                  value={form.initial_i_date}
-                  onChange={(e) =>
-                    setForm({ ...form, initial_i_date: e.target.value })
-                  }
-                />
-              </div>
-            </div>
-
-            {/* Notes */}
-            <div>
-              <label
-                htmlFor="notes"
-                className="block text-sm font-medium text-spore-grey mb-1"
-              >
-                Notes
-              </label>
-              <textarea
-                id="notes"
-                name="notes"
-                rows={5}
-                className="w-full rounded-lg border border-spore-grey p-3 text-base focus:outline-none focus:ring-2 focus:ring-future-lime resize-none"
-                placeholder="Any relevant notes about this plant..."
-                value={form.notes}
-                onChange={(e) => setForm({ ...form, notes: e.target.value })}
-              />
-            </div>
-
-            {/* Submit */}
-            <div className="pt-4">
-              <button
-                type="submit"
-                className="w-full bg-future-lime text-biochar-black font-semibold py-3 px-4 rounded-lg shadow hover:bg-lime-400 transition"
-              >
-                💾 Update Plant
-              </button>
-            </div>
-          </form>
-        </div>
-
-        {/* Live Preview Section */}
-        <div className="bg-white shadow-xl rounded-2xl p-8">
-          <h2 className="text-2xl font-bold text-biochar-black mb-6 border-b border-gray-200 pb-4">
-            Live Preview
-          </h2>
-
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-lg font-semibold text-green-900 mb-1">
-                {form.species || (
-                  <span className="italic text-gray-400">No species</span>
-                )}
-              </h3>
-              {form.source && (
-                <p className="text-gray-500 text-sm">{form.source}</p>
-              )}
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div>
-                <p className="text-xs uppercase tracking-wide text-gray-400">
-                  Initial N Date
-                </p>
-                <p className="text-base text-green-900">
-                  {form.initial_n_date || (
-                    <i className="text-gray-400">Not set</i>
-                  )}
-                </p>
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-wide text-gray-400">
-                  Initial I Date
-                </p>
-                <p className="text-base text-green-900">
-                  {form.initial_i_date || (
-                    <i className="text-gray-400">Not set</i>
-                  )}
-                </p>
-              </div>
-            </div>
-
-            <div>
-              <p className="text-xs uppercase tracking-wide text-gray-400 mb-1">
-                Notes
-              </p>
-              <div className="p-4 rounded-lg bg-gray-50 min-h-[6rem] text-green-900 whitespace-pre-wrap">
-                {form.notes || <i className="text-gray-400">No notes yet</i>}
-              </div>
-            </div>
+        <section className="z-10 relative overflow-hidden rounded-3xl shadow-xl bg-gradient-to-br from-future-lime/50 via-future-lime/10 to-future-lime/40">
+          <div className="absolute inset-0 bg-[url('/png/asfalt-light.png')] bg-repeat opacity-5 pointer-events-none"></div>
+          <div className="relative p-8">
+            <PlantForm
+              form={form}
+              setForm={setForm}
+              onSubmit={handleUpdate}
+              updating={updating}
+              showMediaUpload={true}
+              showStageFields={true}
+              plantId={id}
+              userId={user.id}
+              // mediaLogs={mediaLogs}
+            />
           </div>
-        </div>
+          {/* Media Gallery */}
+        </section>
+        <section className="z-1 relative overflow-hidden rounded-b-3xl shadow-xl bg-future-lime/30 mx-4">
+          <div className="relative p-8">
+            <h2 className="text-2xl font-bold mb-4">Uploaded Media</h2>
+            <PlantMediaGallery plantId={id} onRefresh={fetchMediaLogs} />
+          </div>
+        </section>
       </div>
     </div>
   );

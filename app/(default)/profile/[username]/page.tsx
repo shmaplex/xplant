@@ -6,6 +6,7 @@ import PlantCard from "@/components/dashboard/plants/PlantCard";
 import MediaRecipeCard from "@/components/dashboard/media/MediaRecipeCard";
 import ContaminationLogs from "@/components/dashboard/contamination/ContaminationLogs";
 import { getCurrentUserId, getUserProfileByUsername } from "@/lib/api/user";
+import { FiPlus } from "react-icons/fi";
 
 export default async function ProfileView({
   params,
@@ -21,7 +22,6 @@ export default async function ProfileView({
   // If the URL is /profile/me, resolve actual username and redirect
   if (username === "me") {
     const userId = await getCurrentUserId();
-
     if (!userId) {
       return (
         <div className="max-w-lg mx-auto text-center p-8">
@@ -75,13 +75,14 @@ export default async function ProfileView({
           </h2>
           <Link
             href="/dashboard/plants/new"
-            className="px-5 py-2 rounded-md font-semibold transition"
+            className="px-5 py-2 rounded-md font-semibold transition whitespace-nowrap flex items-center justify-center"
             style={{
               backgroundColor: "var(--color-future-lime)",
               color: "var(--color-biochar-black)",
             }}
           >
-            + Add Plant
+            <FiPlus className="w-4 h-4 mr-1" />
+            Add Plant
           </Link>
         </div>
         {plants.length > 0 ? (
@@ -108,13 +109,14 @@ export default async function ProfileView({
           </h2>
           <Link
             href="/dashboard/media/new"
-            className="px-5 py-2 rounded-md font-semibold transition"
+            className="px-5 py-2 rounded-md font-semibold transition whitespace-nowrap flex items-center justify-center"
             style={{
               backgroundColor: "var(--color-organic-amber)",
               color: "var(--color-biochar-black)",
             }}
           >
-            + Add Media Recipe
+            <FiPlus className="w-4 h-4 mr-1" />
+            Add Recipe
           </Link>
         </div>
         {recipes.length > 0 ? (

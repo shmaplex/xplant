@@ -40,8 +40,8 @@ export default function UserQuicklinks() {
       icon: <FaCalendarAlt size={18} />,
     },
     {
-      href: "/dashboard/media",
-      label: "Media Recipes",
+      href: "/dashboard/media/new",
+      label: "Add New Media Recipe",
       icon: <FaFlask size={18} />,
     },
   ];

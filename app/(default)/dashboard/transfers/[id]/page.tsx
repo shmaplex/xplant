@@ -2,6 +2,7 @@ import TransferNotFound from "@/components/dashboard/transfers/TransferNotFound"
 import TransferDetail from "@/components/dashboard/transfers/TransferDetail";
 import { getCurrentUser } from "@/lib/api/user";
 import { fetchTransferByIdWithRelations } from "@/lib/api/transfer";
+import NotLoggedIn from "@/components/ui/NotLoggedIn";
 
 export default async function TransferDetailPage({
   params,
@@ -11,7 +12,9 @@ export default async function TransferDetailPage({
   try {
     const { id } = await params;
     const user = await getCurrentUser();
-    if (!user) return <TransferNotFound />;
+    if (!user) {
+      return <NotLoggedIn />;
+    }
 
     const transfer = await fetchTransferByIdWithRelations(id, user.id);
     if (!transfer) return <TransferNotFound />;

@@ -1,33 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { FiUpload } from "react-icons/fi";
+import { toast } from "react-toastify";
 
-export default function PlantMediaUploader({ plantId }: { plantId: string }) {
+export default function PlantMediaUploader({
+  plantId,
+  userId,
+}: {
+  plantId: string;
+  userId: string;
+}) {
   const supabase = createClient();
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const handleUpload = async () => {
     if (!file) return;
 
-    setError("");
-    setSuccess("");
     setUploading(true);
 
     try {
       const timestamp = Date.now();
-      const filePath = `${plantId}/${timestamp}-${file.name}`;
+      const filePath = `${userId}/${plantId}/${timestamp}-${file.name}`;
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (!user) {
+        toast.error("You must be logged in to upload");
+        return;
+      }
 
       const { error: uploadError } = await supabase.storage
         .from("plant-media")
         .upload(filePath, file, { upsert: false });
 
       if (uploadError) {
-        setError(`Upload error: ${uploadError.message}`);
+        toast.error(`Upload error: ${uploadError.message}`);
         setUploading(false);
         return;
       }
@@ -45,21 +57,23 @@ export default function PlantMediaUploader({ plantId }: { plantId: string }) {
           originalName: file.name,
           fileType: file.type || "other",
           type,
+          uploadedBy: user?.id || null,
         }),
       });
 
       if (!res.ok) {
         const data = await res.json();
-        setError(`DB insert error: ${data.error || res.statusText}`);
+        toast.error(`DB insert error: ${data.error || res.statusText}`);
         setUploading(false);
         return;
       }
 
-      setSuccess("Upload successful!");
+      toast.success("Upload successful!");
       setFile(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
     } catch (err) {
-      setError("Unexpected error during upload");
       console.error(err);
+      toast.error("Unexpected error during upload");
     }
 
     setUploading(false);
@@ -79,6 +93,7 @@ export default function PlantMediaUploader({ plantId }: { plantId: string }) {
           <span>Click or drag file to upload (image/video)</span>
         )}
         <input
+          ref={fileInputRef}
           id="file-upload"
           type="file"
           accept="image/*,video/*"
@@ -95,17 +110,6 @@ export default function PlantMediaUploader({ plantId }: { plantId: string }) {
         <FiUpload className="text-lg" />
         {uploading ? "Uploading..." : "Upload"}
       </button>
-
-      {error && (
-        <p className="text-red-600 dark:text-red-400 font-medium text-center">
-          {error}
-        </p>
-      )}
-      {success && (
-        <p className="text-green-700 dark:text-green-400 font-medium text-center">
-          {success}
-        </p>
-      )}
     </div>
   );
 }

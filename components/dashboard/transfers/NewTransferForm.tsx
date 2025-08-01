@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import type { PlantBasic, PlantTransfer } from "@/lib/types";
+import { FiPlus } from "react-icons/fi";
 
 export default function NewTransferForm({
   plants,
@@ -168,7 +169,7 @@ export default function NewTransferForm({
           onChange={(e) => setPlantId(e.target.value)}
           required
           disabled={!!editingTransfer} // lock plant on edit
-          className="w-full border border-spore-grey rounded-lg px-4 py-3 text-biochar-black focus:outline-none focus:ring-2 focus:ring-[var(--future-lime)]"
+          className="w-full border border-spore-grey rounded-lg px-4 py-3 text-biochar-black focus:outline-none focus:ring-2 focus:ring-organic-amber-light"
         >
           <option value="">-- Choose a Plant --</option>
           {plants.map((plant) => (
@@ -192,7 +193,7 @@ export default function NewTransferForm({
           id="transfer_date"
           value={transferDate}
           onChange={(e) => setTransferDate(e.target.value)}
-          className="w-full border border-spore-grey rounded-lg px-4 py-3 text-biochar-black focus:outline-none focus:ring-2 focus:ring-[var(--future-lime)]"
+          className="w-full border border-spore-grey rounded-lg px-4 py-3 text-biochar-black focus:outline-none focus:ring-2 focus:ring-organic-amber-light"
         />
       </div>
 
@@ -209,7 +210,7 @@ export default function NewTransferForm({
           id="cycle"
           value={cycle}
           onChange={(e) => setCycle(Number(e.target.value))}
-          className="w-full border border-spore-grey rounded-lg px-4 py-3 text-biochar-black focus:outline-none focus:ring-2 focus:ring-[var(--future-lime)]"
+          className="w-full border border-spore-grey rounded-lg px-4 py-3 text-biochar-black focus:outline-none focus:ring-2 focus:ring-organic-amber-light"
         />
         <p className="mt-2 text-sm text-gray-600">
           This number tracks how many times this plant has been transferred.
@@ -232,7 +233,7 @@ export default function NewTransferForm({
           onChange={(e) => setNotes(e.target.value)}
           rows={4}
           placeholder="Add any relevant details about the transfer..."
-          className="w-full border border-spore-grey rounded-lg px-4 py-3 text-biochar-black resize-none focus:outline-none focus:ring-2 focus:ring-[var(--future-lime)]"
+          className="w-full border border-spore-grey rounded-lg px-4 py-3 text-biochar-black resize-none focus:outline-none focus:ring-2 focus:ring-organic-amber-light"
         />
       </div>
 
@@ -241,8 +242,9 @@ export default function NewTransferForm({
         <button
           type="submit"
           disabled={loading}
-          className="flex-1 bg-future-lime text-moss-shadow font-bold py-3 rounded-lg shadow hover:bg-lime-500 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full flex items-center justify-center gap-2 bg-organic-amber text-white font-semibold py-3 px-4 rounded-lg shadow hover:bg-organic-amber-light transition"
         >
+          <FiPlus className="w-5 h-5" />
           {editingTransfer ? "Update Transfer" : "Save Transfer"}
         </button>
 

@@ -2,6 +2,16 @@
 import { createClient } from "@/lib/supabase/server";
 import type { Plant, PlantMediaLog } from "@/lib/types";
 
+export async function fetchFullPlantData(id: string, userId: string) {
+  const [plant, stages, mediaLogs] = await Promise.all([
+    fetchPlantById(id, userId),
+    fetchPlantStages(id),
+    fetchPlantMediaLogs(id, userId),
+  ]);
+
+  return { plant, stages, mediaLogs };
+}
+
 export async function fetchPlants(userId: string): Promise<Plant[]> {
   const supabase = await createClient();
   const { data, error } = await supabase
@@ -98,6 +108,42 @@ export async function fetchPlantRecipes(plantId: string) {
     .eq("plant_id", plantId);
 }
 
+export async function insertPlant({
+  userId,
+  species,
+  source,
+  initial_n_date,
+  initial_i_date,
+  notes,
+}: {
+  userId: string;
+  species: string;
+  source?: string;
+  initial_n_date?: string;
+  initial_i_date?: string;
+  notes?: string;
+}) {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from("plants")
+    .insert([
+      {
+        user_id: userId,
+        species,
+        source,
+        initial_n_date,
+        initial_i_date,
+        notes,
+      },
+    ])
+    .select()
+    .single();
+
+  if (error) throw error;
+  return data;
+}
+
 export async function insertPlantMediaRecord({
   plantId,
   mediaUrl,
@@ -136,10 +182,25 @@ export async function insertPlantMediaRecord({
 }
 
 export async function fetchPlantMediaLogs(
-  plantId: string
+  plantId: string,
+  userId: string
 ): Promise<PlantMediaLog[]> {
   const supabase = await createClient();
 
+  // Check plant ownership first
+  const { data: plant, error: plantError } = await supabase
+    .from("plants")
+    .select("user_id")
+    .eq("id", plantId)
+    .single();
+
+  if (plantError) throw plantError;
+  if (!plant || plant.user_id !== userId) {
+    // Not authorized or plant doesn't exist
+    return [];
+  }
+
+  // Now fetch media logs
   const { data, error } = await supabase
     .from("plant_media_logs")
     .select("*")

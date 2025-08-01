@@ -8,7 +8,7 @@ import AdminLayout from "@/components/admin/AdminLayout";
 import ProductForm from "@/components/admin/ProductForm";
 
 export default function EditProductPage() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const supabase = createClient();
   const [product, setProduct] = useState<Product | null>(null);

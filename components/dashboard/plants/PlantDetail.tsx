@@ -6,6 +6,7 @@ import {
   MediaRecipe,
 } from "@/lib/types";
 import Link from "next/link";
+import { FiEdit } from "react-icons/fi";
 
 import Breadcrumbs from "@/components/ui/Breadcrumbs";
 import PlantHero from "@/components/dashboard/plants/PlantHero";
@@ -17,8 +18,10 @@ import StageHistory from "@/components/dashboard/stages/StageHistory";
 import TransferHistory from "@/components/dashboard/transfers/TransferHistory";
 import ContaminationLogs from "@/components/dashboard/contamination/ContaminationLogs";
 import { PrintButton } from "@/components/ui/PrintButton";
+import { getCurrentUser } from "@/lib/api/user";
+import NotLoggedIn from "@/components/ui/NotLoggedIn";
 
-export default function PlantDetail({
+export default async function PlantDetail({
   plant,
   transfers,
   logs,
@@ -36,6 +39,10 @@ export default function PlantDetail({
   printUrl?: string;
 }) {
   const currentStage = plant.plant_stages?.[0];
+  const user = await getCurrentUser();
+  if (!user) {
+    return <NotLoggedIn />;
+  }
 
   const breadcrumbItems = [
     { label: "Plants", href: "/dashboard/plants" },
@@ -65,7 +72,7 @@ export default function PlantDetail({
             showUploader
             plantId={plant.id}
           >
-            <PlantMediaUploader plantId={plant.id} />
+            <PlantMediaUploader plantId={plant.id} userId={user.id} />
           </PlantMediaSection>
         )}
 
@@ -90,10 +97,12 @@ export default function PlantDetail({
             px-6 py-3
             transition-colors duration-300
             z-50
+            flex justify-center items-center whitespace-nowrap
           "
             aria-label="Edit Plant"
           >
-            ✏️ Edit Plant
+            <FiEdit className="w-4 h-4 mr-1" />
+            Edit Plant
           </Link>
         )}
       </div>

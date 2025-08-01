@@ -3,6 +3,7 @@ import Link from "next/link";
 import PlantCard from "@/components/dashboard/plants/PlantCard";
 import { Plant, PlantStage } from "@/lib/types";
 import { Sprout } from "lucide-react";
+import NotLoggedIn from "@/components/ui/NotLoggedIn";
 
 export default async function PlantLogbook() {
   const supabase = await createClient();
@@ -12,15 +13,7 @@ export default async function PlantLogbook() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return (
-      <div className="flex flex-col items-center justify-center py-24 text-moss-shadow">
-        <Sprout className="w-12 h-12 mb-4 text-[var(--future-lime)]" />
-        <h2 className="text-2xl font-semibold">Please log in</h2>
-        <p className="text-gray-500 mt-2">
-          You need an account to access your plant logbook.
-        </p>
-      </div>
-    );
+    return <NotLoggedIn />;
   }
 
   const { data: plantsWithStages, error } = await supabase

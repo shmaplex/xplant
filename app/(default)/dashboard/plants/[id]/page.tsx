@@ -1,5 +1,6 @@
 import PlantNotFoundClient from "../PlantNotFoundClient";
 import PlantDetail from "@/components/dashboard/plants/PlantDetail";
+import NotLoggedIn from "@/components/ui/NotLoggedIn";
 import {
   fetchPlantById,
   fetchPlantStages,
@@ -15,7 +16,9 @@ export default async function PlantsPage({
   try {
     const { id } = await params;
     const user = await getCurrentUser();
-    if (!user) return <PlantNotFoundClient />;
+    if (!user) {
+      return <NotLoggedIn />;
+    }
 
     const plantData = await fetchPlantById(id, user.id);
     if (!plantData) return <PlantNotFoundClient />;
