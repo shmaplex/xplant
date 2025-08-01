@@ -29,8 +29,6 @@ export default function AdminQuicklinks() {
     <nav
       className="fixed bottom-32 right-0 flex flex-col items-end gap-4 z-50 print:hidden"
       aria-label="Admin Quicklinks"
-      onMouseMove={handleInteraction}
-      onMouseEnter={handleInteraction}
     >
       <QuicklinkToggle
         folded={folded}
@@ -45,6 +43,8 @@ export default function AdminQuicklinks() {
       />
 
       <div
+        onMouseMove={handleInteraction}
+        onMouseEnter={handleInteraction}
         className={`
           flex flex-col items-end gap-4 transition-all duration-500 ease-in-out
           ${

@@ -1,8 +1,10 @@
 "use client";
 
+import { Dispatch, SetStateAction } from "react";
+
 type QuicklinkToggleProps = {
   folded: boolean;
-  setFolded: (fn: (prev: boolean) => boolean) => void;
+  setFolded: Dispatch<SetStateAction<boolean>>;
   hovered: string | null;
   setHovered: (s: string | null) => void;
   handleInteraction: () => void;
@@ -51,9 +53,9 @@ export default function QuicklinkToggle({
         )}
 
         <button
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation(); // Prevents immediate re-trigger of hover logic
             setFolded((prev) => !prev);
-            handleInteraction();
           }}
           className={`
             relative flex items-center justify-center
@@ -74,7 +76,6 @@ export default function QuicklinkToggle({
               ${folded ? "rotate-90" : "-rotate-90"}
             `}
           >
-            {/* Arrow icon (kept inline SVG for easy styling) */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="w-3 h-3"

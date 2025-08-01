@@ -56,8 +56,6 @@ export default function UserQuicklinks() {
     <nav
       className="fixed top-[64px] right-0 flex flex-col items-end gap-4 z-50 print:hidden"
       aria-label="User Quicklinks"
-      onMouseMove={handleInteraction}
-      onMouseEnter={handleInteraction}
     >
       <QuicklinkToggle
         folded={folded}
@@ -72,43 +70,47 @@ export default function UserQuicklinks() {
       />
 
       <div
+        onMouseMove={handleInteraction}
+        onMouseEnter={handleInteraction}
         className={`
-          flex flex-col items-end gap-4 transition-all duration-500 ease-in-out
+          overflow-hidden transition-all duration-500 ease-in-out pr-2
           ${
             folded
-              ? "opacity-0 translate-y-[-20px] pointer-events-none pr-2"
-              : "opacity-100 translate-y-0 pr-2"
+              ? "opacity-0 max-h-0 pointer-events-none"
+              : "opacity-100 max-h-[600px]"
           }
         `}
       >
-        {links.map(({ href, label, icon }) => (
+        <div className="flex flex-col items-end gap-4">
+          {links.map(({ href, label, icon }) => (
+            <QuicklinkButton
+              key={href}
+              href={href}
+              label={label}
+              icon={icon}
+              hovered={hovered}
+              setHovered={setHovered}
+              handleInteraction={handleInteraction}
+              activeClassName="bg-white backdrop-blur"
+              inactiveClassName="bg-white/20 backdrop-blur hover:bg-white"
+              textColor="text-[#333]"
+              tooltipBg="bg-black/80"
+            />
+          ))}
+
           <QuicklinkButton
-            key={href}
-            href={href}
-            label={label}
-            icon={icon}
+            label="Logout"
+            icon={<FaSignOutAlt />}
             hovered={hovered}
             setHovered={setHovered}
             handleInteraction={handleInteraction}
+            onClick={handleLogout}
             activeClassName="bg-white backdrop-blur"
-            inactiveClassName="bg-white/20 backdrop-blur hover:bg-white"
-            textColor="text-[#333]"
+            inactiveClassName="bg-white/60 backdrop-blur hover:bg-white"
+            textColor="text-gray-700 hover:text-red-600"
             tooltipBg="bg-black/80"
           />
-        ))}
-
-        <QuicklinkButton
-          label="Logout"
-          icon={<FaSignOutAlt />}
-          hovered={hovered}
-          setHovered={setHovered}
-          handleInteraction={handleInteraction}
-          onClick={handleLogout}
-          activeClassName="bg-white backdrop-blur"
-          inactiveClassName="bg-white/60 backdrop-blur hover:bg-white"
-          textColor="text-gray-700 hover:text-red-600"
-          tooltipBg="bg-black/80"
-        />
+        </div>
       </div>
     </nav>
   );
