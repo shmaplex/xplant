@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useState } from "react";
 import {
@@ -19,6 +19,7 @@ import QuicklinkButton from "@/components/ui/QuicklinkButton";
 export default function UserQuicklinks() {
   const supabase = createClient();
   const router = useRouter();
+  const pathname = usePathname();
   const [hovered, setHovered] = useState<string | null>(null);
   const { folded, setFolded, handleInteraction } = useAutoCollapse(3000);
 
@@ -73,13 +74,16 @@ export default function UserQuicklinks() {
         onMouseMove={handleInteraction}
         onMouseEnter={handleInteraction}
         className={`
-          overflow-hidden transition-all duration-500 ease-in-out pr-2
-          ${
-            folded
-              ? "opacity-0 max-h-0 pointer-events-none"
-              : "opacity-100 max-h-[600px]"
-          }
-        `}
+    transition-all duration-500 ease-in-out pr-2
+    ${
+      folded
+        ? "opacity-0 max-h-0 pointer-events-none"
+        : "opacity-100 max-h-[600px]"
+    }
+  `}
+        style={{
+          overflow: folded ? "hidden" : "visible",
+        }}
       >
         <div className="flex flex-col items-end gap-4">
           {links.map(({ href, label, icon }) => (
@@ -88,10 +92,11 @@ export default function UserQuicklinks() {
               href={href}
               label={label}
               icon={icon}
+              isActive={pathname?.startsWith(href) ?? false}
               hovered={hovered}
               setHovered={setHovered}
               handleInteraction={handleInteraction}
-              activeClassName="bg-white backdrop-blur"
+              activeClassName="bg-future-lime/70 backdrop-blur border-future-lime border"
               inactiveClassName="bg-white/20 backdrop-blur hover:bg-white"
               textColor="text-[#333]"
               tooltipBg="bg-black/80"
@@ -105,7 +110,7 @@ export default function UserQuicklinks() {
             setHovered={setHovered}
             handleInteraction={handleInteraction}
             onClick={handleLogout}
-            activeClassName="bg-white backdrop-blur"
+            activeClassName="bg-future-lime/20 backdrop-blur border-future-lime border"
             inactiveClassName="bg-white/60 backdrop-blur hover:bg-white"
             textColor="text-gray-700 hover:text-red-600"
             tooltipBg="bg-black/80"
