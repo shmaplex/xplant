@@ -16,5 +16,6 @@ export const floatingUserMenuLinks: FloatingUserMenuLink[] = [
     label: "Profile Settings",
     href: "/profile",
   },
+  { label: "User Guide", href: "/user-guide" },
   { label: "Log Out", action: "logout" },
 ];

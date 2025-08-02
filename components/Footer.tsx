@@ -18,9 +18,22 @@ export default function Footer() {
   const supabase = createClient();
 
   useEffect(() => {
+    // Check current user on mount
     supabase.auth.getUser().then(({ data }) => {
       setIsLoggedIn(!!data.user);
     });
+
+    // Subscribe to auth state changes
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setIsLoggedIn(!!session?.user);
+      }
+    );
+
+    // Cleanup subscription on unmount
+    return () => {
+      listener.subscription.unsubscribe();
+    };
   }, [supabase]);
 
   const handleLogout = async () => {

@@ -1,3 +1,24 @@
+export type GuideSection = {
+  section_id: string;
+  title: string;
+  content?: string;
+  sort_order?: number;
+};
+
+export type OnboardingStepType = "single-choice" | "multi-choice" | "final";
+
+export interface OnboardingOption {
+  label: string;
+  value: string;
+}
+
+export interface OnboardingStep {
+  key: string;
+  question: string;
+  type: OnboardingStepType;
+  options?: OnboardingOption[];
+}
+
 export type Profile = {
   id: string; // matches auth.users.id
   email: string;

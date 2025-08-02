@@ -13,6 +13,7 @@ import {
 } from "@/lib/api/media";
 import MediaComponentDisplay from "@/components/dashboard/media/MediaComponentDisplay";
 import { formatDate } from "@/lib/date";
+import { FiEdit } from "react-icons/fi";
 
 export default function MediaRecipeDetailPage({
   params,
@@ -125,10 +126,11 @@ export default function MediaRecipeDetailPage({
               px-6 py-3
               transition-colors duration-300
               z-50
+              flex justify-center items-center whitespace-nowrap
             "
             aria-label="Edit Recipe"
           >
-            ✏️ Edit Recipe
+            <FiEdit className="w-4 h-4 mr-1" /> Edit Recipe
           </Link>
         )}
       </div>

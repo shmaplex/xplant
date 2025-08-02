@@ -23,9 +23,12 @@ export default function UserQuicklinks() {
   const [hovered, setHovered] = useState<string | null>(null);
   const { folded, setFolded, handleInteraction } = useAutoCollapse(3000);
 
+  // Track user state here
+  const [user, setUser] = useState<any>(null);
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.refresh();
+    setUser(null); // clear user on logout
     router.push("/");
   };
 
@@ -54,17 +57,32 @@ export default function UserQuicklinks() {
   ];
 
   useEffect(() => {
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!session) {
-        // redirect or refresh UI
-        router.push("/");
-      }
-    });
+    // Check session on mount
+    async function getUser() {
+      const {
+        data: { user: currentUser },
+      } = await supabase.auth.getUser();
+      setUser(currentUser);
+    }
+    getUser();
 
-    return () => subscription.unsubscribe();
+    // Subscribe to auth changes
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUser(session?.user ?? null);
+        if (!session) {
+          router.push("/");
+        }
+      }
+    );
+
+    return () => {
+      listener.subscription.unsubscribe();
+    };
   }, [supabase, router]);
+
+  // Only show if logged in
+  if (!user) return null;
 
   return (
     <nav
@@ -87,13 +105,13 @@ export default function UserQuicklinks() {
         onMouseMove={handleInteraction}
         onMouseEnter={handleInteraction}
         className={`
-    transition-all duration-500 ease-in-out pr-2
-    ${
-      folded
-        ? "opacity-0 max-h-0 pointer-events-none"
-        : "opacity-100 max-h-[600px]"
-    }
-  `}
+          transition-all duration-500 ease-in-out pr-2
+          ${
+            folded
+              ? "opacity-0 max-h-0 pointer-events-none"
+              : "opacity-100 max-h-[600px]"
+          }
+        `}
         style={{
           overflow: folded ? "hidden" : "visible",
         }}

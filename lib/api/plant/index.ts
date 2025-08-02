@@ -61,7 +61,24 @@ export async function fetchPlantRelatedData(id: string) {
   ] = await Promise.all([
     supabase
       .from("plant_transfers")
-      .select("*")
+      .select(
+        `
+        id,
+        transfer_date,
+        transfer_cycle,
+        notes,
+        plant:plants (
+          id,
+          species,
+          source,
+          current_stage_id
+        )
+        stage:plant_stages (
+          id,
+          name
+        )
+      `
+      )
       .eq("plant_id", id)
       .order("transfer_date", { ascending: false }),
 

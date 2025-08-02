@@ -20,10 +20,15 @@ export default async function PlantsPage({
       return <NotLoggedIn />;
     }
 
-    const plantData = await fetchPlantById(id, user.id);
-    if (!plantData) {
+    const plant = await fetchPlantById(id, user.id);
+    if (!plant) {
       return notFound();
     }
+
+    const isOwner = plant.user_id === user.id;
+    const isAdmin = user.role === "admin" || user.role === "owner";
+
+    const canEdit = isOwner || isAdmin;
 
     const stages = await fetchPlantStages(id);
     const current_stage = stages?.[0] ?? null;
@@ -39,11 +44,11 @@ export default async function PlantsPage({
 
     return (
       <PlantDetail
-        plant={{ ...plantData, plant_stages: stages ?? [], current_stage }}
+        plant={{ ...plant, plant_stages: stages ?? [], current_stage }}
         transfers={transfers}
         logs={logs}
         recipes={recipes}
-        canEdit={user.id === plantData.user_id}
+        canEdit={canEdit}
         editUrl={`/dashboard/plants/${id}/edit`}
         printUrl={`/dashboard/plants/${id}/label`}
       />

@@ -1,6 +1,6 @@
-import { PlantTransfer } from "@/lib/types";
-import { formatDate } from "@/lib/date";
 import { FiClipboard } from "react-icons/fi";
+import { PlantTransfer } from "@/lib/types";
+import TransferCard from "@/components/dashboard/transfers/TransferCard";
 
 export default function TransferHistory({
   transfers,
@@ -9,6 +9,7 @@ export default function TransferHistory({
 }) {
   const hasTransfers = transfers.length > 0;
 
+  console.log("transfers", transfers);
   return (
     <section className="bg-white rounded-2xl p-6 shadow max-w-6xl mx-auto">
       <h2 className="text-xl font-semibold text-moss-shadow mb-4">
@@ -26,22 +27,10 @@ export default function TransferHistory({
           </p>
         </div>
       ) : (
-        <ul className="space-y-3">
+        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {transfers.map((t) => (
-            <li
-              key={t.id}
-              className="bg-spore-grey/20 rounded-lg p-4 hover:bg-spore-grey/30 transition"
-            >
-              <p className="font-medium">{formatDate(t.transfer_date)}</p>
-              <p className="text-sm text-gray-700">
-                Stage: {t.stage?.name ?? "Unknown"}
-                {t.notes && (
-                  <>
-                    <br />
-                    Notes: {t.notes}
-                  </>
-                )}
-              </p>
+            <li key={t.id}>
+              <TransferCard transfer={t} />
             </li>
           ))}
         </ul>
