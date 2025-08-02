@@ -83,17 +83,17 @@ export default function ContaminationForm({
     }
   };
 
-  // Brand colors
+  // Brand colors for bio-red theme
   const mossShadow = "text-[#42594D]";
-  const borderGray = "border-[#DAD7D2]";
-  const accentGreen = "focus:ring-[#B7EF48]";
-  const accentGreenBg = "bg-[#B7EF48]";
-  const accentGreenBgHover = "hover:bg-[#a2db3e]";
+  const borderGray = "border-[#E0DDDA]";
+  const accentRed = "focus:ring-[#D14B4B]";
+  const accentRedBg = "bg-[#D14B4B]";
+  const accentRedBgHover = "hover:bg-[#B83F3F]";
 
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-6 mx-auto bg-white p-6 rounded-xl shadow"
+      className="space-y-6 mx-auto bg-white/80 backdrop-blur p-6 rounded-2xl shadow-lg"
     >
       <h2 className={`text-2xl font-semibold ${mossShadow}`}>
         {initial ? "Edit Contamination Log" : "Log Contamination"}
@@ -113,7 +113,7 @@ export default function ContaminationForm({
           value={form.plant_id}
           onChange={(e) => setForm({ ...form, plant_id: e.target.value })}
           required
-          className={`w-full rounded border ${borderGray} px-3 py-2 focus:outline-none focus:ring-2 ${accentGreen} focus:border-[#42594D] transition`}
+          className={`w-full rounded border ${borderGray} px-3 py-2 focus:outline-none focus:ring-2 ${accentRed} focus:border-[#8A3E3E] transition`}
         />
       </div>
 
@@ -133,7 +133,7 @@ export default function ContaminationForm({
               type: e.target.value as ContaminationLog["type"],
             })
           }
-          className={`w-full rounded border ${borderGray} px-3 py-2 focus:outline-none focus:ring-2 ${accentGreen} focus:border-[#42594D] transition`}
+          className={`w-full rounded border ${borderGray} px-3 py-2 focus:outline-none focus:ring-2 ${accentRed} focus:border-[#8A3E3E] transition`}
         >
           <option value="mold">Mold</option>
           <option value="bacteria">Bacteria</option>
@@ -157,7 +157,7 @@ export default function ContaminationForm({
             value={form.issue}
             onChange={(e) => setForm({ ...form, issue: e.target.value })}
             required
-            className={`w-full rounded border ${borderGray} px-3 py-2 focus:outline-none focus:ring-2 ${accentGreen} focus:border-[#42594D] transition`}
+            className={`w-full rounded border ${borderGray} px-3 py-2 focus:outline-none focus:ring-2 ${accentRed} focus:border-[#8A3E3E] transition`}
           />
         </div>
       )}
@@ -175,7 +175,7 @@ export default function ContaminationForm({
           value={form.description}
           onChange={(e) => setForm({ ...form, description: e.target.value })}
           rows={4}
-          className={`w-full rounded border ${borderGray} px-3 py-2 resize-y focus:outline-none focus:ring-2 ${accentGreen} focus:border-[#42594D] transition`}
+          className={`w-full rounded border ${borderGray} px-3 py-2 resize-y focus:outline-none focus:ring-2 ${accentRed} focus:border-[#8A3E3E] transition`}
         />
       </div>
 
@@ -209,7 +209,7 @@ export default function ContaminationForm({
       <button
         type="submit"
         disabled={uploading}
-        className={`w-full py-3 rounded-lg font-semibold text-white ${accentGreenBg} ${accentGreenBgHover} transition disabled:opacity-50 disabled:cursor-not-allowed`}
+        className={`w-full py-3 rounded-lg font-semibold text-white ${accentRedBg} ${accentRedBgHover} transition disabled:opacity-50 disabled:cursor-not-allowed`}
       >
         {uploading
           ? initial
