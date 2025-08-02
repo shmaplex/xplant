@@ -18,11 +18,28 @@ export default function FloatingUserMenu() {
   };
 
   useEffect(() => {
-    supabase.auth.getUser().then(({ data }) => {
-      if (data?.user) {
-        setUserId(data.user.id);
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUserId(user ? user.id : null);
+    };
+
+    fetchUser();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUserId(session.user.id);
+      } else {
+        setUserId(null);
       }
     });
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, [supabase]);
 
   const toggleMenu = () => setIsOpen(!isOpen);

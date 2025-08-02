@@ -209,6 +209,44 @@ export async function getUserProfile(
   };
 }
 
+/**
+ * Fetches the user's role from the profiles table.
+ * Returns `null` if not authenticated or no profile found.
+ */
+export async function getUserRole(): Promise<string | null> {
+  const supabase = await createClient();
+
+  // Validate user using supabase.auth.getUser() (secure)
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+
+  if (userError || !user) {
+    return null;
+  }
+
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("role")
+    .eq("id", user.id)
+    .single();
+
+  if (profileError || !profile) {
+    return null;
+  }
+
+  return profile.role;
+}
+
+/**
+ * Simple check: does the current user have one of the allowed roles?
+ */
+export async function userHasRole(allowedRoles: string[]): Promise<boolean> {
+  const role = await getUserRole();
+  return role !== null && allowedRoles.includes(role);
+}
+
 // Update profile data
 export async function updateUserProfile(userId: string, updates: any) {
   const supabase = await createClient();

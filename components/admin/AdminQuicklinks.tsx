@@ -1,17 +1,58 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FiGrid, FiUsers, FiBox, FiBook, FiSettings } from "react-icons/fi";
 import { FaUserShield } from "react-icons/fa";
 import { useAutoCollapse } from "@/hooks/useAutoCollapse";
 import QuicklinkToggle from "@/components/ui/QuicklinkToggle";
 import QuicklinkButton from "@/components/ui/QuicklinkButton";
+import { createClient } from "@/lib/supabase/client";
 
 export default function AdminQuicklinks() {
   const pathname = usePathname();
   const [hovered, setHovered] = useState<string | null>(null);
   const { folded, setFolded, handleInteraction } = useAutoCollapse(3000);
+
+  const [isAdmin, setIsAdmin] = useState(false);
+  const supabase = createClient();
+
+  useEffect(() => {
+    const checkRole = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) {
+        setIsAdmin(false);
+        return;
+      }
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("role")
+        .eq("id", user.id)
+        .single();
+
+      setIsAdmin(profile?.role === "admin");
+    };
+
+    checkRole();
+
+    // Subscribe to auth changes so it hides immediately on logout
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) {
+        setIsAdmin(false);
+      } else {
+        checkRole();
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [supabase]);
+
+  if (!isAdmin) return null;
 
   const links = [
     { href: "/admin", label: "Admin Dashboard", icon: <FiGrid size={18} /> },

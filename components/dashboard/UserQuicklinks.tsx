@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FaSignOutAlt,
   FaLeaf,
@@ -52,6 +52,19 @@ export default function UserQuicklinks() {
       icon: <FaMicroscope size={18} />,
     },
   ];
+
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) {
+        // redirect or refresh UI
+        router.push("/");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [supabase, router]);
 
   return (
     <nav
