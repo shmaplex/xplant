@@ -4,13 +4,15 @@ import React, { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import EditUserGuideSection from "@/components/admin/user-guide/EditUserGuideSection";
 import { FiBookOpen, FiMinimize, FiSave } from "react-icons/fi";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, useParams } from "next/navigation";
 import { UserGuideSidebar } from "@/components/admin/user-guide/UserGuideSidebar";
 import type { GuideSection } from "@/lib/types";
 
 export default function EditSectionPage() {
+  const params = useParams();
   const searchParams = useSearchParams();
-  const sectionId = searchParams.get("sectionId") || "";
+  const sectionId =
+    (params?.sectionId as string) || searchParams.get("sectionId") || "";
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [sections, setSections] = useState<GuideSection[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(true);
