@@ -4,16 +4,13 @@ import React, { useState, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import EditUserGuideSection from "@/components/admin/user-guide/EditUserGuideSection";
 import { FiBookOpen, FiMinimize, FiSave } from "react-icons/fi";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { UserGuideSidebar } from "@/components/admin/user-guide/UserGuideSidebar";
 import type { GuideSection } from "@/lib/types";
 
-export default function EditSectionPage({
-  params,
-}: {
-  params: { sectionId: string };
-}) {
-  const { sectionId } = params;
+export default function EditSectionPage() {
+  const searchParams = useSearchParams();
+  const sectionId = searchParams.get("sectionId") || "";
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [sections, setSections] = useState<GuideSection[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -147,7 +144,7 @@ export default function EditSectionPage({
     <div
       className={`relative bg-milk-bio min-h-screen transition-all duration-300 ${
         isFullscreen ? "fixed inset-0 z-50 bg-white flex" : "flex p-0"
-      }`}
+      } ${sidebarOpen && !isFullscreen ? "ml-64" : "ml-0"}`}
     >
       {!isFullscreen && (
         <UserGuideSidebar
@@ -156,6 +153,7 @@ export default function EditSectionPage({
           sidebarOpen={sidebarOpen}
           onNewSection={handleNewSection}
           onReorder={handleReorder}
+          onToggleSidebar={() => setSidebarOpen((open) => !open)}
         />
       )}
 

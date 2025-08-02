@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { FiPlus } from "react-icons/fi";
+import { FiPlus, FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import {
   DragDropContext,
   Droppable,
@@ -20,7 +20,8 @@ type UserGuideSidebarProps = {
   currentSectionId: string;
   sidebarOpen: boolean;
   onNewSection: () => void;
-  onReorder: (newOrder: GuideSection[]) => void | Promise<void>; // Allow async
+  onReorder: (newOrder: GuideSection[]) => void | Promise<void>;
+  onToggleSidebar: () => void;
 };
 
 export function UserGuideSidebar({
@@ -29,6 +30,7 @@ export function UserGuideSidebar({
   sidebarOpen,
   onNewSection,
   onReorder,
+  onToggleSidebar,
 }: UserGuideSidebarProps) {
   const handleDragEnd = (result: DropResult) => {
     if (!result.destination) return;
@@ -40,24 +42,26 @@ export function UserGuideSidebar({
   };
 
   return (
-    <div
-      className={`${
-        sidebarOpen ? "w-64" : "w-0"
-      } transition-all duration-300 border-r border-gray-200 overflow-hidden`}
-    >
-      <div className="p-4 flex flex-col h-full">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="font-semibold">Sections</h2>
-          <button
-            onClick={onNewSection}
-            className="p-2 rounded hover:bg-gray-100"
-            title="Create New Section"
-          >
-            <FiPlus size={18} />
-          </button>
-        </div>
+    <>
+      {/* Sidebar */}
+      <div
+        className={`fixed top-0 left-0 h-full w-64 bg-white border-r border-gray-200 overflow-hidden
+          flex flex-col transition-transform duration-300
+          ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}`}
+        style={{ zIndex: 50 }}
+      >
+        <div className="p-4 flex flex-col flex-1 overflow-hidden">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="font-semibold">Sections</h2>
+            <button
+              onClick={onNewSection}
+              className="p-2 rounded hover:bg-gray-100"
+              title="Create New Section"
+            >
+              <FiPlus size={18} />
+            </button>
+          </div>
 
-        <div className="flex-1 overflow-auto">
           {sections.length === 0 ? (
             <p className="text-sm text-gray-500">
               No sections yet. Use + to create one.
@@ -105,6 +109,26 @@ export function UserGuideSidebar({
           )}
         </div>
       </div>
-    </div>
+
+      {/* Sidebar toggle tab (always visible) */}
+      <button
+        onClick={onToggleSidebar}
+        aria-label={sidebarOpen ? "Collapse sidebar" : "Expand sidebar"}
+        className={`
+          fixed top-1/2 left-0 transform -translate-y-1/2
+          w-5 h-24 rounded-r-lg
+          bg-biochar-black/80 hover:bg-biochar-black
+          text-white shadow-lg flex items-center justify-center
+          transition-colors duration-300
+        `}
+        style={{ zIndex: 60 }}
+      >
+        {sidebarOpen ? (
+          <FiChevronLeft size={18} />
+        ) : (
+          <FiChevronRight size={18} />
+        )}
+      </button>
+    </>
   );
 }

@@ -147,8 +147,14 @@ export default function UserGuidePage() {
 
         {/* Content */}
         <div className="flex-1 p-8">
-          <h1 className="text-3xl font-bold mb-10 text-moss-shadow">
-            XPlant User Guide
+          <h1 className="text-3xl font-bold mb-10 text-biochar-black flex space-x-2">
+            <Image
+              src="/svg/shmaplexplant-logo.svg"
+              alt="XPlant Logo"
+              width={300}
+              height={80}
+            />{" "}
+            <span>User Guide</span>
           </h1>
 
           {sections.map(({ section_id, title, content }) => (
